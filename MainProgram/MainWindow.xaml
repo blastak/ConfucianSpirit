@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MainProgram"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        xmlns:k="clr-namespace:Microsoft.Kinect.Toolkit;assembly=Microsoft.Kinect.Toolkit"
+        xmlns:k2="clr-namespace:Microsoft.Kinect.Toolkit.Controls;assembly=Microsoft.Kinect.Toolkit.Controls"
+        WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized"
+        Title="ConfucianSpirit" Height="720" Width="1280" KeyDown="Window_KeyDown" Closing="Window_Closing" WindowStartupLocation="CenterScreen">
+    <k2:KinectRegion x:Name="kinectRegion">
+        <Grid>
+            <k:KinectSensorChooserUI HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Name="sensorChooserUi" Panel.ZIndex="1" Height="40" Width="0" />
+            <Frame x:Name="frame" NavigationUIVisibility="Hidden"/>
+            <Image Name="LoadingMask" Source="/MainProgram;component/Images/loading.jpg" Visibility="Hidden" Stretch="Fill"/>
+        </Grid>
+    </k2:KinectRegion>
 </Window>
