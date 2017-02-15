@@ -83,12 +83,20 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PageItem1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PageStart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyKinectSensor.cs" />
+    <Compile Include="PageItem1.xaml.cs">
+      <DependentUpon>PageItem1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PageStart.xaml.cs">
       <DependentUpon>PageStart.xaml</DependentUpon>
     </Compile>
@@ -146,15 +154,42 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\p1.png" />
-    <Resource Include="Images\p2.png" />
-    <Resource Include="Images\p3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\mainBG.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\loading.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\게임첫화면1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\게임첫화면2.png" />
+    <Resource Include="Images\게임첫화면3.png" />
+    <Resource Include="Images\게임첫화면4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\01_예효_01%28손들기%29.png" />
+    <Resource Include="Images\01_예효_02.png" />
+    <Resource Include="Images\01_예효_03.png" />
+    <Resource Include="Images\02_예효_01%28손들기%29.png" />
+    <Resource Include="Images\02_예효_02.png" />
+    <Resource Include="Images\02_예효_03.png" />
+    <Resource Include="Images\03_예효_01%28손들기%29.png" />
+    <Resource Include="Images\03_예효_02.png" />
+    <Resource Include="Images\03_예효_03.png" />
+    <Resource Include="Images\04_예효_01%28인사%29.png" />
+    <Resource Include="Images\04_예효_02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sounds\01_예효_01%28손들기%29.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\02_예효_01%28손들기%29.mp3" />
+    <Content Include="Sounds\03_예효_01%28손들기%29.mp3" />
+    <Content Include="Sounds\게임첫화면.mp3" />
+    <Content Include="Sounds\성공.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

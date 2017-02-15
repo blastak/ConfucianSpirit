@@ -11,17 +11,16 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="149*"/>
-            <RowDefinition Height="72*"/>
-            <RowDefinition Height="19*"/>
+            <RowDefinition Height="13*"/>
+            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="111*"/>
-            <ColumnDefinition Width="139*"/>
-            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="555*"/>
+            <ColumnDefinition Width="627*"/>
+            <ColumnDefinition Width="98*"/>
         </Grid.ColumnDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="/MainProgram;component/Images/mainBG.png"/>
+            <ImageBrush ImageSource="/MainProgram;component/Images/게임첫화면1.png"/>
         </Grid.Background>
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid>
@@ -33,21 +32,21 @@
                 <Grid Grid.Column="0">
                     <k2:KinectTileButton Name="buttonStart1" Height="Auto" Width="Auto" Margin="0,0,0,0" Click="buttonStart1_Click" BorderThickness="0" Visibility="Visible">
                         <k2:KinectTileButton.Background>
-                            <ImageBrush ImageSource="/MainProgram;component/Images/p1.png" Stretch="Fill"/>
+                            <ImageBrush ImageSource="/MainProgram;component/Images/게임첫화면2.png" Stretch="Fill"/>
                         </k2:KinectTileButton.Background>
                     </k2:KinectTileButton>
                 </Grid>
                 <Grid Grid.Column="1">
                     <k2:KinectTileButton Name="buttonStart2" Height="Auto" Width="Auto" Margin="0,0,0,0" Click="buttonStart2_Click" BorderThickness="0" Visibility="Visible">
                         <k2:KinectTileButton.Background>
-                            <ImageBrush ImageSource="/MainProgram;component/Images/p2.png" Stretch="Fill"/>
+                            <ImageBrush ImageSource="/MainProgram;component/Images/게임첫화면3.png" Stretch="Fill"/>
                         </k2:KinectTileButton.Background>
                     </k2:KinectTileButton>
                 </Grid>
                 <Grid Grid.Column="2">
-                    <k2:KinectTileButton Name="buttonStart3" Height="Auto" Width="Auto" Margin="0,0,0,0" Click="buttonStart3_Click" BorderThickness="1" Visibility="Visible">
+                    <k2:KinectTileButton Name="buttonStart3" Height="Auto" Width="Auto" Margin="0,0,0,0" Click="buttonStart3_Click" BorderThickness="0" Visibility="Visible">
                         <k2:KinectTileButton.Background>
-                            <ImageBrush ImageSource="/MainProgram;component/Images/p3.png" Stretch="Fill"/>
+                            <ImageBrush ImageSource="/MainProgram;component/Images/게임첫화면4.png" Stretch="Fill"/>
                         </k2:KinectTileButton.Background>
                     </k2:KinectTileButton>
                 </Grid>
