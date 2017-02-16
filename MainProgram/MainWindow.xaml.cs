@@ -22,7 +22,8 @@ using HrkimKinectSensor;
 
 namespace MainProgram
 {
-	
+	public enum GameEndInfo { GAME_CLEAR, GAME_OVER };
+
 	/// <summary>
 	/// MainWindow.xaml에 대한 상호 작용 논리
 	/// </summary>
@@ -48,9 +49,7 @@ namespace MainProgram
 			pageStart.BtnClicked2 += new EventHandler(PageStartBtnClicked2);
 			pageStart.BtnClicked3 += new EventHandler(PageStartBtnClicked3);
 			frame.Navigate(pageStart);
-
-			pageItem1 = new PageItem1();
-
+			
 			Timer.Interval = TimeSpan.FromSeconds(0.1);
 			Timer.Tick += new EventHandler(TimerInit);
 			Timer.Start();
@@ -68,6 +67,10 @@ namespace MainProgram
 
 			// 4. 손 컨트롤 켜기
 			Bind();
+
+			// 
+			pageItem1 = new PageItem1(myKinect);
+
 		}
 
 		private void Bind()

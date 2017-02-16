@@ -181,15 +181,20 @@
     <Resource Include="Images\transparent.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Sounds\중간평가_1%28성공%29.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\중간평가_2%28다음기회에%29.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Images\중간평가1.png" />
+    <Resource Include="Images\중간평가2.png" />
     <Content Include="Sounds\01_예효_01%28손들기%29.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Sounds\02_예효_01%28손들기%29.mp3" />
     <Content Include="Sounds\03_예효_01%28손들기%29.mp3" />
     <Content Include="Sounds\게임첫화면.mp3" />
-    <Content Include="Sounds\성공.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

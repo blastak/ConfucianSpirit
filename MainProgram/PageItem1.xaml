@@ -19,7 +19,9 @@
         </Grid.RowDefinitions>
         <Canvas Name="canvasBG" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
         <Image Name="imgMask" Stretch="Fill" Source="/MainProgram;component/Images/transparent.png" Visibility="Hidden" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
-        <Image Name="imgOverlayLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Grid.Row="1" Grid.Column="0"/>
-        <Image Name="imgOverlayRight" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Grid.Row="1" Grid.Column="1"/>
+        <Image Name="imgOverlayLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Grid.Row="1" Grid.Column="0" Visibility="Hidden" />
+        <Image Name="imgOverlayRight" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Grid.Row="1" Grid.Column="1" Visibility="Hidden"/>
+        <Image Name="imgSkeleton" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="Fill" Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden"/>
+        <Image Name="imgFace" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden"/>
     </Grid>
 </Page>
