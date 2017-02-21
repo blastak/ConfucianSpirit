@@ -48,10 +48,17 @@ namespace MainProgram
 		private DispatcherTimer m_timerCountdown = new DispatcherTimer();
 		private int m_timeRemain;
 
-		string m_strbase = @"pack://application:,,/";
+        private string[] m_strBackground = { "01_예효_01(손들기).png", "02_예효_01(손들기).png", "03_예효_01(손들기).png" };
+        private string[] m_strQuestionSound = { "01_예효_01(손들기).mp3", "02_예효_01(손들기).mp3", "03_예효_01(손들기).mp3" };
+        private string[] m_strLeftOverlay = { "01_예효_02.png", "02_예효_02.png", "03_예효_02.png" };
+        private string[] m_strRightOverlay = { "01_예효_03.png", "02_예효_03.png", "03_예효_03.png" };
+        private int[] m_nTruth = { 0, 0, 1 };
+
+        string m_strbase = @"pack://application:,,/";
 
 		public PageItem1(MyKinectSensor kinectSensor)
 		{
+			System.Diagnostics.Debug.WriteLine("PageItem1");
 			InitializeComponent();
 
 			this.m_myKinect = kinectSensor;
@@ -65,25 +72,32 @@ namespace MainProgram
 			m_evGameManager += new EventHandler(EventGameManager);
 
 			this.Loaded += new RoutedEventHandler(PageLoaded);
+
 		}
 
 		private void PageLoaded(object sender, EventArgs e)
 		{
+			System.Diagnostics.Debug.WriteLine("PageLoaded");
 			m_idxGame = 0;
 			m_evGameManager(this, null);
 		}
 
 		private void EventGameManager(object sender, EventArgs e)
 		{
-			switch(m_idxGame)
+			System.Diagnostics.Debug.WriteLine("EventGameManager");
+			switch (m_idxGame)
 			{
 				case 0:
 					Entrypoint();
 					break;
-				case 1:
-					Entrypoint();
-					break;
-				default:
+                case 1:
+                    Entrypoint();
+                    break;
+                case 2:
+                    Entrypoint();
+                    break;
+                default:
+                    MessageBox.Show("end\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n of\n\n\n\n\n\n\n\n\n\n\n\n\n story");
 					////////////////////////////////////// 페이지 끝남 넣기
 					break;
 			}
@@ -91,6 +105,7 @@ namespace MainProgram
 
 		private void Entrypoint()
 		{
+			System.Diagnostics.Debug.WriteLine("Entrypoint");
 			// 0. 초기화
 			imgMask.Visibility = Visibility.Hidden;
 			imgOverlayLeft.Visibility = Visibility.Hidden;
@@ -105,25 +120,25 @@ namespace MainProgram
 			m_cntOneHand = 0;
 			m_cntTwoHand = 0;
 
-			if (m_myKinect.sensorChooser != null)
-			{
-				m_myKinect.ReadSkeleton += new EventHandler<AllFramesReadyEventArgs>(MySkeletonFrameReady);
-			}
+            if (m_myKinect.sensorChooser != null)
+            {
+                m_myKinect.ReadSkeleton += new EventHandler<AllFramesReadyEventArgs>(MySkeletonFrameReady);
+            }
 
-			// 1. 배경 보여주기
-			canvasBG.Background = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/01_예효_01(손들기).png")));
+            // 1. 배경 보여주기
+            canvasBG.Background = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + m_strBackground[m_idxGame])));
 
 			// 2. 사운드 재생
-			m_startSound.Open(new Uri("Sounds/01_예효_01(손들기).mp3", UriKind.Relative)); // 속성:빌드시자동복사
+			m_startSound.Open(new Uri("Sounds/" + m_strQuestionSound[m_idxGame], UriKind.Relative)); // 속성:빌드시자동복사
 			m_startSound.MediaEnded += new EventHandler(MediaEnd1);
 			m_startSound.Volume = 1;
-			m_startSound.SpeedRatio = 5;
 			m_startSound.Play();
-		}
+        }
 
 		// 3. 사운드 끝날때까지 딜레이
 		private void MediaEnd1(object sender, EventArgs e)
 		{
+			System.Diagnostics.Debug.WriteLine("MediaEnd1");
 			m_startSound.MediaEnded -= new EventHandler(MediaEnd1);
 			m_startSound.Stop();
 			m_startSound.Close();
@@ -133,11 +148,11 @@ namespace MainProgram
 
 			// 5. 손들기 그림 좌,우에 보이기
 			BitmapImage src;
-			src = new BitmapImage(new Uri(m_strbase + "Images/01_예효_02.png"));
+			src = new BitmapImage(new Uri(m_strbase + "Images/" + m_strLeftOverlay[m_idxGame]));
 			imgOverlayLeft.Source = src;
 			imgOverlayLeft.Visibility = Visibility.Visible;
 
-			src = new BitmapImage(new Uri(m_strbase + "Images/01_예효_03.png"));
+			src = new BitmapImage(new Uri(m_strbase + "Images/" + m_strRightOverlay[m_idxGame]));
 			imgOverlayRight.Source = src;
 			imgOverlayRight.Visibility = Visibility.Visible;
 
@@ -154,46 +169,67 @@ namespace MainProgram
 
 		private void TimerCountdown(object sender, EventArgs e)
 		{
+			System.Diagnostics.Debug.WriteLine("TimerCountdown");
 			m_timeRemain -= 1;
 			if(m_timeRemain <= 0)
 			{
 				m_timerCountdown.Stop();
-
-				BitmapImage src;
-				src = new BitmapImage(new Uri(m_strbase + "Images/중간평가2.png"));
-				imgFace.Source = src;
-				imgFace.Visibility = Visibility.Visible;
-
-				m_startSound.Open(new Uri("Sounds/중간평가_2(다음기회에).mp3", UriKind.Relative)); // 속성:빌드시자동복사
-				m_startSound.MediaEnded += new EventHandler(MediaEnd2);
-				m_startSound.Volume = 1;
-				m_startSound.Play();
-
-				return;
+                ResultGame(false);
 			}
-
-			if (m_cntTwoHand > 50 || m_cntOneHand > 100)
+            else if (m_cntOneHand > 50)
+            {
+                m_timerCountdown.Stop();
+                if (m_nTruth[m_idxGame] == 0)
+                    ResultGame(true);
+                else
+                    ResultGame(false);
+            }
+            else if (m_cntTwoHand > 50)
 			{
 				m_timerCountdown.Stop();
-
-				BitmapImage src;
-				src = new BitmapImage(new Uri(m_strbase + "Images/중간평가1.png"));
-				imgFace.Source = src;
-				imgFace.Visibility = Visibility.Visible;
-
-				m_startSound.Open(new Uri("Sounds/중간평가_1(성공).mp3", UriKind.Relative)); // 속성:빌드시자동복사
-				m_startSound.MediaEnded += new EventHandler(MediaEnd2);
-				m_startSound.Volume = 1;
-				m_startSound.Play();
-			}
+                if (m_nTruth[m_idxGame] == 1)
+                    ResultGame(true);
+                else
+                    ResultGame(false);
+            }
 		}
+        
+        private void ResultGame(bool success)
+        {
+			System.Diagnostics.Debug.WriteLine("ResultGame");
+			if (success)
+            {
+                BitmapImage src;
+                src = new BitmapImage(new Uri(m_strbase + "Images/중간평가1.png"));
+                imgFace.Source = src;
+                imgFace.Visibility = Visibility.Visible;
+
+                m_startSound.Open(new Uri("Sounds/중간평가_1(성공).mp3", UriKind.Relative)); // 속성:빌드시자동복사
+                m_startSound.MediaEnded += new EventHandler(MediaEnd2);
+                m_startSound.Volume = 1;
+				m_startSound.Play();
+            }
+            else
+            {
+                BitmapImage src;
+                src = new BitmapImage(new Uri(m_strbase + "Images/중간평가2.png"));
+                imgFace.Source = src;
+                imgFace.Visibility = Visibility.Visible;
+
+                m_startSound.Open(new Uri("Sounds/중간평가_2(다음기회에).mp3", UriKind.Relative)); // 속성:빌드시자동복사
+                m_startSound.MediaEnded += new EventHandler(MediaEnd2);
+                m_startSound.Volume = 1;
+				m_startSound.Play();
+            }
+        }
 
 		// 3. 사운드 끝날때까지 딜레이
 		private void MediaEnd2(object sender, EventArgs e)
 		{
+			System.Diagnostics.Debug.WriteLine("MediaEnd2");
 			m_startSound.MediaEnded -= new EventHandler(MediaEnd2);
-			m_startSound.Stop();
-			m_startSound.Close();
+            m_startSound.Stop();
+            m_startSound.Close();
 
 			if (m_myKinect.sensorChooser != null)
 			{
@@ -227,18 +263,21 @@ namespace MainProgram
 						// 화면밖으로 벗어났을 때 빨간선
 						//RenderClippedEdges(skel, dc);
 
+						if (null == skel)
+						{
+							continue;
+						}
+
+						if (skel.TrackingState != SkeletonTrackingState.Tracked)
+						{
+							continue;
+						}
+
 						Single dist = skel.Position.Z;
 						if (dist < distMin && dist >= 0.5)
 						{
 							player = skel;
 							distMin = dist;
-
-// 							if (timerON)
-// 							{
-// 								// timer 는 스켈레톤 발견 이후에 시작할것
-// 								myTimer.Start();
-// 								myTimerBlink.Start();
-// 							}
 						}
 					}
 
@@ -374,11 +413,12 @@ namespace MainProgram
 			Single handRightY = skeleton.Joints[JointType.HandRight].Position.Y;
 			double hipXCanvas = SkeletonPointToScreen(skeleton.Joints[JointType.HipCenter].Position).X;
 
-			if ((handLeftY - headY) > 0.3)
+			if ((handLeftY - headY) > 0.1)
 			{
 				m_flgHandLeftOver = true;
-			}
-			else
+                m_flgHandLeftRelease = false;
+            }
+            else
 			{
 				if (m_flgHandLeftOver == true && (handLeftY - headY) < 0)
 				{
@@ -387,11 +427,13 @@ namespace MainProgram
 				}
 			}
 
-			if ((handRightY - headY) > 0.3)
+			if ((handRightY - headY) > 0.1)
 			{
 				m_flgHandRightOver = true;
-			}
-			else
+                m_flgHandRightRelease = false;
+
+            }
+            else
 			{
 				if (m_flgHandRightOver == true && (handRightY - headY) < 0)
 				{
@@ -406,14 +448,13 @@ namespace MainProgram
 				m_cntTwoHand = 0;
 			}
 
-			if (m_flgHandLeftOver || m_flgHandRightOver)
-			{
-				m_cntOneHand += 1;
-			}
-
 			if (m_flgHandLeftOver && m_flgHandRightOver)
 			{
 				m_cntTwoHand += 1;
+			}
+			else if (m_flgHandLeftOver || m_flgHandRightOver)
+			{
+				m_cntOneHand += 1;
 			}
 		}
 	}

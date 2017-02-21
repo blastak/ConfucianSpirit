@@ -59,7 +59,7 @@ namespace HrkimKinectSensor
 				{
 					args.OldSensor.AllFramesReady -= this.SensorAllFramesReady;
 					args.OldSensor.DepthStream.Disable();
-					//args.OldSensor.ColorStream.Disable();
+					args.OldSensor.ColorStream.Disable();
 					args.OldSensor.SkeletonStream.Disable();
 				}
 				catch (InvalidOperationException)
@@ -73,9 +73,10 @@ namespace HrkimKinectSensor
 			{
 				try
 				{
-					args.NewSensor.DepthStream.Enable(DepthFormat);
-					//args.NewSensor.ColorStream.Enable(ColorFormat);
+					// S.D.C. 배치가 가장 로딩시간이 적음
 					args.NewSensor.SkeletonStream.Enable();
+					args.NewSensor.DepthStream.Enable(DepthFormat);
+					args.NewSensor.ColorStream.Enable(ColorFormat);
 
 					// Allocate space to put the depth, color, and skeleton data we'll receive
 					if (null == this.skeletons)
