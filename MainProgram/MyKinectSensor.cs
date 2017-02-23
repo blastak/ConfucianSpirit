@@ -1,9 +1,11 @@
 ﻿using System.Windows.Media.Imaging;
 using Microsoft.Kinect;
 using Microsoft.Kinect.Toolkit;
+using Microsoft.Kinect.Toolkit.BackgroundRemoval;
 using System;
 using System.Windows.Media;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace HrkimKinectSensor
 {
@@ -17,6 +19,12 @@ namespace HrkimKinectSensor
 		public int currentlyTrackedSkeletonId;
 
 		public event EventHandler<AllFramesReadyEventArgs> ReadSkeleton;
+
+		private WriteableBitmap foregroundBitmap;
+		private BackgroundRemovedColorStream backgroundRemovedColorStream;
+
+		Page page = null;
+		Image imgMaskInput = null;
 
 		public MyKinectSensor()
 		{
@@ -33,17 +41,26 @@ namespace HrkimKinectSensor
 			this.sensorChooser.Start();
 		}
 
-		public void DisposeBackgroundRemoveService()
+		public void BindPage(Page input_page, Image input_image)
 		{
-// 			if (null != this.backgroundRemovedColorStream)
-// 			{
-// 				this.backgroundRemovedColorStream.Dispose();
-// 				this.backgroundRemovedColorStream = null;
-// 			}
+			page = input_page;
+			imgMaskInput = input_image;
 		}
 
+		public void UnbindPage()
+		{
+			page = null;
+			imgMaskInput = null;
+		}
+		
 		public void Closing()
 		{
+			if (null != this.backgroundRemovedColorStream)
+			{
+				this.backgroundRemovedColorStream.Dispose();
+				this.backgroundRemovedColorStream = null;
+			}
+
 			if (this.sensorChooser != null)
 			{
 				this.sensorChooser.Stop();
@@ -61,6 +78,14 @@ namespace HrkimKinectSensor
 					args.OldSensor.DepthStream.Disable();
 					args.OldSensor.ColorStream.Disable();
 					args.OldSensor.SkeletonStream.Disable();
+
+					// Create the background removal stream to process the data and remove background, and initialize it.
+					if (null != this.backgroundRemovedColorStream)
+					{
+						this.backgroundRemovedColorStream.BackgroundRemovedFrameReady -= this.BackgroundRemovedFrameReadyHandler;
+						this.backgroundRemovedColorStream.Dispose();
+						this.backgroundRemovedColorStream = null;
+					}
 				}
 				catch (InvalidOperationException)
 				{
@@ -78,17 +103,25 @@ namespace HrkimKinectSensor
 					args.NewSensor.DepthStream.Enable(DepthFormat);
 					args.NewSensor.ColorStream.Enable(ColorFormat);
 
+					this.backgroundRemovedColorStream = new BackgroundRemovedColorStream(args.NewSensor);
+					this.backgroundRemovedColorStream.Enable(ColorFormat, DepthFormat);
+
 					// Allocate space to put the depth, color, and skeleton data we'll receive
 					if (null == this.skeletons)
 					{
 						this.skeletons = new Skeleton[args.NewSensor.SkeletonStream.FrameSkeletonArrayLength];
 					}
 
+					// Add an event handler to be called when the background removed color frame is ready, so that we can
+					// composite the image and output to the app
+					this.backgroundRemovedColorStream.BackgroundRemovedFrameReady += this.BackgroundRemovedFrameReadyHandler;
+
 					// Add an event handler to be called whenever there is new depth frame data
 					args.NewSensor.AllFramesReady += this.SensorAllFramesReady;
 				}
-				catch (InvalidOperationException)
+				catch (InvalidOperationException e)
 				{
+					MessageBox.Show(e.Message);
 					// KinectSensor might enter an invalid state while enabling/disabling streams or stream features.
 					// E.g.: sensor might be abruptly unplugged.
 				}
@@ -110,13 +143,30 @@ namespace HrkimKinectSensor
 					if (null != skeletonFrame)
 					{
 						skeletonFrame.CopySkeletonDataTo(this.skeletons);
+						this.backgroundRemovedColorStream.ProcessSkeleton(this.skeletons, skeletonFrame.Timestamp);
+					}
+				}
+
+				using (var depthFrame = e.OpenDepthImageFrame())
+				{
+					if (null != depthFrame)
+					{
+						this.backgroundRemovedColorStream.ProcessDepth(depthFrame.GetRawPixelData(), depthFrame.Timestamp);
+					}
+				}
+
+				using (var colorFrame = e.OpenColorImageFrame())
+				{
+					if (null != colorFrame)
+					{
+						this.backgroundRemovedColorStream.ProcessColor(colorFrame.GetRawPixelData(), colorFrame.Timestamp);
 					}
 				}
 
 				if (ReadSkeleton != null)
 					ReadSkeleton(sender, e);
 
-				//this.ChooseSkeleton();
+				this.ChooseSkeleton();
 			}
 			catch (InvalidOperationException)
 			{
@@ -157,7 +207,36 @@ namespace HrkimKinectSensor
 
 			if (!isTrackedSkeltonVisible && nearestSkeleton != 0)
 			{
+				this.backgroundRemovedColorStream.SetTrackedPlayer(nearestSkeleton);
 				this.currentlyTrackedSkeletonId = nearestSkeleton;
+			}
+		}
+
+		private void BackgroundRemovedFrameReadyHandler(object sender, BackgroundRemovedColorFrameReadyEventArgs e)
+		{
+			using (var backgroundRemovedFrame = e.OpenBackgroundRemovedColorFrame())
+			{
+				if (backgroundRemovedFrame != null)
+				{
+					if (null == this.foregroundBitmap || this.foregroundBitmap.PixelWidth != backgroundRemovedFrame.Width
+						|| this.foregroundBitmap.PixelHeight != backgroundRemovedFrame.Height)
+					{
+						this.foregroundBitmap = new WriteableBitmap(backgroundRemovedFrame.Width, backgroundRemovedFrame.Height, 96.0, 96.0, PixelFormats.Bgra32, null);
+					}
+
+					// Set the image we display to point to the bitmap where we'll put the image data
+					if (imgMaskInput != null)
+					{
+						imgMaskInput.Source = this.foregroundBitmap;
+					}
+
+					// Write the pixel data into our bitmap
+					this.foregroundBitmap.WritePixels(
+						new Int32Rect(0, 0, this.foregroundBitmap.PixelWidth, this.foregroundBitmap.PixelHeight),
+						backgroundRemovedFrame.GetRawPixelData(),
+						this.foregroundBitmap.PixelWidth * sizeof(int),
+						0);
+				}
 			}
 		}
 	}

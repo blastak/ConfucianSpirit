@@ -77,6 +77,8 @@ namespace MainProgram
 
 		private void PageLoaded(object sender, EventArgs e)
 		{
+			m_myKinect.BindPage(this, imgSkeleton);
+
 			System.Diagnostics.Debug.WriteLine("PageLoaded");
 			m_idxGame = 0;
 			m_evGameManager(this, null);
@@ -97,7 +99,7 @@ namespace MainProgram
                     Entrypoint();
                     break;
                 default:
-                    MessageBox.Show("end\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n of\n\n\n\n\n\n\n\n\n\n\n\n\n story");
+                    MessageBox.Show("end\nof\nstory");
 					////////////////////////////////////// 페이지 끝남 넣기
 					break;
 			}

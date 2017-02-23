@@ -96,6 +96,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyGameGesture.cs" />
+    <Compile Include="MyGameHandUp.cs" />
     <Compile Include="MyKinectSensor.cs" />
     <Compile Include="PageItem1.xaml.cs">
       <DependentUpon>PageItem1.xaml</DependentUpon>
@@ -184,6 +186,12 @@
     <Resource Include="Images\transparent.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="KinectBackgroundRemoval180_32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KinectBackgroundRemoval180_64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Sounds\중간평가_1%28성공%29.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
