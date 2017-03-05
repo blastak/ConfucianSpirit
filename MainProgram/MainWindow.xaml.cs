@@ -5,8 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Microsoft.Kinect.Toolkit.Controls;
 using System.Windows.Threading;
-
-using HrkimKinectSensor;
+using System.Collections.Generic;
 
 namespace MainProgram
 {
@@ -24,6 +23,9 @@ namespace MainProgram
 
 		public PageStart pageStart;
 		public PageItem1 pageItem1;
+		public PageItem2 pageItem2;
+		public PageItem3 pageItem3;
+		public PageEnd pageEnd;
 
 		public MainWindow()
 		{
@@ -36,29 +38,57 @@ namespace MainProgram
 			pageStart.BtnClicked1 += new EventHandler(PageStartBtnClicked1);
 			pageStart.BtnClicked2 += new EventHandler(PageStartBtnClicked2);
 			pageStart.BtnClicked3 += new EventHandler(PageStartBtnClicked3);
-			frame.Navigate(pageStart);
-			
+
+			pageEnd = new PageEnd();
+
 			Timer.Interval = TimeSpan.FromSeconds(0.1);
 			Timer.Tick += new EventHandler(TimerInit);
 			Timer.Start();
 		}
 
-		private void TimerInit(object sender, EventArgs e)
+		private void TimerInit(object sender, EventArgs e) // 이 함수는 딱 한번만 실행됨, 키넥트 로딩시 blocking 때문에 생성자를 나누어 놓은 것
 		{
 			Timer.Stop();
 
 			// 2. 키넥트 실행
 			myKinect = new MyKinectSensor(sensorChooserUi);
 
+			frame.Navigate(pageStart);
+
+			ReadyToSelect();
+
+			pageItem1 = new PageItem1(myKinect);
+			pageItem1.m_evtPageEnd += new EventHandler(EventEndOfPage);
+			pageItem2 = new PageItem2(myKinect);
+			pageItem2.m_evtPageEnd += new EventHandler(EventEndOfPage);
+			pageItem3 = new PageItem3(myKinect);
+			pageItem3.m_evtPageEnd += new EventHandler(EventEndOfPage);
+
+			pageEnd.m_evtPageEnd += new EventHandler(EventRestart);
+		}
+
+		void EventEndOfPage(object sender, EventArgs e)
+		{
+			List<object> a = (List<object>)sender;
+			pageEnd.Score = (int)a[0];
+			pageEnd.DurationTime = (TimeSpan)a[1];
+
+			frame.Navigate(pageEnd);
+		}
+
+		void EventRestart(object sender, EventArgs e)
+		{
+			ReadyToSelect();
+			frame.Navigate(pageStart);
+		}
+		
+		private void ReadyToSelect()
+		{
 			// 3. Loading 화면 안보이기
 			LoadingMask.Visibility = Visibility.Hidden;
 
 			// 4. 손 컨트롤 켜기
 			Bind();
-
-			// 
-			pageItem1 = new PageItem1(myKinect);
-
 		}
 
 		private void Bind()
@@ -73,49 +103,32 @@ namespace MainProgram
 			BindingOperations.ClearBinding(this.kinectRegion, KinectRegion.KinectSensorProperty);
 		}
 
+		public void RequestBind()
+		{
+			Bind();
+		}
+
+		public void RequestUnbind()
+		{
+			Unbind();
+		}
+
 		void PageStartBtnClicked1(object sender, EventArgs e)
 		{
-			//frame.Navigate(introPage);
 			Unbind();
 			frame.Navigate(pageItem1);
 		}
 
 		void PageStartBtnClicked2(object sender, EventArgs e)
 		{
-			//frame.Navigate(introPage);
+			//Unbind();
+			frame.Navigate(pageItem2);
 		}
 
 		void PageStartBtnClicked3(object sender, EventArgs e)
 		{
-			//frame.Navigate(introPage);
-			Bind();
-		}
-
-		public void ShowingImg(string strFileName)
-		{
-			try
-			{
-				BitmapImage bitmap = new BitmapImage();
-				bitmap.BeginInit();
-				bitmap.UriSource = new Uri(strWorkDir + strFileName);
-				bitmap.EndInit();
-				//BackgroundImg.Source = bitmap;
-			}
-			catch (Exception e)
-			{
-				MessageBox.Show(e.Message);
-			}
-		}
-		public void ShowingImg(BitmapImage bitmap)
-		{
-			try
-			{
-				//BackgroundImg.Source = bitmap;
-			}
-			catch (Exception e)
-			{
-				MessageBox.Show(e.Message);
-			}
+			Unbind();
+			frame.Navigate(pageItem3);
 		}
 
 		~MainWindow()

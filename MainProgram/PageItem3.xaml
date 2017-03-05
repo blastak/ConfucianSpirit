@@ -1,0 +1,30 @@
+﻿<Page x:Class="MainProgram.PageItem3"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MainProgram"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1280"
+      Title="PageItem3" Background="White">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="55*"/>
+            <ColumnDefinition Width="73*"/>
+            <ColumnDefinition Width="128*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Canvas Name="canvasBG" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
+        <Canvas Name="canvasBG2" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
+        <Image Name="imgMask" Stretch="Fill" Visibility="Hidden" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
+        <Image Name="imgOverlayLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Visibility="Hidden" Margin="109,288,256,288" Height="0" Width="0" />
+        <Image Name="imgOverlayRight" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Grid.Row="1" Grid.Column="2" Visibility="Hidden" Margin="320,288" Height="0" Width="0"/>
+        <Image Name="imgUser" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="Fill" Visibility="Hidden" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="0,0,640,0" Height="0" Width="0"/>
+        <Image Name="imgFace" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Visibility="Hidden" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="0,216,640,360" Height="0" Width="0"/>
+        <Image Name="imgUser2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="Fill" Visibility="Hidden" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2"/>
+    </Grid>
+</Page>

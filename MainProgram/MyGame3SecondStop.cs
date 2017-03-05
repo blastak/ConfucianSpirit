@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MainProgram
 {
-	class MyGameGesture
+	class MyGame3SecondStop
 	{
 	}
 }

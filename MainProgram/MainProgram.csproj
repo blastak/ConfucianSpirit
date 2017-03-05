@@ -55,6 +55,9 @@
     <Reference Include="Microsoft.Kinect.Toolkit.BackgroundRemoval">
       <HintPath>C:\Program Files\Microsoft SDKs\Kinect\Developer Toolkit v1.8.0\Assemblies\Microsoft.Kinect.Toolkit.BackgroundRemoval.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Kinect.Toolkit.Interaction">
+      <HintPath>C:\Program Files\Microsoft SDKs\Kinect\Developer Toolkit v1.8.0\Assemblies\Microsoft.Kinect.Toolkit.Interaction.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -74,6 +77,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="DragImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -82,11 +89,28 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DragImage.xaml.cs">
+      <DependentUpon>DragImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FallingShapes.cs" />
+    <Compile Include="FallingThings.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PageEnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PageItem1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PageItem2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PageItem3.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -96,15 +120,29 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyGameGesture.cs" />
+    <Compile Include="MyGame3SecondStop.cs" />
+    <Compile Include="MyGameGravityCollect.cs" />
+    <Compile Include="MyGameDragAndDrop.cs" />
+    <Compile Include="MyGameGestureBow.cs" />
     <Compile Include="MyGameHandUp.cs" />
+    <Compile Include="MyGameGravityTouch.cs" />
     <Compile Include="MyKinectSensor.cs" />
+    <Compile Include="PageEnd.xaml.cs">
+      <DependentUpon>PageEnd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PageItem1.xaml.cs">
       <DependentUpon>PageItem1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PageItem2.xaml.cs">
+      <DependentUpon>PageItem2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PageItem3.xaml.cs">
+      <DependentUpon>PageItem3.xaml</DependentUpon>
     </Compile>
     <Compile Include="PageStart.xaml.cs">
       <DependentUpon>PageStart.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -159,38 +197,127 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\loading.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\게임첫화면1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\게임첫화면2.png" />
-    <Resource Include="Images\게임첫화면3.png" />
-    <Resource Include="Images\게임첫화면4.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\01_예효_01%28손들기%29.png" />
-    <Resource Include="Images\01_예효_02.png" />
-    <Resource Include="Images\01_예효_03.png" />
-    <Resource Include="Images\02_예효_01%28손들기%29.png" />
-    <Resource Include="Images\02_예효_02.png" />
-    <Resource Include="Images\02_예효_03.png" />
-    <Resource Include="Images\03_예효_01%28손들기%29.png" />
-    <Resource Include="Images\03_예효_02.png" />
-    <Resource Include="Images\03_예효_03.png" />
-    <Resource Include="Images\04_예효_01%28인사%29.png" />
-    <Resource Include="Images\04_예효_02.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\transparent.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="Images\신충_01_01%28손들기%29.png" />
+    <Resource Include="Images\신충_01_02.png" />
+    <Resource Include="Images\신충_01_03.png" />
+    <Resource Include="Images\신충_01_04.png" />
+    <Resource Include="Images\신충_02_01%28손들기%29.png" />
+    <Resource Include="Images\신충_02_02.png" />
+    <Resource Include="Images\신충_02_03.png" />
+    <Resource Include="Images\신충_02_04.png" />
+    <Resource Include="Images\신충_04_01%28손들기%29.png" />
+    <Resource Include="Images\신충_04_02.png" />
+    <Resource Include="Images\신충_04_03.png" />
+    <Resource Include="Images\신충_04_04.png" />
+    <Resource Include="Images\신충_06_01%28손들기%29.png" />
+    <Resource Include="Images\신충_06_02.png" />
+    <Resource Include="Images\신충_06_03.png" />
+    <Resource Include="Images\신충_06_04.png" />
+    <Resource Include="Images\예효_01_01%28손들기%29.png" />
+    <Resource Include="Images\예효_01_02.png" />
+    <Resource Include="Images\예효_01_03.png" />
+    <Resource Include="Images\예효_01_04.png" />
+    <Resource Include="Images\예효_02_01%28손들기%29.png" />
+    <Resource Include="Images\예효_02_02.png" />
+    <Resource Include="Images\예효_02_03.png" />
+    <Resource Include="Images\예효_02_04.png" />
+    <Resource Include="Images\예효_03_01%28인사%29.png" />
+    <Resource Include="Images\예효_03_02.png" />
+    <Resource Include="Images\예효_04_01%28손들기%29.png" />
+    <Resource Include="Images\예효_04_02.png" />
+    <Resource Include="Images\예효_04_03.png" />
+    <Resource Include="Images\예효_04_04.png" />
+    <Resource Include="Images\경성_01_01%283초간정지%29.png" />
+    <Resource Include="Images\경성_02_01.png" />
+    <Resource Include="Images\경성_02_02.png" />
+    <Resource Include="Images\경성_02_03.png" />
+    <Resource Include="Images\경성_02_04.PNG" />
+    <Resource Include="Images\경성_04_01%283초간정지%29.png" />
+    <Resource Include="Images\신충_05_01%283초간정지%29.png" />
+    <Resource Include="Images\신충_05_02.png" />
+    <Resource Include="Images\신충_05_03.png" />
+    <Resource Include="Images\신충_05_04.png" />
+    <Resource Include="Images\신충_05_05.png" />
+    <Resource Include="Images\신충_05_06.png" />
+    <Resource Include="Images\신충_03_01%28드래그%29.png" />
+    <Resource Include="Images\신충_03_02.png" />
+    <Resource Include="Images\신충_03_03.png" />
+    <Resource Include="Images\신충_03_04.png" />
+    <Resource Include="Images\신충_03_05.png" />
+    <Resource Include="Images\신충_03_06.png" />
+    <Resource Include="Images\신충_03_07.png" />
+    <Resource Include="Images\경성_03_01%28터트리기%29.png" />
+    <Resource Include="Images\경성_03_02.png" />
+    <Resource Include="Images\경성_03_03.png" />
+    <Resource Include="Images\경성_03_04.png" />
+    <Resource Include="Images\경성_03_05.png" />
+    <Resource Include="Images\경성_03_06.png" />
+    <Resource Include="Images\경성_03_07.png" />
     <Content Include="KinectBackgroundRemoval180_32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="KinectBackgroundRemoval180_64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\게임시작.m4a">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\게임시작배경음악.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\경성_01_01%283초간정지%29.m4a">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\경성_02_01.m4a">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\경성_03_01%28터트리기%29.m4a">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\경성_04_01%283초간정지%29.m4a">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\배경음악1_예효.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\배경음악2_신충.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\배경음악3_경성.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\신충_01_01%28손들기%29.m4a">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\신충_02_01%28손들기%29.m4a">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\신충_03_01%28드래그%29.m4a">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\신충_04_01%28손들기%29.m4a">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\신충_05_01%283초간정지%29.m4a">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\신충_06_01%28손들기%29.m4a">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\예효_01_01%28손들기%29.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\예효_02_01%28손들기%29.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\예효_03_01%28인사%29.m4a">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\예효_03_02.m4a">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\예효_04_01%28손들기%29.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Sounds\중간평가_1%28성공%29.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -198,21 +325,23 @@
     <Content Include="Sounds\중간평가_2%28다음기회에%29.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Images\중간평가1.png" />
-    <Resource Include="Images\중간평가2.png" />
-    <Content Include="Sounds\01_예효_01%28손들기%29.mp3">
+    <Content Include="Sounds\평가1_배경음악.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sounds\02_예효_01%28손들기%29.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\03_예효_01%28손들기%29.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\게임첫화면.mp3" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\loading.jpg" />
+    <Resource Include="Images\게임첫화면1.png" />
+    <Resource Include="Images\게임첫화면2.png" />
+    <Resource Include="Images\게임첫화면3.png" />
+    <Resource Include="Images\게임첫화면4.png" />
+    <Resource Include="Images\중간평가1.png" />
+    <Resource Include="Images\중간평가2.png" />
+    <Resource Include="Images\평가1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

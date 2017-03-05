@@ -11,13 +11,13 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="13*"/>
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="59*"/>
+            <RowDefinition Height="31*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="555*"/>
-            <ColumnDefinition Width="627*"/>
-            <ColumnDefinition Width="98*"/>
+            <ColumnDefinition Width="119*"/>
+            <ColumnDefinition Width="405*"/>
+            <ColumnDefinition Width="116*"/>
         </Grid.ColumnDefinitions>
         <Grid.Background>
             <ImageBrush ImageSource="/MainProgram;component/Images/게임첫화면1.png"/>

@@ -26,28 +26,51 @@ namespace MainProgram
 		public event EventHandler BtnClicked2;
 		public event EventHandler BtnClicked3;
 
+		private MediaPlayer m_soundBackground = new MediaPlayer();
+		private MediaPlayer m_soundNarration = new MediaPlayer();
+
 		public PageStart()
 		{
 			InitializeComponent();
+
+			this.Loaded += new RoutedEventHandler(PageLoaded);
+
+			m_soundBackground.Open(new Uri("Sounds/" + "게임시작배경음악.mp3", UriKind.Relative)); // 속성:빌드시자동복사
+			m_soundBackground.Volume = 0.1;
+
+			m_soundNarration.Open(new Uri("Sounds/" + "게임시작.m4a", UriKind.Relative)); // 속성:빌드시자동복사
+			m_soundNarration.Volume = 1;
+		}
+
+		private void PageLoaded(object sender, RoutedEventArgs e)
+		{
+			m_soundBackground.Play();
+			m_soundNarration.Play();
 		}
 
 		private void buttonStart1_Click(object sender, RoutedEventArgs e)
 		{
-			//MessageBox.Show("HI1");
+			m_soundBackground.Stop();
+			m_soundNarration.Stop();
+
 			if (BtnClicked1 != null)
 				this.BtnClicked1(this, e);
 		}
 
 		private void buttonStart2_Click(object sender, RoutedEventArgs e)
 		{
-			//MessageBox.Show("HI2");
+			m_soundBackground.Stop();
+			m_soundNarration.Stop();
+
 			if (BtnClicked2 != null)
 				this.BtnClicked2(this, e);
 		}
 
 		private void buttonStart3_Click(object sender, RoutedEventArgs e)
 		{
-			//MessageBox.Show("HI3");
+			m_soundBackground.Stop();
+			m_soundNarration.Stop();
+
 			if (BtnClicked3 != null)
 				this.BtnClicked3(this, e);
 		}
