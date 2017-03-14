@@ -17,6 +17,7 @@ namespace MainProgram
 		public event EventHandler m_evtGameManager;
 
 		private Canvas m_canvas;
+		private Canvas m_canvas2;
 		private Image m_imgUserBody;
 		private Image m_imgTFFace;
 
@@ -63,14 +64,17 @@ namespace MainProgram
 			this.myFallingThings.SetPolies(PolyType.All);
 			this.myFallingThings.SetGameMode(GameMode.Off);
 
+			string[] a = { "경성_03_02.png", "경성_03_03.png", "경성_03_04.png", "경성_03_05.png", "경성_03_06.png", "경성_03_07.png" };
+			this.myFallingThings.AddStrImage(a);
 
 			m_timerCountdown.Tick += new EventHandler(TimerCountdown);
 
 		}
 
-		public void SetupUI(Canvas canvas, Image userBody, Image tfFace)
+		public void SetupUI(Canvas canvas, Canvas canvas2, Image userBody, Image tfFace)
 		{
 			m_canvas = canvas;
+			m_canvas2 = canvas2;
 			m_imgUserBody = userBody;
 			m_imgTFFace = tfFace;
 		}
@@ -88,6 +92,8 @@ namespace MainProgram
 
 
 			m_canvas.ClipToBounds = true;
+			m_canvas2.ClipToBounds = true;
+
 			this.UpdatePlayfieldSize();
 
 			if (m_myKinect.sensorChooser != null)
@@ -251,9 +257,9 @@ namespace MainProgram
 			//BannerText.UpdateBounds(this.screenRect);
 
 			this.playerBounds.X = 0;
-			this.playerBounds.Width = this.m_canvas.ActualWidth;
-			this.playerBounds.Y = this.m_canvas.ActualHeight * 0.2;
-			this.playerBounds.Height = this.m_canvas.ActualHeight * 0.75;
+			this.playerBounds.Width = this.m_canvas2.ActualWidth;
+			this.playerBounds.Y = this.m_canvas2.ActualHeight * 0.2;
+			this.playerBounds.Height = this.m_canvas2.ActualHeight * 0.75;
 
 			foreach (var player in this.players)
 			{
@@ -262,7 +268,7 @@ namespace MainProgram
 
 			Rect fallingBounds = this.playerBounds;
 			fallingBounds.Y = 0;
-			fallingBounds.Height = m_canvas.ActualHeight;
+			fallingBounds.Height = m_canvas2.ActualHeight;
 			if (this.myFallingThings != null)
 			{
 				this.myFallingThings.SetBoundaries(fallingBounds);
@@ -312,7 +318,7 @@ namespace MainProgram
 
 				this.predNextFrame += TimeSpan.FromMilliseconds(1000.0 / this.targetFramerate);
 
-				m_canvas.Dispatcher.Invoke(DispatcherPriority.Send, new Action<int>(this.HandleGameTimer), 0);
+				m_canvas2.Dispatcher.Invoke(DispatcherPriority.Send, new Action<int>(this.HandleGameTimer), 0);
 			}
 		}
 
@@ -348,11 +354,11 @@ namespace MainProgram
 			}
 
 			// Draw new Wpf scene by adding all objects to canvas
-			m_canvas.Children.Clear();
-			this.myFallingThings.DrawFrame(this.m_canvas.Children);
+			m_canvas2.Children.Clear();
+			this.myFallingThings.DrawFrame(this.m_canvas2.Children);
 			foreach (var player in this.players)
 			{
-				player.Value.Draw(m_canvas.Children);
+				player.Value.Draw(m_canvas2.Children);
 			}
 
 // 			BannerText.Draw(m_canvas.Children);

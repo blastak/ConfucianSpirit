@@ -19,7 +19,7 @@
             <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
         <Canvas Name="canvasBG" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
-        <Canvas Name="canvasBG2" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
+        <Canvas Name="canvasBG2" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2"/>
         <Image Name="imgMask" Stretch="Fill" Visibility="Hidden" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
         <Image Name="imgOverlayLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Visibility="Hidden" Margin="109,288,256,288" Height="0" Width="0" />
         <Image Name="imgOverlayRight" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Grid.Row="1" Grid.Column="2" Visibility="Hidden" Margin="320,288" Height="0" Width="0"/>

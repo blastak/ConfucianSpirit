@@ -44,52 +44,38 @@ namespace MainProgram
 
 		public DragImage dragImg1;
 		public DragImage dragImg2;
-		public DragImage dragImg3;
-		public DragImage dragImg4;
-		public DragImage dragImg5;
-		public DragImage dragImg6;
 		string m_strbase = @"pack://application:,,/";
 
-		public MyGameDragAndDrop()
+		int truePos = 0;
+
+		public MyGameDragAndDrop(int idx)
 		{
 			m_timerCountdown.Tick += new EventHandler(TimerCountdown);
 
-			dragImg1 = new DragImage("신충_03_02.png");
-			dragImg1.ImgSize = new Size(400, 83);
-			dragImg1.OriginalPosition = new Point(1172, 54);
-			dragImg1.CorrectPosition = new Point(51, 496);
-
-			dragImg2 = new DragImage("신충_03_03.png");
-			dragImg2.ImgSize = new Size(400, 83);
-			dragImg2.OriginalPosition = new Point(1172, 154);
-			dragImg2.CorrectPosition = new Point(51, 496);
-
-			dragImg3 = new DragImage("신충_03_04.png");
-			dragImg3.ImgSize = new Size(400, 83);
-			dragImg3.OriginalPosition = new Point(1172, 254);
-			dragImg3.CorrectPosition = new Point(51, 496);
-
-			dragImg4 = new DragImage("신충_03_05.png");
-			dragImg4.ImgSize = new Size(400, 83);
-			dragImg4.OriginalPosition = new Point(1172, 354);
-			dragImg4.CorrectPosition = new Point(51, 496);
-
-			dragImg5 = new DragImage("신충_03_06.png");
-			dragImg5.ImgSize = new Size(400, 83);
-			dragImg5.OriginalPosition = new Point(1172, 454);
-			dragImg5.CorrectPosition = new Point(51, 496);
-
-			dragImg6 = new DragImage("신충_03_07.png");
-			dragImg6.ImgSize = new Size(400, 83);
-			dragImg6.OriginalPosition = new Point(1172, 554);
-			dragImg6.CorrectPosition = new Point(51, 496);
-
-			dragImg1.Visibility = Visibility.Hidden;
-			dragImg2.Visibility = Visibility.Hidden;
-			dragImg3.Visibility = Visibility.Hidden;
-			dragImg4.Visibility = Visibility.Hidden;
-			dragImg5.Visibility = Visibility.Hidden;
-			dragImg6.Visibility = Visibility.Hidden;
+			if (idx == 1)
+			{
+				dragImg1 = new DragImage("신충_03_02.png");
+				dragImg2 = new DragImage("신충_03_03.png");
+				truePos = 1;
+			}
+			else if (idx == 2)
+			{
+				dragImg1 = new DragImage("신충_04_02.png");
+				dragImg2 = new DragImage("신충_04_03.png");
+				truePos = 2;
+			}
+			else if (idx == 3)
+			{
+				dragImg1 = new DragImage("신충_05_02.png");
+				dragImg2 = new DragImage("신충_05_03.png");
+				truePos = 1;
+			}
+			else if (idx == 4)
+			{
+				dragImg1 = new DragImage("신충_06_02.png");
+				dragImg2 = new DragImage("신충_06_03.png");
+				truePos = 2;
+			}
 		}
 
 		public void SetupUI(Canvas canvas, Image tfFace)
@@ -106,20 +92,37 @@ namespace MainProgram
 
 		public void Entrypoint()
 		{
-			this.lastGripState = GripState.Released;
-			dragImg1.GoToOriginalPosition();
-			dragImg2.GoToOriginalPosition();
-			dragImg3.GoToOriginalPosition();
-			dragImg4.GoToOriginalPosition();
-			dragImg5.GoToOriginalPosition();
-			dragImg6.GoToOriginalPosition();
+			double aW = m_canvas.ActualWidth;
+			double aH = m_canvas.ActualHeight;
+
+			m_canvas.Children.Add(dragImg1);
+			m_canvas.Children.Add(dragImg2);
+
+			dragImg1.ImgSize = new Size(aW * 0.25, aH * 0.2);
+			dragImg1.OriginalPosition = new Point(aW * 0.72, aH * 0.2);
+			dragImg1.CorrectRadius = aW * 0.2;
+
+			dragImg2.ImgSize = new Size(aW * 0.25, aH * 0.2);
+			dragImg2.OriginalPosition = new Point(aW * 0.72, aH * 0.6);
+			dragImg2.CorrectRadius = aW * 0.2;
+
+			if(truePos == 1)
+			{
+				dragImg1.CorrectPosition = new Point(aW * 0.23, aH * 0.80);
+				dragImg2.CorrectPosition = new Point(aW * -1, aH * -1);
+			}
+			else
+			{
+				dragImg1.CorrectPosition = new Point(aW * -1, aH * -1);
+				dragImg2.CorrectPosition = new Point(aW * 0.23, aH * 0.80);
+			}
 
 			dragImg1.Visibility = Visibility.Visible;
 			dragImg2.Visibility = Visibility.Visible;
-			dragImg3.Visibility = Visibility.Visible;
-			dragImg4.Visibility = Visibility.Visible;
-			dragImg5.Visibility = Visibility.Visible;
-			dragImg6.Visibility = Visibility.Visible;
+
+			this.lastGripState = GripState.Released;
+			dragImg1.GoToOriginalPosition();
+			dragImg2.GoToOriginalPosition();
 
 
 			m_timeRemain = 30;
@@ -129,18 +132,23 @@ namespace MainProgram
 			m_canvas.Background = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + m_strBackground)));
 
 			// 2. 사운드 재생
-			m_startSound.Open(new Uri("Sounds/" + m_strQuestionSound, UriKind.Relative)); // 속성:빌드시자동복사
-			m_startSound.MediaEnded += new EventHandler(MediaEnd1);
-			m_startSound.Volume = 1;
-			m_startSound.Play();
+			if(m_strQuestionSound != "")
+			{
+				m_startSound.Open(new Uri("Sounds/" + m_strQuestionSound, UriKind.Relative)); // 속성:빌드시자동복사
+				m_startSound.MediaEnded += new EventHandler(MediaEnd1);
+				m_startSound.Volume = 1;
+				m_startSound.Play();
+			}
+			else
+			{
+				// 7. 제한시간 시작
+				m_timerCountdown.Interval = TimeSpan.FromMilliseconds(1000);
+				m_timerCountdown.Start();
+			}
 
 			this.lastGripState = GripState.Released;
 			KinectRegion.AddHandPointerGripHandler(dragImg1, this.OnHandPointerGrip);
 			KinectRegion.AddHandPointerGripHandler(dragImg2, this.OnHandPointerGrip);
-			KinectRegion.AddHandPointerGripHandler(dragImg3, this.OnHandPointerGrip);
-			KinectRegion.AddHandPointerGripHandler(dragImg4, this.OnHandPointerGrip);
-			KinectRegion.AddHandPointerGripHandler(dragImg5, this.OnHandPointerGrip);
-			KinectRegion.AddHandPointerGripHandler(dragImg6, this.OnHandPointerGrip);
 			KinectRegion.AddHandPointerMoveHandler(m_canvas, this.OnHandPointerMove);
 			KinectRegion.AddHandPointerGripReleaseHandler(m_canvas, this.OnHandPointerGripRelease);
 			KinectRegion.AddQueryInteractionStatusHandler(m_canvas, this.OnQueryInteractionStatus);
@@ -229,23 +237,18 @@ namespace MainProgram
 
 			m_evtGameManager(score, null);
 
+			m_canvas.Children.Remove(dragImg1);
+			m_canvas.Children.Remove(dragImg2);
+
 			m_imgTFFace.Visibility = Visibility.Hidden;
 
 			dragImg1.Visibility = Visibility.Hidden;
 			dragImg2.Visibility = Visibility.Hidden;
-			dragImg3.Visibility = Visibility.Hidden;
-			dragImg4.Visibility = Visibility.Hidden;
-			dragImg5.Visibility = Visibility.Hidden;
-			dragImg6.Visibility = Visibility.Hidden;
 
 			try
 			{
 				KinectRegion.RemoveHandPointerGripHandler(dragImg1, this.OnHandPointerGrip);
 				KinectRegion.RemoveHandPointerGripHandler(dragImg2, this.OnHandPointerGrip);
-				KinectRegion.RemoveHandPointerGripHandler(dragImg3, this.OnHandPointerGrip);
-				KinectRegion.RemoveHandPointerGripHandler(dragImg4, this.OnHandPointerGrip);
-				KinectRegion.RemoveHandPointerGripHandler(dragImg5, this.OnHandPointerGrip);
-				KinectRegion.RemoveHandPointerGripHandler(dragImg6, this.OnHandPointerGrip);
 				KinectRegion.RemoveHandPointerMoveHandler(m_canvas, this.OnHandPointerMove);
 				KinectRegion.RemoveHandPointerGripReleaseHandler(m_canvas, this.OnHandPointerGripRelease);
 				KinectRegion.RemoveQueryInteractionStatusHandler(m_canvas, this.OnQueryInteractionStatus);

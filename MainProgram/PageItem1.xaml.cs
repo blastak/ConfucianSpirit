@@ -72,7 +72,13 @@ namespace MainProgram
 			m_game4.m_myKinect = kinectSensor;
 			m_game4.m_evtGameManager += new EventHandler(EventGameManager);
 
+			m_game5.SetupUI(this.canvasBG, this.canvasBG2, this.imgUser2, this.imgFace);
+			m_game5.SetupResource("예효_05_01(바구니).png", "예효_05_01(바구니).m4a");
+			m_game5.m_myKinect = kinectSensor;
+			m_game5.m_evtGameManager += new EventHandler(EventGameManager);
+
 			m_soundBackground.Open(new Uri("Sounds/" + "배경음악1_예효.mp3", UriKind.Relative)); // 속성:빌드시자동복사
+			m_soundBackground.MediaEnded += new EventHandler(BackgroundMusicEnd);
 			m_soundBackground.Volume = 0.1;
 		}
 
@@ -87,9 +93,14 @@ namespace MainProgram
 			score = 0;
 			startTime = DateTime.Now;
 			
-
 			m_idxGame = 0;
 			EventGameManager(null, null);
+		}
+
+		private void BackgroundMusicEnd(object sender, EventArgs e)
+		{
+			m_soundBackground.Position = TimeSpan.Zero;
+			m_soundBackground.Play();
 		}
 
 		private void EventGameManager(object sender, EventArgs e)
@@ -104,17 +115,18 @@ namespace MainProgram
 			switch (m_idxGame)
 			{
 				case 0:
-					m_game1.Entrypoint();
-					break;
-                case 1:
-                    m_game2.Entrypoint();
-                    break;
-				case 2:
 					m_game3.Entrypoint();
+					//m_game1.Entrypoint();
 					break;
-				case 3:
-					m_game4.Entrypoint();
-                    break;
+//                 case 1:
+//                     m_game2.Entrypoint();
+//                     break;
+// 				case 2:
+// 					m_game3.Entrypoint();
+// 					break;
+// 				case 3:
+// 					m_game4.Entrypoint();
+//                     break;
                 default:
 					m_myKinect.UnbindBackgroundRemovalImage();
 					m_soundBackground.Stop();

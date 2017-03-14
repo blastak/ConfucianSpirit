@@ -10,35 +10,48 @@
 
 namespace MainProgram
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Media;
-    using System.Windows.Shapes;
-    using Microsoft.Kinect;
+	using System;
+	using System.Collections.Generic;
+	using System.Globalization;
+	using System.Windows;
+	using System.Windows.Controls;
+	using System.Windows.Media;
+	using System.Windows.Shapes;
+	using Microsoft.Kinect;
+	using System.Windows.Media.Imaging;
 
-    // FallingThings is the main class to draw and maintain positions of falling shapes.  It also does hit testing
-    // and appropriate bouncing.
-    public class FallingThings
+	// FallingThings is the main class to draw and maintain positions of falling shapes.  It also does hit testing
+	// and appropriate bouncing.
+	public class FallingThings
     {
         private const double BaseGravity = 0.017;
         private const double BaseAirFriction = 0.994;
 
-        private readonly Dictionary<PolyType, PolyDef> polyDefs = new Dictionary<PolyType, PolyDef>
-            {
-                { PolyType.Triangle, new PolyDef { Sides = 3, Skip = 1 } },
-                { PolyType.Star, new PolyDef { Sides = 5, Skip = 2 } },
-                { PolyType.Pentagon, new PolyDef { Sides = 5, Skip = 1 } },
-                { PolyType.Square, new PolyDef { Sides = 4, Skip = 1 } },
-                { PolyType.Hex, new PolyDef { Sides = 6, Skip = 1 } },
-                { PolyType.Star7, new PolyDef { Sides = 7, Skip = 3 } },
-                { PolyType.Circle, new PolyDef { Sides = 1, Skip = 1 } },
-                { PolyType.Bubble, new PolyDef { Sides = 0, Skip = 1 } }
-            };
+		//         private readonly Dictionary<PolyType, PolyDef> polyDefs = new Dictionary<PolyType, PolyDef>
+		//             {
+		//                 { PolyType.Triangle, new PolyDef { Sides = 3, Skip = 1 } },
+		//                 { PolyType.Star, new PolyDef { Sides = 5, Skip = 2 } },
+		//                 { PolyType.Pentagon, new PolyDef { Sides = 5, Skip = 1 } },
+		// 				{ PolyType.Square, new PolyDef { Sides = 4, Skip = 1 } },
+		//                 { PolyType.Hex, new PolyDef { Sides = 6, Skip = 1 } },
+		//                 { PolyType.Star7, new PolyDef { Sides = 7, Skip = 3 } },
+		//                 { PolyType.Circle, new PolyDef { Sides = 1, Skip = 1 } },
+		//                 { PolyType.Bubble, new PolyDef { Sides = 0, Skip = 1 } }
+		//             };
 
-        private readonly List<Thing> things = new List<Thing>();
+		private readonly Dictionary<PolyType, PolyDef> polyDefs = new Dictionary<PolyType, PolyDef>
+			{
+				{ PolyType.Bubble, new PolyDef { Sides = 0, Skip = 1 } },
+				{ PolyType.Circle, new PolyDef { Sides = 1, Skip = 1 } },
+				{ PolyType.Pentagon, new PolyDef { Sides = 2, Skip = 1 } },
+				{ PolyType.Triangle, new PolyDef { Sides = 3, Skip = 1 } },
+				{ PolyType.Square, new PolyDef { Sides = 4, Skip = 1 } },
+				{ PolyType.Star, new PolyDef { Sides = 5, Skip = 2 } },
+				{ PolyType.Hex, new PolyDef { Sides = 6, Skip = 1 } },
+				{ PolyType.Star7, new PolyDef { Sides = 7, Skip = 3 } }
+			};
+
+		private readonly List<Thing> things = new List<Thing>();
         private readonly Random rnd = new Random();
         private readonly int maxThings;
         private readonly int intraFrames = 1;
@@ -391,8 +404,16 @@ namespace MainProgram
             {
                 PolyType[] alltypes = 
                 {
-                    PolyType.Triangle, PolyType.Square, PolyType.Star, PolyType.Pentagon,
-                    PolyType.Hex, PolyType.Star7, PolyType.Circle, PolyType.Bubble
+					PolyType.Bubble,
+					PolyType.Circle,
+					PolyType.Pentagon,
+					PolyType.Triangle,
+					PolyType.Square,
+					PolyType.Star,
+					PolyType.Hex,
+					PolyType.Star7
+// 					PolyType.Triangle, PolyType.Square, PolyType.Star, PolyType.Pentagon,
+//                     PolyType.Hex, PolyType.Star7, PolyType.Circle, PolyType.Bubble
                 };
                 byte r;
                 byte g;
@@ -414,8 +435,9 @@ namespace MainProgram
                 PolyType tryType;
                 do
                 {
-                    tryType = alltypes[this.rnd.Next(alltypes.Length)];
-                }
+					//tryType = alltypes[this.rnd.Next(alltypes.Length)];
+					tryType = alltypes[this.rnd.Next(strCircleImage.Length)];
+				}
                 while ((this.polyTypes & tryType) == 0);
 
                 this.DropNewThing(tryType, this.shapeSize, System.Windows.Media.Color.FromRgb(r, g, b));
@@ -520,7 +542,7 @@ namespace MainProgram
             }
         }
 
-        private static double SquaredDistance(double x1, double y1, double x2, double y2)
+		private static double SquaredDistance(double x1, double y1, double x2, double y2)
         {
             return ((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1));
         }
@@ -573,7 +595,15 @@ namespace MainProgram
             this.things.Add(newThing);
         }
 
-        private Shape MakeSimpleShape(
+		string m_strbase = @"pack://application:,,/";
+		string[] strCircleImage;
+
+		public void AddStrImage(string[] a)
+		{
+			strCircleImage = a;
+		}
+
+		private Shape MakeSimpleShape(
             int numSides,
             int skip,
             double size,
@@ -584,40 +614,62 @@ namespace MainProgram
             double strokeThickness,
             double opacity)
         {
-            if (numSides <= 1)
-            {
-                var circle = new Ellipse { Width = size * 2, Height = size * 2, Stroke = brushStroke };
-                if (circle.Stroke != null)
-                {
-                    circle.Stroke.Opacity = opacity;
-                }
+			// 			if (numSides <= 1)
+			// 			{
+			// 				var circle = new Ellipse { Width = size * 2, Height = size * 2, Stroke = brushStroke };
+			// 				if (circle.Stroke != null)
+			// 				{
+			// 					circle.Stroke.Opacity = opacity;
+			// 				}
+			// 
+			// 				circle.StrokeThickness = strokeThickness * ((numSides == 1) ? 1 : 2);
+			// 				circle.Fill = (numSides == 1) ? brush : null;
+			// 				circle.SetValue(Canvas.LeftProperty, center.X - size);
+			// 				circle.SetValue(Canvas.TopProperty, center.Y - size);
+			// 				return circle;
+			// 			}
+			// 
+			// 			var points = new PointCollection(numSides + 2);
+			// 			double theta = spin;
+			// 			for (int i = 0; i <= numSides + 1; ++i)
+			// 			{
+			// 				points.Add(new System.Windows.Point((Math.Cos(theta) * size) + center.X, (Math.Sin(theta) * size) + center.Y));
+			// 				theta = theta + (2.0 * Math.PI * skip / numSides);
+			// 			}
+			// 
+			// 			var polyline = new Polyline { Points = points, Stroke = brushStroke };
+			// 			if (polyline.Stroke != null)
+			// 			{
+			// 				polyline.Stroke.Opacity = opacity;
+			// 			}
+			// 
+			// 			polyline.Fill = brush;
+			// 			polyline.FillRule = FillRule.Nonzero;
+			// 			polyline.StrokeThickness = strokeThickness;
+			// 			return polyline;
 
-                circle.StrokeThickness = strokeThickness * ((numSides == 1) ? 1 : 2);
-                circle.Fill = (numSides == 1) ? brush : null;
-                circle.SetValue(Canvas.LeftProperty, center.X - size);
-                circle.SetValue(Canvas.TopProperty, center.Y - size);
-                return circle;
-            }
+			var circle = new Ellipse { Width = size * 2, Height = size * 2, Stroke = brushStroke };
+			if (circle.Stroke != null)
+			{
+				circle.Stroke.Opacity = 0;
+			}
 
-            var points = new PointCollection(numSides + 2);
-            double theta = spin;
-            for (int i = 0; i <= numSides + 1; ++i)
-            {
-                points.Add(new System.Windows.Point((Math.Cos(theta) * size) + center.X, (Math.Sin(theta) * size) + center.Y));
-                theta = theta + (2.0 * Math.PI * skip / numSides);
-            }
+			//circle.StrokeThickness = strokeThickness * ((numSides == 1) ? 1 : 2);
+			//circle.Fill = (numSides == 1) ? brush : null;
+			circle.SetValue(Canvas.LeftProperty, center.X - size);
+			circle.SetValue(Canvas.TopProperty, center.Y - size);
 
-            var polyline = new Polyline { Points = points, Stroke = brushStroke };
-            if (polyline.Stroke != null)
-            {
-                polyline.Stroke.Opacity = opacity;
-            }
+			circle.Width = 100;
+			circle.Height = 100;
+			var abrush = new ImageBrush(); //定义图片画刷
+			var converter = new ImageSourceConverter();
 
-            polyline.Fill = brush;
-            polyline.FillRule = FillRule.Nonzero;
-            polyline.StrokeThickness = strokeThickness;
-            return polyline;
-        }
+			string uri1 = m_strbase + "Images/" + strCircleImage[numSides];
+			abrush.ImageSource = new BitmapImage(new Uri(uri1));
+
+			circle.Fill = abrush;//填充
+			return circle;
+		}
 
         internal struct PolyDef
         {

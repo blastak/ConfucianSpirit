@@ -197,6 +197,125 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\신충_04_01%28드래그%29.png" />
+    <Resource Include="Images\신충_05_01%28드래그%29.png" />
+    <Resource Include="Images\신충_06_01%28드래그%29.png" />
+    <Resource Include="Images\신충_07_01%28손들기%29.png" />
+    <Resource Include="Images\신충_07_02.png" />
+    <Resource Include="Images\신충_07_03.png" />
+    <Resource Include="Images\신충_07_04.png" />
+    <Resource Include="Images\신충_08_01%283초간정지%29.png" />
+    <Resource Include="Images\신충_08_02.png" />
+    <Resource Include="Images\신충_08_03.png" />
+    <Resource Include="Images\신충_08_04.png" />
+    <Resource Include="Images\신충_08_05.png" />
+    <Resource Include="Images\신충_08_06.png" />
+    <Resource Include="Images\신충_09_01%28손들기%29.png" />
+    <Resource Include="Images\신충_09_02.png" />
+    <Resource Include="Images\신충_09_03.png" />
+    <Resource Include="Images\신충_09_04.png" />
+    <Content Include="KinectBackgroundRemoval180_32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KinectBackgroundRemoval180_64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\게임시작.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\게임시작배경음악.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\경성_01_01%283초간정지%29.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\경성_02_01.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\경성_03_01%28터트리기%29.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\경성_04_01%283초간정지%29.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\배경음악1_예효.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\배경음악2_신충.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\배경음악3_경성.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\신충_01_01%28손들기%29.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\신충_02_01%28손들기%29.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\신충_03_01%28드래그%29.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\신충_04_01%28손들기%29.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\신충_05_01%283초간정지%29.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\신충_06_01%28손들기%29.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\예효_01_01%28손들기%29.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\예효_02_01%28손들기%29.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\예효_03_01%28인사%29.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\예효_03_02.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\예효_04_01%28손들기%29.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\예효_05_01%28바구니%29.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\중간평가_1%28성공%29.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\중간평가_2%28다음기회에%29.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\평가1_배경음악.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\loading.jpg" />
+    <Resource Include="Images\게임첫화면1.png" />
+    <Resource Include="Images\게임첫화면2.png" />
+    <Resource Include="Images\게임첫화면3.png" />
+    <Resource Include="Images\게임첫화면4.png" />
+    <Resource Include="Images\경성_01_01%283초간정지%29.png" />
+    <Resource Include="Images\경성_02_01.png" />
+    <Resource Include="Images\경성_02_02.png" />
+    <Resource Include="Images\경성_02_03.png" />
+    <Resource Include="Images\경성_02_04.PNG" />
+    <Resource Include="Images\경성_03_01%28터트리기%29.png" />
+    <Resource Include="Images\경성_03_02.png" />
+    <Resource Include="Images\경성_03_03.png" />
+    <Resource Include="Images\경성_03_04.png" />
+    <Resource Include="Images\경성_03_05.png" />
+    <Resource Include="Images\경성_03_06.png" />
+    <Resource Include="Images\경성_03_07.png" />
+    <Resource Include="Images\경성_04_01%283초간정지%29.png" />
     <Resource Include="Images\신충_01_01%28손들기%29.png" />
     <Resource Include="Images\신충_01_02.png" />
     <Resource Include="Images\신충_01_03.png" />
@@ -205,14 +324,15 @@
     <Resource Include="Images\신충_02_02.png" />
     <Resource Include="Images\신충_02_03.png" />
     <Resource Include="Images\신충_02_04.png" />
-    <Resource Include="Images\신충_04_01%28손들기%29.png" />
+    <Resource Include="Images\신충_03_01%28드래그%29.png" />
+    <Resource Include="Images\신충_03_02.png" />
+    <Resource Include="Images\신충_03_03.png" />
     <Resource Include="Images\신충_04_02.png" />
     <Resource Include="Images\신충_04_03.png" />
-    <Resource Include="Images\신충_04_04.png" />
-    <Resource Include="Images\신충_06_01%28손들기%29.png" />
+    <Resource Include="Images\신충_05_02.png" />
+    <Resource Include="Images\신충_05_03.png" />
     <Resource Include="Images\신충_06_02.png" />
     <Resource Include="Images\신충_06_03.png" />
-    <Resource Include="Images\신충_06_04.png" />
     <Resource Include="Images\예효_01_01%28손들기%29.png" />
     <Resource Include="Images\예효_01_02.png" />
     <Resource Include="Images\예효_01_03.png" />
@@ -227,118 +347,16 @@
     <Resource Include="Images\예효_04_02.png" />
     <Resource Include="Images\예효_04_03.png" />
     <Resource Include="Images\예효_04_04.png" />
-    <Resource Include="Images\경성_01_01%283초간정지%29.png" />
-    <Resource Include="Images\경성_02_01.png" />
-    <Resource Include="Images\경성_02_02.png" />
-    <Resource Include="Images\경성_02_03.png" />
-    <Resource Include="Images\경성_02_04.PNG" />
-    <Resource Include="Images\경성_04_01%283초간정지%29.png" />
-    <Resource Include="Images\신충_05_01%283초간정지%29.png" />
-    <Resource Include="Images\신충_05_02.png" />
-    <Resource Include="Images\신충_05_03.png" />
-    <Resource Include="Images\신충_05_04.png" />
-    <Resource Include="Images\신충_05_05.png" />
-    <Resource Include="Images\신충_05_06.png" />
-    <Resource Include="Images\신충_03_01%28드래그%29.png" />
-    <Resource Include="Images\신충_03_02.png" />
-    <Resource Include="Images\신충_03_03.png" />
-    <Resource Include="Images\신충_03_04.png" />
-    <Resource Include="Images\신충_03_05.png" />
-    <Resource Include="Images\신충_03_06.png" />
-    <Resource Include="Images\신충_03_07.png" />
-    <Resource Include="Images\경성_03_01%28터트리기%29.png" />
-    <Resource Include="Images\경성_03_02.png" />
-    <Resource Include="Images\경성_03_03.png" />
-    <Resource Include="Images\경성_03_04.png" />
-    <Resource Include="Images\경성_03_05.png" />
-    <Resource Include="Images\경성_03_06.png" />
-    <Resource Include="Images\경성_03_07.png" />
-    <Content Include="KinectBackgroundRemoval180_32.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="KinectBackgroundRemoval180_64.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\게임시작.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\게임시작배경음악.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\경성_01_01%283초간정지%29.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\경성_02_01.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\경성_03_01%28터트리기%29.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\경성_04_01%283초간정지%29.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\배경음악1_예효.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\배경음악2_신충.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\배경음악3_경성.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\신충_01_01%28손들기%29.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\신충_02_01%28손들기%29.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\신충_03_01%28드래그%29.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\신충_04_01%28손들기%29.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\신충_05_01%283초간정지%29.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\신충_06_01%28손들기%29.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\예효_01_01%28손들기%29.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\예효_02_01%28손들기%29.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\예효_03_01%28인사%29.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\예효_03_02.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\예효_04_01%28손들기%29.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\중간평가_1%28성공%29.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\중간평가_2%28다음기회에%29.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\평가1_배경음악.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Resource Include="Images\loading.jpg" />
-    <Resource Include="Images\게임첫화면1.png" />
-    <Resource Include="Images\게임첫화면2.png" />
-    <Resource Include="Images\게임첫화면3.png" />
-    <Resource Include="Images\게임첫화면4.png" />
+    <Resource Include="Images\예효_05_01%28바구니%29.PNG" />
+    <Resource Include="Images\예효_05_02.png" />
+    <Resource Include="Images\예효_05_03.png" />
+    <Resource Include="Images\예효_05_04.png" />
+    <Resource Include="Images\예효_05_05.png" />
+    <Resource Include="Images\예효_05_06.png" />
+    <Resource Include="Images\예효_05_07.png" />
+    <Resource Include="Images\예효_05_08.png" />
+    <Resource Include="Images\예효_05_09.png" />
+    <Resource Include="Images\예효_05_10.png" />
     <Resource Include="Images\중간평가1.png" />
     <Resource Include="Images\중간평가2.png" />
     <Resource Include="Images\평가1.png" />

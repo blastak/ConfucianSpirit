@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         xmlns:k="clr-namespace:Microsoft.Kinect.Toolkit;assembly=Microsoft.Kinect.Toolkit"
         xmlns:k2="clr-namespace:Microsoft.Kinect.Toolkit.Controls;assembly=Microsoft.Kinect.Toolkit.Controls"
-        WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized"
-        Title="ConfucianSpirit" Height="720" Width="1280" KeyDown="Window_KeyDown" Closing="Window_Closing" WindowStartupLocation="CenterScreen" >
+        Title="ConfucianSpirit" Height="720" Width="1280" KeyDown="Window_KeyDown" Closing="Window_Closing" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized">
     <k2:KinectRegion x:Name="kinectRegion">
         <Grid>
             <Frame x:Name="frame" NavigationUIVisibility="Hidden"/>

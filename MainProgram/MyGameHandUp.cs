@@ -27,6 +27,7 @@ namespace MainProgram
 		private bool m_flgHandRightDown;
 		private int m_cntOneHand;
 		private int m_cntTwoHand;
+		private int m_flgLeftRight;
 
 		public MyKinectSensor m_myKinect;
 
@@ -136,6 +137,7 @@ namespace MainProgram
 			m_flgHandRightDown = true;
 			m_cntOneHand = 0;
 			m_cntTwoHand = 0;
+			m_flgLeftRight = 0;
 		}
 		
 
@@ -149,15 +151,13 @@ namespace MainProgram
 				m_timerCountdown.Stop();
 				ResultGame(false);
 			}
-			else if (m_cntOneHand > 50)
+			else if (m_cntOneHand > 50 || m_cntTwoHand > 50)
 			{
 				m_timerCountdown.Stop();
-				ResultGame(m_nTruth == 0);
-			}
-			else if (m_cntTwoHand > 50)
-			{
-				m_timerCountdown.Stop();
-				ResultGame(m_nTruth == 1);
+				if (m_nTruth == m_flgLeftRight)
+					ResultGame(true);
+				else
+					ResultGame(false);
 			}
 		}
 
@@ -219,6 +219,11 @@ namespace MainProgram
 			float handRightY = player.Joints[JointType.HandRight].Position.Y;
 
 			double hipXCanvas = m_myKinect.SkeletonPointToScreen(player.Joints[JointType.HipCenter].Position).X; // 몸 좌우로 가는거 인식할때 사용할 것
+
+			if (player.Joints[JointType.HipCenter].Position.X < 0)
+				m_flgLeftRight = 0; // left
+			else
+				m_flgLeftRight = 1; // right
 
 			if ((handLeftY - headY) > 0.1)
 			{

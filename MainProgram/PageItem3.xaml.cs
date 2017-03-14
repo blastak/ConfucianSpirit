@@ -49,12 +49,13 @@ namespace MainProgram
 			m_game2.m_myKinect = kinectSensor;
 			m_game2.m_evtGameManager += new EventHandler(EventGameManager);
 
-			m_game3.SetupUI(this.canvasBG2, this.imgUser2, this.imgFace);
+			m_game3.SetupUI(this.canvasBG, this.canvasBG2, this.imgUser2, this.imgFace);
 			m_game3.SetupResource("경성_03_01(터트리기).png", "경성_03_01(터트리기).m4a");
 			m_game3.m_myKinect = kinectSensor;
 			m_game3.m_evtGameManager += new EventHandler(EventGameManager);
 
 			m_soundBackground.Open(new Uri("Sounds/" + "배경음악3_경성.mp3", UriKind.Relative)); // 속성:빌드시자동복사
+			m_soundBackground.MediaEnded += new EventHandler(BackgroundMusicEnd);
 			m_soundBackground.Volume = 0.1;
 		}
 
@@ -63,7 +64,7 @@ namespace MainProgram
 			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 			//m_myKinect.BindBackgroundRemovalImage(imgUser);
-			m_myKinect.BindBackgroundRemovalImage(imgUser2);
+			//m_myKinect.BindBackgroundRemovalImage(imgUser2);
 
 			m_soundBackground.Play();
 
@@ -72,6 +73,12 @@ namespace MainProgram
 
 			m_idxGame = 0;
 			EventGameManager(null, null);
+		}
+
+		private void BackgroundMusicEnd(object sender, EventArgs e)
+		{
+			m_soundBackground.Position = TimeSpan.Zero;
+			m_soundBackground.Play();
 		}
 
 		private void EventGameManager(object sender, EventArgs e)

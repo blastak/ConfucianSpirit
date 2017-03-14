@@ -93,5 +93,17 @@ namespace MainProgram
 				this.Height = imgSize.Height;
 			}
 		}
+
+		public double CorrectRadius
+		{
+			get
+			{
+				return correctRadius;
+			}
+			set
+			{
+				correctRadius = value;
+			}
+		}
 	}
 }
