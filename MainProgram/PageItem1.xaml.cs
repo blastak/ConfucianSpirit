@@ -29,11 +29,11 @@ namespace MainProgram
 		public event EventHandler m_evtPageEnd;
 		public int m_idxGame;
 
-		private MyGameHandUp m_game1 = new MyGameHandUp();
-		private MyGameHandUp m_game2 = new MyGameHandUp();
-		private MyGameGestureBow m_game3 = new MyGameGestureBow();
-		private MyGameHandUp m_game4 = new MyGameHandUp();
-		private MyGameGravityCollect m_game5 = new MyGameGravityCollect();
+		public MyGameHandUp m_game1 = new MyGameHandUp();
+		public MyGameHandUp m_game2 = new MyGameHandUp();
+		public MyGameGestureBow m_game3 = new MyGameGestureBow();
+		public MyGameHandUp m_game4 = new MyGameHandUp();
+		public MyGameGravityCollect m_game5 = new MyGameGravityCollect();
 
 		private MediaPlayer m_soundBackground = new MediaPlayer();
 

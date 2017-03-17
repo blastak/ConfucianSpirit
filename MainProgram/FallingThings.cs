@@ -433,12 +433,12 @@ namespace MainProgram
                 }
 
                 PolyType tryType;
-                do
+                //do
                 {
 					//tryType = alltypes[this.rnd.Next(alltypes.Length)];
 					tryType = alltypes[this.rnd.Next(strCircleImage.Length)];
 				}
-                while ((this.polyTypes & tryType) == 0);
+                //while ((this.polyTypes & tryType) == 0);
 
                 this.DropNewThing(tryType, this.shapeSize, System.Windows.Media.Color.FromRgb(r, g, b));
             }
@@ -561,6 +561,8 @@ namespace MainProgram
             //FlyingText.NewFlyingText(this.sceneRect.Width / 300, center, "+" + points);
         }
 
+		double nd = 0.1;
+
         private void DropNewThing(PolyType newShape, double newSize, System.Windows.Media.Color newColor)
         {
             // Only drop within the center "square" area 
@@ -576,8 +578,9 @@ namespace MainProgram
                 YVelocity = ((0.5 * this.rnd.NextDouble()) - 0.25) / this.targetFrameRate,
                 XVelocity = 0,
                 Shape = newShape,
-                Center = new System.Windows.Point((this.rnd.NextDouble() * dropWidth) + ((this.sceneRect.Left + this.sceneRect.Right - dropWidth) / 2), this.sceneRect.Top - newSize),
-                SpinRate = ((this.rnd.NextDouble() * 12.0) - 6.0) * 2.0 * Math.PI / this.targetFrameRate / 4.0,
+                //Center = new System.Windows.Point((this.rnd.NextDouble() * dropWidth) + ((this.sceneRect.Left + this.sceneRect.Right - dropWidth) / 2), this.sceneRect.Top - newSize),
+				Center = new System.Windows.Point((nd * dropWidth) + ((this.sceneRect.Left + this.sceneRect.Right - dropWidth) / 2), this.sceneRect.Top - newSize),
+				SpinRate = ((this.rnd.NextDouble() * 12.0) - 6.0) * 2.0 * Math.PI / this.targetFrameRate / 4.0,
                 Theta = 0,
                 TimeLastHit = DateTime.MinValue,
                 AvgTimeBetweenHits = 100,
@@ -592,7 +595,9 @@ namespace MainProgram
                 FlashCount = 0
             };
 
-            this.things.Add(newThing);
+			nd = 1 - nd;
+
+			this.things.Add(newThing);
         }
 
 		string m_strbase = @"pack://application:,,/";
@@ -648,27 +653,50 @@ namespace MainProgram
 			// 			polyline.StrokeThickness = strokeThickness;
 			// 			return polyline;
 
-			var circle = new Ellipse { Width = size * 2, Height = size * 2, Stroke = brushStroke };
-			if (circle.Stroke != null)
-			{
-				circle.Stroke.Opacity = 0;
-			}
+			var rect = new Rectangle { Width = size * 2, Height = size * 2};
+			rect.SetValue(Canvas.LeftProperty, center.X - size);
+			rect.SetValue(Canvas.TopProperty, center.Y - size);
 
-			//circle.StrokeThickness = strokeThickness * ((numSides == 1) ? 1 : 2);
-			//circle.Fill = (numSides == 1) ? brush : null;
-			circle.SetValue(Canvas.LeftProperty, center.X - size);
-			circle.SetValue(Canvas.TopProperty, center.Y - size);
+			//rect.Stroke.Opacity = 1; // 테두리없음
 
-			circle.Width = 100;
-			circle.Height = 100;
+			rect.Stretch = Stretch.UniformToFill;
+
+			// 			circle.Width = 100;
+			// 			circle.Height = 100;
 			var abrush = new ImageBrush(); //定义图片画刷
 			var converter = new ImageSourceConverter();
 
 			string uri1 = m_strbase + "Images/" + strCircleImage[numSides];
 			abrush.ImageSource = new BitmapImage(new Uri(uri1));
 
-			circle.Fill = abrush;//填充
-			return circle;
+			rect.Fill = abrush;//填充
+
+			return rect;
+
+// 			var circle = new Ellipse { Width = size * 2, Height = size * 2, Stroke = brushStroke };
+// 			if (circle.Stroke != null)
+// 			{
+// 				circle.Stroke.Opacity = 0;
+// 			}
+// 
+// 			//circle.StrokeThickness = strokeThickness * ((numSides == 1) ? 1 : 2);
+// 			//circle.Fill = (numSides == 1) ? brush : null;
+// 			circle.SetValue(Canvas.LeftProperty, center.X - size);
+// 			circle.SetValue(Canvas.TopProperty, center.Y - size);
+// 
+// 			circle.Stretch = Stretch.UniformToFill;
+// 
+// 			// 			circle.Width = 100;
+// 			// 			circle.Height = 100;
+// 			var abrush = new ImageBrush(); //定义图片画刷
+// 			var converter = new ImageSourceConverter();
+// 
+// 			string uri1 = m_strbase + "Images/" + strCircleImage[numSides];
+// 			abrush.ImageSource = new BitmapImage(new Uri(uri1));
+// 
+// 			circle.Fill = abrush;//填充
+// 
+// 			return circle;
 		}
 
         internal struct PolyDef

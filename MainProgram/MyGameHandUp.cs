@@ -8,7 +8,7 @@ using System.Windows.Threading;
 
 namespace MainProgram
 {
-	class MyGameHandUp
+	public class MyGameHandUp
 	{
 		public event EventHandler m_evtGameManager;
 

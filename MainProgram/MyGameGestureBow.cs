@@ -11,7 +11,7 @@ using System.Windows.Threading;
 
 namespace MainProgram
 {
-	class MyGameGestureBow
+	public class MyGameGestureBow
 	{
 		public event EventHandler m_evtGameManager;
 

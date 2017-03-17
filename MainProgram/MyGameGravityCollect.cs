@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 
 namespace MainProgram
 {
-	class MyGameGravityCollect
+	public class MyGameGravityCollect
 	{
 		public event EventHandler m_evtGameManager;
 

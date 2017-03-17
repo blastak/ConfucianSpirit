@@ -149,6 +149,8 @@ namespace MainProgram
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			myKinect.Closing();
+			//pageItem1.m_game5
+			pageItem3.m_game3.runningGameThread = false;
 		}
 	}
 }

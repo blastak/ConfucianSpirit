@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 
 namespace MainProgram
 {
-	class MyGameGravityTouch
+	public class MyGameGravityTouch
 	{
 		public event EventHandler m_evtGameManager;
 
@@ -25,12 +25,14 @@ namespace MainProgram
 		private FallingThings myFallingThings;
 
 		private const int NumIntraFrames = 3;
-		private const int MaxShapes = 80;
+		private const int MaxShapes = 4;
         private const int TimerResolution = 2;  // ms
 		private const double MinFramerate = 15;
 		private const double MaxFramerate = 70;
-		private const double DefaultDropRate = 2.5;
-		private const double DefaultDropSize = 32.0;
+		//private const double DefaultDropRate = 2.5;
+		private const double DefaultDropRate = 1;
+		//private const double DefaultDropSize = 32.0;
+		private const double DefaultDropSize = 200.0;
 		private const double DefaultDropGravity = 1.0;
 		private double targetFramerate = MaxFramerate;
 		private double dropRate = DefaultDropRate;
@@ -39,7 +41,7 @@ namespace MainProgram
 		private Rect playerBounds;
 		private readonly Dictionary<int, Player> players = new Dictionary<int, Player>();
 
-		private bool runningGameThread;
+		public bool runningGameThread;
 		private DateTime predNextFrame = DateTime.MinValue;
 		private double actualFrameTime;
 		private DateTime lastFrameDrawn = DateTime.MinValue;
@@ -91,7 +93,7 @@ namespace MainProgram
 			m_imgTFFace.Visibility = Visibility.Hidden;
 
 
-			m_canvas.ClipToBounds = true;
+			//m_canvas.ClipToBounds = true;
 			m_canvas2.ClipToBounds = true;
 
 			this.UpdatePlayfieldSize();
@@ -110,6 +112,7 @@ namespace MainProgram
 			m_startSound.Open(new Uri("Sounds/" + m_strQuestionSound, UriKind.Relative)); // 속성:빌드시자동복사
 			m_startSound.MediaEnded += new EventHandler(MediaEnd1);
 			m_startSound.Volume = 1;
+			m_startSound.Position = TimeSpan.FromSeconds(45);
 			m_startSound.Play();
 		}
 
@@ -123,7 +126,7 @@ namespace MainProgram
 			m_timerCountdown.Interval = TimeSpan.FromMilliseconds(1000);
 			m_timerCountdown.Start();
 
-			m_imgUserBody.Visibility = Visibility.Visible;
+			//m_imgUserBody.Visibility = Visibility.Visible;
 
 			var myGameThread = new Thread(this.GameThread);
 			myGameThread.SetApartmentState(ApartmentState.STA);
@@ -138,6 +141,7 @@ namespace MainProgram
 			if (m_timeRemain <= 0)
 			{
 				m_timerCountdown.Stop();
+				m_canvas2.Visibility = Visibility.Hidden;
 				ResultGame(true);
 			}
 		}

@@ -22,10 +22,10 @@ namespace MainProgram
 		public event EventHandler m_evtPageEnd;
 		public int m_idxGame;
 
-		private MyGame3SecondStop m_game1 = new MyGame3SecondStop();
-		private MyGameHandUp m_game2 = new MyGameHandUp();
-		private MyGameGravityTouch m_game3 = new MyGameGravityTouch();
-		private MyGame3SecondStop m_game4 = new MyGame3SecondStop();
+		public MyGame3SecondStop m_game1 = new MyGame3SecondStop();
+		public MyGameHandUp m_game2 = new MyGameHandUp();
+		public MyGameGravityTouch m_game3 = new MyGameGravityTouch();
+		public MyGame3SecondStop m_game4 = new MyGame3SecondStop();
 
 		private MediaPlayer m_soundBackground = new MediaPlayer();
 

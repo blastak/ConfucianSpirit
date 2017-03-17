@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MainProgram
 {
-	class MyGame3SecondStop
+	public class MyGame3SecondStop
 	{
 	}
 }
