@@ -172,7 +172,7 @@ namespace MainProgram
 				success2 = 1;
 
 			string[] strImgName = { "Images/중간평가1.png", "Images/중간평가2.png" };
-			string[] strSoundName = { "Sounds/중간평가_1(성공).mp3", "Sounds/중간평가_2(다음기회에).mp3" };
+			string[] strSoundName = { "Sounds/중간평가_1(성공).m4a", "Sounds/중간평가_2(다음기회에).m4a" };
 
 			BitmapImage src;
 			src = new BitmapImage(new Uri(m_strbase + strImgName[success2]));

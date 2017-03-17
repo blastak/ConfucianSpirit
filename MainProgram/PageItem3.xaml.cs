@@ -45,7 +45,7 @@ namespace MainProgram
 			m_myKinect = kinectSensor;
 
 			m_game2.SetupUI(this.canvasBG, this.imgMask, this.imgOverlayLeft, this.imgOverlayRight, this.imgUser, this.imgFace);
-			m_game2.SetupResource("경성_02_01.png", "경성_02_04.png", "경성_02_01.m4a", "경성_02_02.png", "경성_02_03.png", 1);
+			m_game2.SetupResource("경성_02_01(손들기).png", "경성_02_04.png", "경성_02_01(손들기).m4a", "경성_02_02.png", "경성_02_03.png", 1);
 			m_game2.m_myKinect = kinectSensor;
 			m_game2.m_evtGameManager += new EventHandler(EventGameManager);
 

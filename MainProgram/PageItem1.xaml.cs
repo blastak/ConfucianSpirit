@@ -53,12 +53,12 @@ namespace MainProgram
 			m_myKinect = kinectSensor;
 
 			m_game1.SetupUI(this.canvasBG, this.imgMask, this.imgOverlayLeft, this.imgOverlayRight, this.imgUser, this.imgFace);
-			m_game1.SetupResource("예효_01_01(손들기).png", "예효_01_04.png", "예효_01_01(손들기).mp3", "예효_01_02.png", "예효_01_03.png", 0);
+			m_game1.SetupResource("예효_01_01(손들기).png", "예효_01_04.png", "예효_01_01(손들기).m4a", "예효_01_02.png", "예효_01_03.png", 0);
 			m_game1.m_myKinect = kinectSensor;
 			m_game1.m_evtGameManager += new EventHandler(EventGameManager);
 
 			m_game2.SetupUI(this.canvasBG, this.imgMask, this.imgOverlayLeft, this.imgOverlayRight, this.imgUser, this.imgFace);
-			m_game2.SetupResource("예효_02_01(손들기).png", "예효_02_04.png", "예효_02_01(손들기).mp3", "예효_02_02.png", "예효_02_03.png", 0);
+			m_game2.SetupResource("예효_02_01(손들기).png", "예효_02_04.png", "예효_02_01(손들기).m4a", "예효_02_02.png", "예효_02_03.png", 0);
 			m_game2.m_myKinect = kinectSensor;
 			m_game2.m_evtGameManager += new EventHandler(EventGameManager);
 
@@ -68,7 +68,7 @@ namespace MainProgram
 			m_game3.m_evtGameManager += new EventHandler(EventGameManager);
 
 			m_game4.SetupUI(this.canvasBG, this.imgMask, this.imgOverlayLeft, this.imgOverlayRight, this.imgUser, this.imgFace);
-			m_game4.SetupResource("예효_04_01(손들기).png", "예효_04_04.png", "예효_04_01(손들기).mp3", "예효_04_02.png", "예효_04_03.png", 1);
+			m_game4.SetupResource("예효_04_01(손들기).png", "예효_04_04.png", "예효_04_01(손들기).m4a", "예효_04_02.png", "예효_04_03.png", 1);
 			m_game4.m_myKinect = kinectSensor;
 			m_game4.m_evtGameManager += new EventHandler(EventGameManager);
 

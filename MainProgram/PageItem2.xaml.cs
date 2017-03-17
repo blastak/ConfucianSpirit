@@ -65,15 +65,15 @@ namespace MainProgram
 			m_game3.m_evtGameManager += new EventHandler(EventGameManager);
 
 			m_game4.SetupUI(this.canvasBG, this.imgFace);
-			m_game4.SetupResource("신충_04_01(드래그).png", "");
+			m_game4.SetupResource("신충_04_01(드래그).png", "신충_04_01(드래그).m4a");
 			m_game4.m_evtGameManager += new EventHandler(EventGameManager);
 
 			m_game5.SetupUI(this.canvasBG, this.imgFace);
-			m_game5.SetupResource("신충_05_01(드래그).png", "");
+			m_game5.SetupResource("신충_05_01(드래그).png", "신충_05_01(드래그).m4a");
 			m_game5.m_evtGameManager += new EventHandler(EventGameManager);
 
 			m_game6.SetupUI(this.canvasBG, this.imgFace);
-			m_game6.SetupResource("신충_06_01(드래그).png", "");
+			m_game6.SetupResource("신충_06_01(드래그).png", "신충_06_01(드래그).m4a");
 			m_game6.m_evtGameManager += new EventHandler(EventGameManager);
 
 			m_game7.SetupUI(this.canvasBG, this.imgMask, this.imgOverlayLeft, this.imgOverlayRight, this.imgUser, this.imgFace);
