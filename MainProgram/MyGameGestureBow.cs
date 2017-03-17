@@ -28,7 +28,10 @@ namespace MainProgram
 		private bool m_flgHandRightDown;
 		private int m_cntOneHand;
 		private int m_cntTwoHand;
+
 		private int m_cntBow;
+		private float headYorig = 0;
+		private float headYmin = 9999;
 
 		public MyKinectSensor m_myKinect;
 
@@ -123,14 +126,16 @@ namespace MainProgram
 			// 7. 제한시간 시작
 			m_timerCountdown.Interval = TimeSpan.FromMilliseconds(1000);
 			m_timerCountdown.Start();
-
+			
+			m_cntBow = 0;
+			headYorig = 0;
+			headYmin = 9999;
 			m_flgHandLeftUp = false;
 			m_flgHandRightUp = false;
 			m_flgHandLeftDown = true;
 			m_flgHandRightDown = true;
 			m_cntOneHand = 0;
 			m_cntTwoHand = 0;
-			m_cntBow = 0;
 		}
 
 
@@ -204,14 +209,29 @@ namespace MainProgram
 		private void EventCheckHandOver(object sender, AllFramesReadyEventArgs e)
 		{
 			Skeleton player = (Skeleton)sender;
-
+			
 			float headY = player.Joints[JointType.Head].Position.Y;
+
 			float handLeftY = player.Joints[JointType.HandLeft].Position.Y;
 			float handRightY = player.Joints[JointType.HandRight].Position.Y;
 
-			float hipY = player.Joints[JointType.Head].Position.Y;
+			if (headYorig == 0)
+			{
+				headYorig = headY;
+			}
+			else
+			{
+				if(headYmin > headY)
+				{
+					headYmin = headY;
+				}
 
-			double hipXCanvas = m_myKinect.SkeletonPointToScreen(player.Joints[JointType.HipCenter].Position).X; // 몸 좌우로 가는거 인식할때 사용할 것
+				if(headY - headYmin > 0.3)
+				{
+					m_cntBow += 1;
+				}
+			}
+
 
 			if ((handLeftY - headY) > 0.1)
 			{
@@ -241,15 +261,6 @@ namespace MainProgram
 					m_flgHandRightDown = true;
 				}
 			}
-
-// 			if ((hipY-headY) < 0.1)
-// 			{
-// 				m_cntBow += 1;
-// 			}
-// 			else
-// 			{
-// 				m_cntBow = 0;
-// 			}
 
 			if (m_flgHandLeftDown == true && m_flgHandRightDown == true)
 			{
