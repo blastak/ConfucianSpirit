@@ -6,16 +6,17 @@
 
 namespace MainProgram
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Media;
-    using System.Windows.Shapes;
-    using Microsoft.Kinect;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Windows;
+	using System.Windows.Controls;
+	using System.Windows.Media;
+	using System.Windows.Shapes;
+	using Microsoft.Kinect;
+	using System.Windows.Media.Imaging;
 
-    public class Player
+	public class Player
     {
         private const double BoneSize = 0.01;
         private const double HeadSize = 0.075;
@@ -95,7 +96,16 @@ namespace MainProgram
             this.UpdateSegmentPosition(j, j, seg);
         }
 
-        public void Draw(UIElementCollection children)
+		public void UpdateJointPosition2(Microsoft.Kinect.JointCollection joints, JointType j)
+		{
+			var seg = new Segment(
+				(joints[j].Position.X * this.playerScale) + this.playerCenter.X,
+				this.playerBounds.Bottom - (joints[j].Position.Y * this.playerScale*2))
+			{ Radius = this.playerBounds.Height * ((j == JointType.Head) ? HeadSize : HandSize) / 2 };
+			this.UpdateSegmentPosition(j, j, seg);
+		}
+
+		public void Draw(UIElementCollection children)
         {
             if (!this.IsAlive)
             {
@@ -146,7 +156,48 @@ namespace MainProgram
             }
         }
 
-        private void UpdateSegmentPosition(JointType j1, JointType j2, Segment seg)
+		public void Draw2(UIElementCollection children)
+		{
+			if (!this.IsAlive)
+			{
+				return;
+			}
+
+			// Draw all bones first, then circles (head and hands).
+			DateTime cur = DateTime.Now;
+			foreach (var segment in this.segments)
+			{
+				Segment seg = segment.Value.GetEstimatedSegment(cur);
+				if (seg.IsCircle())
+				{
+					var rect = new Rectangle { Width = seg.Radius * 30, Height = seg.Radius * 30 };
+					rect.SetValue(Canvas.LeftProperty, seg.X1 - seg.Radius * 15);
+					rect.SetValue(Canvas.TopProperty, seg.Y1 - seg.Radius * 5);
+					rect.Stretch = Stretch.Fill;
+					var abrush = new ImageBrush(); //定义图片画刷
+					string uri1 = @"pack://application:,,/" + "Images/" + "예효_05_02.png";
+					abrush.ImageSource = new BitmapImage(new Uri(uri1));
+					rect.Fill = abrush;//填充
+					children.Add(rect);
+
+// 					var circle = new Ellipse { Width = seg.Radius * 2, Height = seg.Radius * 2 };
+// 					circle.SetValue(Canvas.LeftProperty, seg.X1 - seg.Radius);
+// 					circle.SetValue(Canvas.TopProperty, seg.Y1 - seg.Radius);
+// 					circle.Stroke = this.jointsBrush;
+// 					circle.StrokeThickness = 1;
+// 					circle.Fill = this.bonesBrush;
+// 					children.Add(circle);
+				}
+			}
+
+			// Remove unused players after 1/2 second.
+			if (DateTime.Now.Subtract(this.LastUpdated).TotalMilliseconds > 500)
+			{
+				this.IsAlive = false;
+			}
+		}
+
+		private void UpdateSegmentPosition(JointType j1, JointType j2, Segment seg)
         {
             var bone = new Bone(j1, j2);
             if (this.segments.ContainsKey(bone))

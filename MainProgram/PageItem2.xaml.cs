@@ -81,6 +81,11 @@ namespace MainProgram
 			m_game7.m_myKinect = kinectSensor;
 			m_game7.m_evtGameManager += new EventHandler(EventGameManager);
 
+			Point[] tempPoint1 = { new Point(840 / 983.0, 177 / 720.0), new Point(840 / 983.0, 375 / 720.0) };
+			m_game8.SetupUI(canvasBG, imgFace);
+			m_game8.SetupResource("신충_08_01(3초간정지).png", "신충_08_01(3초간정지).m4a", tempPoint1, 1, 100 / 720.0);
+			m_game8.m_evtGameManager += new EventHandler(EventGameManager);
+
 			m_game9.SetupUI(this.canvasBG, this.imgMask, this.imgOverlayLeft, this.imgOverlayRight, this.imgUser, this.imgFace);
 			m_game9.SetupResource("신충_09_01(손들기).png", "신충_09_04.png", "신충_09_01(손들기).m4a", "신충_09_02.png", "신충_09_03.png", 0);
 			m_game9.m_myKinect = kinectSensor;
@@ -121,6 +126,8 @@ namespace MainProgram
 				score += (int)sender;
 			}
 
+			canvasBG.Children.Clear();
+			
 			switch (m_idxGame)
 			{
 				case 0:
@@ -145,9 +152,9 @@ namespace MainProgram
 					m_game7.Entrypoint();
 					break;
 				case 7:
-					//m_game8.Entrypoint();
-					//break;
-				//case 8:
+					m_game8.Entrypoint();
+					break;
+				case 8:
 					m_game9.Entrypoint();
 					break;
 				default:

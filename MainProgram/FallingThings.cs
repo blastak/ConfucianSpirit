@@ -266,29 +266,29 @@ namespace MainProgram
 
                                     if (this.gameMode == GameMode.TwoPlayer)
                                     {
-                                        if (thing.State == ThingState.Falling)
-                                        {
-                                            thing.State = ThingState.Bouncing;
-                                            thing.TouchedBy = playerId;
-                                            thing.Hotness = 1;
-                                            thing.FlashCount = 0;
-                                        }
-                                        else if (thing.State == ThingState.Bouncing)
-                                        {
-                                            if (thing.TouchedBy != playerId)
-                                            {
-                                                if (seg.IsCircle())
-                                                {
-                                                    thing.TouchedBy = playerId;
-                                                    thing.Hotness = Math.Min(thing.Hotness + 1, 4);
-                                                }
-                                                else
-                                                {
-                                                    hit |= HitType.Popped;
-                                                    this.AddToScore(thing.TouchedBy, 5 << (thing.Hotness - 1), thing.Center);
-                                                }
-                                            }
-                                        }
+                                        //if (thing.State == ThingState.Falling)
+                                        //{
+                                        //    thing.State = ThingState.Bouncing;
+                                        //    thing.TouchedBy = playerId;
+                                        //    thing.Hotness = 1;
+                                        //    thing.FlashCount = 0;
+                                        //}
+                                        //else if (thing.State == ThingState.Bouncing)
+                                        //{
+                                        //    if (thing.TouchedBy != playerId)
+                                        //    {
+                                        //        if (seg.IsCircle())
+                                        //        {
+                                        //            thing.TouchedBy = playerId;
+                                        //            thing.Hotness = Math.Min(thing.Hotness + 1, 4);
+                                        //        }
+                                        //        else
+                                        //        {
+                                        //            hit |= HitType.Popped;
+                                        //            this.AddToScore(thing.TouchedBy, 5 << (thing.Hotness - 1), thing.Center);
+                                        //        }
+                                        //    }
+                                        //}
                                     }
                                     else if (this.gameMode == GameMode.Solo)
                                     {
@@ -304,11 +304,46 @@ namespace MainProgram
                                             else if ((thing.State == ThingState.Bouncing) && (fMs > 100.0))
                                             {
                                                 hit |= HitType.Popped;
-                                                int points = (pair.Key.Joint1 == JointType.FootLeft
-                                                              || pair.Key.Joint1 == JointType.FootRight)
-                                                                 ? 10
-                                                                 : 5;
-                                                this.AddToScore(
+												//int points = (pair.Key.Joint1 == JointType.FootLeft
+												//			  || pair.Key.Joint1 == JointType.FootRight)
+												//				 ? 10
+												//				 : 5;
+												int points = 0;
+												int idxSides = polyDefs[thing.Shape].Sides;
+												if (pair.Key.Joint1 == JointType.FootLeft || pair.Key.Joint1 == JointType.FootRight)
+												{
+													switch (idxSides)
+													{
+														case 3:
+														case 4:
+														case 5:
+															points -= 1;
+															break;
+														case 0:
+														case 1:
+														case 2:
+															points += 1;
+															break;
+													}
+												}
+												else if(pair.Key.Joint1 == JointType.HandLeft || pair.Key.Joint1 == JointType.HandRight)
+												{
+													switch (idxSides)
+													{
+														case 0:
+														case 1:
+														case 2:
+															points -= 1;
+															break;
+														case 3:
+														case 4:
+														case 5:
+															points += 1;
+															break;
+													}
+												}
+												
+												this.AddToScore(
                                                     thing.TouchedBy,
                                                     points,
                                                     thing.Center);
@@ -319,7 +354,8 @@ namespace MainProgram
 
                                     this.things[i] = thing;
 
-                                    if (thing.AvgTimeBetweenHits < 8)
+									// 두번 터치할 일이 없기 때문에 신경안써도 됨
+									if (thing.AvgTimeBetweenHits < 8)
                                     {
                                         hit |= HitType.Popped | HitType.Squeezed;
                                         if (this.gameMode != GameMode.Off)
@@ -349,7 +385,182 @@ namespace MainProgram
             return allHits;
         }
 
-        public void AdvanceFrame()
+		public HitType LookForHits2(Dictionary<Bone, BoneData> segments, int playerId)
+		{
+			DateTime cur = DateTime.Now;
+			HitType allHits = HitType.None;
+
+			// Zero out score if necessary
+			if (!this.scores.ContainsKey(playerId))
+			{
+				this.scores.Add(playerId, 0);
+			}
+
+			foreach (var pair in segments)
+			{
+				for (int i = 0; i < this.things.Count; i++)
+				{
+					HitType hit = HitType.None;
+					Thing thing = this.things[i];
+					switch (thing.State)
+					{
+						case ThingState.Bouncing:
+						case ThingState.Falling:
+							{
+								var hitCenter = new System.Windows.Point(0, 0);
+								double lineHitLocation = 0;
+								Segment seg = pair.Value.GetEstimatedSegment(cur);
+								if (thing.Hit(seg, ref hitCenter, ref lineHitLocation))
+								{
+									double fMs = 1000;
+									if (thing.TimeLastHit != DateTime.MinValue)
+									{
+										fMs = cur.Subtract(thing.TimeLastHit).TotalMilliseconds;
+										thing.AvgTimeBetweenHits = (thing.AvgTimeBetweenHits * 0.8) + (0.2 * fMs);
+									}
+
+									thing.TimeLastHit = cur;
+
+									// Bounce off head and hands
+									if (seg.IsCircle())
+									{
+										// Bounce off of hand/head/foot
+										thing.BounceOff(
+											hitCenter.X,
+											hitCenter.Y,
+											seg.Radius,
+											pair.Value.XVelocity / this.targetFrameRate,
+											pair.Value.YVelocity / this.targetFrameRate);
+
+										if (fMs > 100.0)
+										{
+											hit |= HitType.Hand;
+										}
+									}
+									else
+									{
+										// Bounce off line segment
+										double velocityX = (pair.Value.XVelocity * (1.0 - lineHitLocation)) + (pair.Value.XVelocity2 * lineHitLocation);
+										double velocityY = (pair.Value.YVelocity * (1.0 - lineHitLocation)) + (pair.Value.YVelocity2 * lineHitLocation);
+
+										thing.BounceOff(
+											hitCenter.X,
+											hitCenter.Y,
+											seg.Radius,
+											velocityX / this.targetFrameRate,
+											velocityY / this.targetFrameRate);
+
+										if (fMs > 100.0)
+										{
+											hit |= HitType.Arm;
+										}
+									}
+
+									if (this.gameMode == GameMode.TwoPlayer)
+									{
+										//if (thing.State == ThingState.Falling)
+										//{
+										//    thing.State = ThingState.Bouncing;
+										//    thing.TouchedBy = playerId;
+										//    thing.Hotness = 1;
+										//    thing.FlashCount = 0;
+										//}
+										//else if (thing.State == ThingState.Bouncing)
+										//{
+										//    if (thing.TouchedBy != playerId)
+										//    {
+										//        if (seg.IsCircle())
+										//        {
+										//            thing.TouchedBy = playerId;
+										//            thing.Hotness = Math.Min(thing.Hotness + 1, 4);
+										//        }
+										//        else
+										//        {
+										//            hit |= HitType.Popped;
+										//            this.AddToScore(thing.TouchedBy, 5 << (thing.Hotness - 1), thing.Center);
+										//        }
+										//    }
+										//}
+									}
+									else if (this.gameMode == GameMode.Solo)
+									{
+										if (seg.IsCircle())
+										{
+											if (thing.State == ThingState.Falling)
+											{
+												thing.State = ThingState.Bouncing;
+												thing.TouchedBy = playerId;
+												thing.Hotness = 1;
+												thing.FlashCount = 0;
+											}
+											else if ((thing.State == ThingState.Bouncing) && (fMs > 100.0))
+											{
+												hit |= HitType.Popped;
+												//int points = (pair.Key.Joint1 == JointType.FootLeft
+												//			  || pair.Key.Joint1 == JointType.FootRight)
+												//				 ? 10
+												//				 : 5;
+												int points = 0;
+												int idxSides = polyDefs[thing.Shape].Sides;
+												switch(idxSides)
+												{
+													case 0:
+													case 2:
+													case 5:
+													case 6:
+														points -= 1;
+														break;
+													case 1:
+													case 3:
+													case 4:
+													case 7:
+														points += 1;
+														break;
+												}
+												this.AddToScore(
+													thing.TouchedBy,
+													points,
+													thing.Center);
+												thing.TouchedBy = playerId;
+											}
+										}
+									}
+
+									this.things[i] = thing;
+
+									// 두번 터치할 일이 없기 때문에 신경안써도 됨
+									if (thing.AvgTimeBetweenHits < 8)
+									{
+										hit |= HitType.Popped | HitType.Squeezed;
+										if (this.gameMode != GameMode.Off)
+										{
+											this.AddToScore(playerId, 1, thing.Center);
+										}
+									}
+								}
+							}
+
+							break;
+					}
+
+					if ((hit & HitType.Popped) != 0)
+					{
+						thing.State = ThingState.Dissolving;
+						thing.Dissolve = 0;
+						thing.XVelocity = thing.YVelocity = 0;
+						thing.SpinRate = (thing.SpinRate * 6) + 0.2;
+						this.things[i] = thing;
+					}
+
+					allHits |= hit;
+				}
+			}
+
+			return allHits;
+		}
+
+
+		public void AdvanceFrame()
         {
             // Move all things by one step, accounting for gravity
             for (int thingIndex = 0; thingIndex < this.things.Count; thingIndex++)
@@ -503,44 +714,49 @@ namespace MainProgram
                             1));
                 }
             }
-
-            // Show scores
-            if (this.scores.Count != 0)
-            {
-                int i = 0;
-                foreach (var score in this.scores)
-                {
-                    Label label = MakeSimpleLabel(
-                        score.Value.ToString(CultureInfo.InvariantCulture),
-                        new Rect(
-                            (0.02 + (i * 0.6)) * this.sceneRect.Width,
-                            0.01 * this.sceneRect.Height,
-                            0.4 * this.sceneRect.Width,
-                            0.3 * this.sceneRect.Height), 
-                            new SolidColorBrush(System.Windows.Media.Color.FromArgb(200, 255, 255, 255)));
-                    label.FontSize = Math.Max(1, Math.Min(this.sceneRect.Width / 12, this.sceneRect.Height / 12));
-                    children.Add(label);
-                    i++;
-                }
-            }
-
-            // Show game timer
-            if (this.gameMode != GameMode.Off)
-            {
-                TimeSpan span = DateTime.Now.Subtract(this.gameStartTime);
-                string text = span.Minutes.ToString(CultureInfo.InvariantCulture) + ":" + span.Seconds.ToString("00");
-
-                Label timeText = MakeSimpleLabel(
-                    text,
-                    new Rect(
-                        0.1 * this.sceneRect.Width, 0.25 * this.sceneRect.Height, 0.89 * this.sceneRect.Width, 0.72 * this.sceneRect.Height),
-                    new SolidColorBrush(System.Windows.Media.Color.FromArgb(160, 255, 255, 255)));
-                timeText.FontSize = Math.Max(1, this.sceneRect.Height / 16);
-                timeText.HorizontalContentAlignment = HorizontalAlignment.Right;
-                timeText.VerticalContentAlignment = VerticalAlignment.Bottom;
-                children.Add(timeText);
-            }
         }
+
+		public void DrawFrameScore(UIElementCollection children,double aW, double aH)
+		{
+			// Show scores
+			if (this.scores.Count != 0)
+			{
+				int i = 0;
+				foreach (var score in this.scores)
+				{
+					Label label = MakeSimpleLabel(
+						score.Value.ToString(CultureInfo.InvariantCulture),
+						new Rect(
+							(0.073 + (i * 0.6)) * aW,
+							0.73 * aH,
+							0.08 * aW,
+							0.3 * aH),
+							new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 255, 0)));
+					label.FontSize = Math.Max(1, Math.Min(aW / 6, aH / 6));
+					label.HorizontalContentAlignment = HorizontalAlignment.Center;
+					children.Add(label);
+					i++;
+				}
+			}
+
+			// Show game timer
+// 			if (this.gameMode != GameMode.Off)
+// 			{
+// 				TimeSpan span = DateTime.Now.Subtract(this.gameStartTime);
+// 				string text = span.Minutes.ToString(CultureInfo.InvariantCulture) + ":" + span.Seconds.ToString("00");
+// 
+// 				Label timeText = MakeSimpleLabel(
+// 					text,
+// 					new Rect(
+// 						0.1 * this.sceneRect.Width, 0.25 * this.sceneRect.Height, 0.89 * this.sceneRect.Width, 0.72 * this.sceneRect.Height),
+// 					new SolidColorBrush(System.Windows.Media.Color.FromArgb(160, 255, 255, 255)));
+// 				timeText.FontSize = Math.Max(1, this.sceneRect.Height / 16);
+// 				timeText.HorizontalContentAlignment = HorizontalAlignment.Right;
+// 				timeText.VerticalContentAlignment = VerticalAlignment.Bottom;
+// 				children.Add(timeText);
+// 			}
+		}
+
 
 		private static double SquaredDistance(double x1, double y1, double x2, double y2)
         {
@@ -589,8 +805,9 @@ namespace MainProgram
                 Brush2 = null,
                 BrushPulse = null,
                 Dissolve = 0,
-                State = ThingState.Falling,
-                TouchedBy = 0,
+				//State = ThingState.Falling,
+				State = ThingState.Bouncing,
+				TouchedBy = 0,
                 Hotness = 0,
                 FlashCount = 0
             };

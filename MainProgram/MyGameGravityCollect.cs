@@ -25,12 +25,14 @@ namespace MainProgram
 		private FallingThings myFallingThings;
 
 		private const int NumIntraFrames = 3;
-		private const int MaxShapes = 80;
+		private const int MaxShapes = 2;
 		private const int TimerResolution = 2;  // ms
 		private const double MinFramerate = 15;
 		private const double MaxFramerate = 70;
-		private const double DefaultDropRate = 2.5;
-		private const double DefaultDropSize = 32.0;
+		//private const double DefaultDropRate = 2.5;
+		private const double DefaultDropRate = 1;
+		//private const double DefaultDropSize = 32.0;
+		private const double DefaultDropSize = 200.0;
 		private const double DefaultDropGravity = 1.0;
 		private double targetFramerate = MaxFramerate;
 		private double dropRate = DefaultDropRate;
@@ -39,7 +41,7 @@ namespace MainProgram
 		private Rect playerBounds;
 		private readonly Dictionary<int, Player> players = new Dictionary<int, Player>();
 
-		private bool runningGameThread;
+		public bool runningGameThread;
 		private DateTime predNextFrame = DateTime.MinValue;
 		private double actualFrameTime;
 		private DateTime lastFrameDrawn = DateTime.MinValue;
@@ -68,6 +70,7 @@ namespace MainProgram
 			this.myFallingThings.AddStrImage(a);
 
 			m_timerCountdown.Tick += new EventHandler(TimerCountdown);
+
 		}
 
 		public void SetupUI(Canvas canvas, Canvas canvas2, Image userBody, Image tfFace)
@@ -100,7 +103,7 @@ namespace MainProgram
 				m_myKinect.evtReadySingleSkel += new EventHandler<AllFramesReadyEventArgs>(EventCheckHandOver);
 			}
 
-			m_timeRemain = 20;
+			m_timeRemain = 120;
 
 			// 1. 배경 보여주기
 			m_canvas.Background = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + m_strBackground)));
@@ -109,6 +112,7 @@ namespace MainProgram
 			m_startSound.Open(new Uri("Sounds/" + m_strQuestionSound, UriKind.Relative)); // 속성:빌드시자동복사
 			m_startSound.MediaEnded += new EventHandler(MediaEnd1);
 			m_startSound.Volume = 1;
+			//m_startSound.Position = TimeSpan.FromSeconds(45);
 			m_startSound.Play();
 		}
 
@@ -122,7 +126,7 @@ namespace MainProgram
 			m_timerCountdown.Interval = TimeSpan.FromMilliseconds(1000);
 			m_timerCountdown.Start();
 
-			m_imgUserBody.Visibility = Visibility.Visible;
+			//m_imgUserBody.Visibility = Visibility.Visible;
 
 			var myGameThread = new Thread(this.GameThread);
 			myGameThread.SetApartmentState(ApartmentState.STA);
@@ -161,6 +165,14 @@ namespace MainProgram
 			m_startSound.MediaEnded += new EventHandler(MediaEnd2);
 			m_startSound.Volume = 1;
 			m_startSound.Play();
+
+			m_canvas2.Visibility = Visibility.Hidden;
+			if (m_myKinect.sensorChooser != null)
+			{
+				m_myKinect.evtReadySingleSkel -= new EventHandler<AllFramesReadyEventArgs>(EventCheckHandOver);
+			}
+			this.myFallingThings.SetGameMode(GameMode.Off);
+			this.runningGameThread = false;
 		}
 
 		private void MediaEnd2(object sender, EventArgs e)
@@ -168,14 +180,6 @@ namespace MainProgram
 			m_startSound.MediaEnded -= new EventHandler(MediaEnd2);
 			m_startSound.Stop();
 			m_startSound.Close();
-
-			if (m_myKinect.sensorChooser != null)
-			{
-				m_myKinect.evtReadySingleSkel -= new EventHandler<AllFramesReadyEventArgs>(EventCheckHandOver);
-			}
-
-			this.myFallingThings.SetGameMode(GameMode.Off);
-			this.runningGameThread = false;
 
 			m_evtGameManager(0, null);
 
@@ -208,40 +212,40 @@ namespace MainProgram
 				player.IsAlive = true;
 
 				// Head, hands, feet (hit testing happens in order here)
-				player.UpdateJointPosition(skel.Joints, JointType.Head);
-				player.UpdateJointPosition(skel.Joints, JointType.HandLeft);
-				player.UpdateJointPosition(skel.Joints, JointType.HandRight);
-				player.UpdateJointPosition(skel.Joints, JointType.FootLeft);
-				player.UpdateJointPosition(skel.Joints, JointType.FootRight);
-
-				// Hands and arms
-				player.UpdateBonePosition(skel.Joints, JointType.HandRight, JointType.WristRight);
-				player.UpdateBonePosition(skel.Joints, JointType.WristRight, JointType.ElbowRight);
-				player.UpdateBonePosition(skel.Joints, JointType.ElbowRight, JointType.ShoulderRight);
-
-				player.UpdateBonePosition(skel.Joints, JointType.HandLeft, JointType.WristLeft);
-				player.UpdateBonePosition(skel.Joints, JointType.WristLeft, JointType.ElbowLeft);
-				player.UpdateBonePosition(skel.Joints, JointType.ElbowLeft, JointType.ShoulderLeft);
-
-				// Head and Shoulders
-				player.UpdateBonePosition(skel.Joints, JointType.ShoulderCenter, JointType.Head);
-				player.UpdateBonePosition(skel.Joints, JointType.ShoulderLeft, JointType.ShoulderCenter);
-				player.UpdateBonePosition(skel.Joints, JointType.ShoulderCenter, JointType.ShoulderRight);
-
-				// Legs
-				player.UpdateBonePosition(skel.Joints, JointType.HipLeft, JointType.KneeLeft);
-				player.UpdateBonePosition(skel.Joints, JointType.KneeLeft, JointType.AnkleLeft);
-				player.UpdateBonePosition(skel.Joints, JointType.AnkleLeft, JointType.FootLeft);
-
-				player.UpdateBonePosition(skel.Joints, JointType.HipRight, JointType.KneeRight);
-				player.UpdateBonePosition(skel.Joints, JointType.KneeRight, JointType.AnkleRight);
-				player.UpdateBonePosition(skel.Joints, JointType.AnkleRight, JointType.FootRight);
-
-				player.UpdateBonePosition(skel.Joints, JointType.HipLeft, JointType.HipCenter);
-				player.UpdateBonePosition(skel.Joints, JointType.HipCenter, JointType.HipRight);
-
-				// Spine
-				player.UpdateBonePosition(skel.Joints, JointType.HipCenter, JointType.ShoulderCenter);
+				player.UpdateJointPosition2(skel.Joints, JointType.Head);
+// 				player.UpdateJointPosition(skel.Joints, JointType.HandLeft);
+// 				player.UpdateJointPosition(skel.Joints, JointType.HandRight);
+// 				player.UpdateJointPosition(skel.Joints, JointType.FootLeft);
+// 				player.UpdateJointPosition(skel.Joints, JointType.FootRight);
+// 
+// 				// Hands and arms
+// 				player.UpdateBonePosition(skel.Joints, JointType.HandRight, JointType.WristRight);
+// 				player.UpdateBonePosition(skel.Joints, JointType.WristRight, JointType.ElbowRight);
+// 				player.UpdateBonePosition(skel.Joints, JointType.ElbowRight, JointType.ShoulderRight);
+// 
+// 				player.UpdateBonePosition(skel.Joints, JointType.HandLeft, JointType.WristLeft);
+// 				player.UpdateBonePosition(skel.Joints, JointType.WristLeft, JointType.ElbowLeft);
+// 				player.UpdateBonePosition(skel.Joints, JointType.ElbowLeft, JointType.ShoulderLeft);
+// 
+// 				// Head and Shoulders
+// 				player.UpdateBonePosition(skel.Joints, JointType.ShoulderCenter, JointType.Head);
+// 				player.UpdateBonePosition(skel.Joints, JointType.ShoulderLeft, JointType.ShoulderCenter);
+// 				player.UpdateBonePosition(skel.Joints, JointType.ShoulderCenter, JointType.ShoulderRight);
+// 
+// 				// Legs
+// 				player.UpdateBonePosition(skel.Joints, JointType.HipLeft, JointType.KneeLeft);
+// 				player.UpdateBonePosition(skel.Joints, JointType.KneeLeft, JointType.AnkleLeft);
+// 				player.UpdateBonePosition(skel.Joints, JointType.AnkleLeft, JointType.FootLeft);
+// 
+// 				player.UpdateBonePosition(skel.Joints, JointType.HipRight, JointType.KneeRight);
+// 				player.UpdateBonePosition(skel.Joints, JointType.KneeRight, JointType.AnkleRight);
+// 				player.UpdateBonePosition(skel.Joints, JointType.AnkleRight, JointType.FootRight);
+// 
+// 				player.UpdateBonePosition(skel.Joints, JointType.HipLeft, JointType.HipCenter);
+// 				player.UpdateBonePosition(skel.Joints, JointType.HipCenter, JointType.HipRight);
+// 
+// 				// Spine
+// 				player.UpdateBonePosition(skel.Joints, JointType.HipCenter, JointType.ShoulderCenter);
 			}
 		}
 
@@ -334,7 +338,7 @@ namespace MainProgram
 			{
 				foreach (var pair in this.players)
 				{
-					HitType hit = this.myFallingThings.LookForHits(pair.Value.Segments, pair.Value.GetId());
+					HitType hit = this.myFallingThings.LookForHits2(pair.Value.Segments, pair.Value.GetId());
 					if ((hit & HitType.Squeezed) != 0)
 					{
 						//this.squeezeSound.Play();
@@ -355,15 +359,24 @@ namespace MainProgram
 			// Draw new Wpf scene by adding all objects to canvas
 			m_canvas2.Children.Clear();
 			this.myFallingThings.DrawFrame(this.m_canvas2.Children);
+			m_canvas.Children.Clear();
+			this.myFallingThings.DrawFrameScore(m_canvas.Children, m_canvas.ActualWidth, m_canvas.ActualHeight);
+
 			foreach (var player in this.players)
 			{
-				player.Value.Draw(m_canvas2.Children);
+				player.Value.Draw2(m_canvas2.Children);
 			}
 
 			// 			BannerText.Draw(m_canvas.Children);
 			// 			FlyingText.Draw(m_canvas.Children);
 
 			this.CheckPlayers();
+
+			if(runningGameThread==false)
+			{
+				m_canvas.Children.Clear();
+				m_canvas2.Children.Clear();
+			}
 		}
 
 		private void CheckPlayers()

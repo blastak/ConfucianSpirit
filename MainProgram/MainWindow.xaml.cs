@@ -53,6 +53,7 @@ namespace MainProgram
 			// 2. 키넥트 실행
 			myKinect = new MyKinectSensor(sensorChooserUi);
 
+			myKinect.BindBackgroundRemovalImage(pageStart.imgUser);
 			frame.Navigate(pageStart);
 
 			ReadyToSelect();
@@ -127,7 +128,7 @@ namespace MainProgram
 
 		void PageStartBtnClicked3(object sender, EventArgs e)
 		{
-			Unbind();
+			//Unbind();
 			frame.Navigate(pageItem3);
 		}
 
@@ -151,6 +152,7 @@ namespace MainProgram
 			myKinect.Closing();
 			//pageItem1.m_game5
 			pageItem3.m_game3.runningGameThread = false;
+			pageItem1.m_game5.runningGameThread = false;
 		}
 	}
 }

@@ -73,7 +73,7 @@ namespace MainProgram
 		{
 			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-			m_timeRemain = 20;
+			m_timeRemain = 120;
 
 			// 0. 초기화
 			m_imgBlurMask.Visibility = Visibility.Hidden;
@@ -126,7 +126,7 @@ namespace MainProgram
 			// 7. 제한시간 시작
 			m_timerCountdown.Interval = TimeSpan.FromMilliseconds(1000);
 			m_timerCountdown.Start();
-			
+
 			m_cntBow = 0;
 			headYorig = 0;
 			headYmin = 9999;

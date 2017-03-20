@@ -197,6 +197,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\신충_08_01%283초간정지%29.PNG" />
+    <Resource Include="Images\T포즈.png" />
     <Content Include="KinectBackgroundRemoval180_32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -334,9 +336,6 @@
     <Resource Include="Images\신충_07_02.png" />
     <Resource Include="Images\신충_07_03.png" />
     <Resource Include="Images\신충_07_04.png" />
-    <Resource Include="Images\신충_08_01%283초간정지%29.png" />
-    <Resource Include="Images\신충_08_02.png" />
-    <Resource Include="Images\신충_08_03.png" />
     <Resource Include="Images\신충_09_01%28손들기%29.png" />
     <Resource Include="Images\신충_09_02.png" />
     <Resource Include="Images\신충_09_03.png" />

@@ -76,7 +76,7 @@ namespace MainProgram
 		{
 			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-			m_timeRemain = 20;
+			m_timeRemain = 120;
 			score = 0;
 
 			// 0. 초기화

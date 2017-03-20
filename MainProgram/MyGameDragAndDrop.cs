@@ -12,7 +12,7 @@ using System.Threading;
 
 namespace MainProgram
 {
-	class MyGameDragAndDrop
+	public class MyGameDragAndDrop
 	{
 		public event EventHandler m_evtGameManager;
 
@@ -125,7 +125,7 @@ namespace MainProgram
 			dragImg2.GoToOriginalPosition();
 
 
-			m_timeRemain = 30;
+			m_timeRemain = 120;
 			score = 0;
 
 			// 1. 배경 보여주기
@@ -145,20 +145,7 @@ namespace MainProgram
 				m_timerCountdown.Interval = TimeSpan.FromMilliseconds(1000);
 				m_timerCountdown.Start();
 			}
-
-			this.lastGripState = GripState.Released;
-			KinectRegion.AddHandPointerGripHandler(dragImg1, this.OnHandPointerGrip);
-			KinectRegion.AddHandPointerGripHandler(dragImg2, this.OnHandPointerGrip);
-			KinectRegion.AddHandPointerMoveHandler(m_canvas, this.OnHandPointerMove);
-			KinectRegion.AddHandPointerGripReleaseHandler(m_canvas, this.OnHandPointerGripRelease);
-			KinectRegion.AddQueryInteractionStatusHandler(m_canvas, this.OnQueryInteractionStatus);
-
-			// 			runningGameThread = true;
-			// 			var myTimerThread = new Thread(this.TimerThread);
-			// 			myTimerThread.SetApartmentState(ApartmentState.STA);
-			// 			myTimerThread.Start();
-
-
+			
 		}
 
 		// 3. 사운드 끝날때까지 딜레이
@@ -173,6 +160,14 @@ namespace MainProgram
 			// 7. 제한시간 시작
 			m_timerCountdown.Interval = TimeSpan.FromMilliseconds(1000);
 			m_timerCountdown.Start();
+
+			this.lastGripState = GripState.Released;
+			KinectRegion.AddHandPointerGripHandler(dragImg1, this.OnHandPointerGrip);
+			KinectRegion.AddHandPointerGripHandler(dragImg2, this.OnHandPointerGrip);
+			KinectRegion.AddHandPointerMoveHandler(m_canvas, this.OnHandPointerMove);
+			KinectRegion.AddHandPointerGripReleaseHandler(m_canvas, this.OnHandPointerGripRelease);
+			KinectRegion.AddQueryInteractionStatusHandler(m_canvas, this.OnQueryInteractionStatus);
+
 		}
 
 		private void TimerCountdown(object sender, EventArgs e)
@@ -180,7 +175,7 @@ namespace MainProgram
 			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 			m_timeRemain -= 1;
-			if(score >= 4)
+			if(score >= 1)
 			{
 				m_timerCountdown.Stop();
 				ResultGame(true);

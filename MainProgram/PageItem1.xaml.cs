@@ -115,19 +115,21 @@ namespace MainProgram
 			switch (m_idxGame)
 			{
 				case 0:
-					m_game3.Entrypoint();
-					//m_game1.Entrypoint();
+					m_game1.Entrypoint();
 					break;
-//                 case 1:
-//                     m_game2.Entrypoint();
-//                     break;
-// 				case 2:
-// 					m_game3.Entrypoint();
-// 					break;
-// 				case 3:
-// 					m_game4.Entrypoint();
-//                     break;
-                default:
+				case 1:
+					m_game2.Entrypoint();
+					break;
+				case 2:
+					m_game3.Entrypoint();
+					break;
+				case 3:
+					m_game4.Entrypoint();
+					break;
+				case 4:
+					m_game5.Entrypoint();
+					break;
+				default:
 					m_myKinect.UnbindBackgroundRemovalImage();
 					m_soundBackground.Stop();
 

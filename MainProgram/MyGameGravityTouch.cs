@@ -25,7 +25,7 @@ namespace MainProgram
 		private FallingThings myFallingThings;
 
 		private const int NumIntraFrames = 3;
-		private const int MaxShapes = 4;
+		private const int MaxShapes = 2;
         private const int TimerResolution = 2;  // ms
 		private const double MinFramerate = 15;
 		private const double MaxFramerate = 70;
@@ -93,7 +93,7 @@ namespace MainProgram
 			m_imgTFFace.Visibility = Visibility.Hidden;
 
 
-			//m_canvas.ClipToBounds = true;
+			m_canvas.ClipToBounds = true;
 			m_canvas2.ClipToBounds = true;
 
 			this.UpdatePlayfieldSize();
@@ -103,7 +103,7 @@ namespace MainProgram
 				m_myKinect.evtReadySingleSkel += new EventHandler<AllFramesReadyEventArgs>(EventCheckHandOver);
 			}
 
-			m_timeRemain = 20;
+			m_timeRemain = 120;
 
 			// 1. 배경 보여주기
 			m_canvas.Background = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + m_strBackground)));
@@ -112,7 +112,7 @@ namespace MainProgram
 			m_startSound.Open(new Uri("Sounds/" + m_strQuestionSound, UriKind.Relative)); // 속성:빌드시자동복사
 			m_startSound.MediaEnded += new EventHandler(MediaEnd1);
 			m_startSound.Volume = 1;
-			m_startSound.Position = TimeSpan.FromSeconds(45);
+			//m_startSound.Position = TimeSpan.FromSeconds(45);
 			m_startSound.Play();
 		}
 
@@ -181,6 +181,8 @@ namespace MainProgram
 
             this.myFallingThings.SetGameMode(GameMode.Off);
 			this.runningGameThread = false;
+			m_canvas.Children.Clear();
+			m_canvas2.Children.Clear();
 
 			m_evtGameManager(0, null);
 
@@ -360,6 +362,9 @@ namespace MainProgram
 			// Draw new Wpf scene by adding all objects to canvas
 			m_canvas2.Children.Clear();
 			this.myFallingThings.DrawFrame(this.m_canvas2.Children);
+			m_canvas.Children.Clear();
+			this.myFallingThings.DrawFrameScore(m_canvas.Children, m_canvas.ActualWidth, m_canvas.ActualHeight);
+
 			foreach (var player in this.players)
 			{
 				player.Value.Draw(m_canvas2.Children);
@@ -369,6 +374,12 @@ namespace MainProgram
 // 			FlyingText.Draw(m_canvas.Children);
 
 			this.CheckPlayers();
+
+			if (runningGameThread == false)
+			{
+				m_canvas.Children.Clear();
+				m_canvas2.Children.Clear();
+			}
 		}
 
 		private void CheckPlayers()

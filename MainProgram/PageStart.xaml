@@ -19,9 +19,8 @@
             <ColumnDefinition Width="405*"/>
             <ColumnDefinition Width="116*"/>
         </Grid.ColumnDefinitions>
-        <Grid.Background>
-            <ImageBrush ImageSource="/MainProgram;component/Images/게임첫화면1.png"/>
-        </Grid.Background>
+        <Canvas Name="canvasBG" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
+        <Image Name="imgUser" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid>
                 <Grid.ColumnDefinitions>
