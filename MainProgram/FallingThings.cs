@@ -55,7 +55,9 @@ namespace MainProgram
         private readonly Random rnd = new Random();
         private readonly int maxThings;
         private readonly int intraFrames = 1;
-        private readonly Dictionary<int, int> scores = new Dictionary<int, int>();
+
+        public readonly Dictionary<int, int> scores = new Dictionary<int, int>();
+
         private const double DissolveTime = 0.4;
         private Rect sceneRect;
         private double targetFrameRate = 60;
@@ -729,7 +731,7 @@ namespace MainProgram
 						new Rect(
 							(0.073 + (i * 0.6)) * aW,
 							0.73 * aH,
-							0.08 * aW,
+							0.12 * aW,
 							0.3 * aH),
 							new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 255, 0)));
 					label.FontSize = Math.Max(1, Math.Min(aW / 6, aH / 6));

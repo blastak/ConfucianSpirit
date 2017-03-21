@@ -8,11 +8,11 @@
         xmlns:k="clr-namespace:Microsoft.Kinect.Toolkit;assembly=Microsoft.Kinect.Toolkit"
         xmlns:k2="clr-namespace:Microsoft.Kinect.Toolkit.Controls;assembly=Microsoft.Kinect.Toolkit.Controls"
         Title="ConfucianSpirit" Height="720" Width="1280" KeyDown="Window_KeyDown" Closing="Window_Closing" WindowStartupLocation="CenterScreen"
-        WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized">
+    WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized">
     <k2:KinectRegion x:Name="kinectRegion">
         <Grid>
             <Frame x:Name="frame" NavigationUIVisibility="Hidden"/>
-            <Image Name="LoadingMask" Source="/MainProgram;component/Images/loading.jpg" Visibility="Hidden" Stretch="Fill"/>
+            <Image Name="LoadingMask" Source="/MainProgram;component/Images/loading.png" Visibility="Hidden" Stretch="Fill"/>
             <k:KinectSensorChooserUI Name="sensorChooserUi" DataContext="{Binding}" Height="52" VerticalAlignment="Top" HorizontalAlignment="Center" Width="63" />
         </Grid>
     </k2:KinectRegion>

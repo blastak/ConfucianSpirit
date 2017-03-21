@@ -44,7 +44,7 @@ namespace MainProgram
 
 		public PageItem1(MyKinectSensor kinectSensor)
 		{
-			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+			//System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 			InitializeComponent();
 
@@ -72,7 +72,7 @@ namespace MainProgram
 			m_game4.m_myKinect = kinectSensor;
 			m_game4.m_evtGameManager += new EventHandler(EventGameManager);
 
-			m_game5.SetupUI(this.canvasBG, this.canvasBG2, this.imgUser2, this.imgFace);
+			m_game5.SetupUI(this.canvasBG, this.canvasBG2, this.imgUser2, this.imgFace, this.imgIcon);
 			m_game5.SetupResource("예효_05_01(바구니).png", "예효_05_01(바구니).m4a");
 			m_game5.m_myKinect = kinectSensor;
 			m_game5.m_evtGameManager += new EventHandler(EventGameManager);
@@ -84,7 +84,7 @@ namespace MainProgram
 
 		private void PageLoaded(object sender, EventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+			//System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 			m_myKinect.BindBackgroundRemovalImage(imgUser);
 
@@ -105,7 +105,7 @@ namespace MainProgram
 
 		private void EventGameManager(object sender, EventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+			//System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 			if(sender != null)
 			{
@@ -115,22 +115,22 @@ namespace MainProgram
 			switch (m_idxGame)
 			{
 				case 0:
-					m_game1.Entrypoint();
-					break;
-				case 1:
-					m_game2.Entrypoint();
-					break;
-				case 2:
-					m_game3.Entrypoint();
-					break;
-				case 3:
-					m_game4.Entrypoint();
-					break;
-				case 4:
-					m_game5.Entrypoint();
-					break;
-				default:
-					m_myKinect.UnbindBackgroundRemovalImage();
+                    m_game1.Entrypoint();
+                    break;
+                case 1:
+                    m_game2.Entrypoint();
+                    break;
+                case 2:
+                    m_game3.Entrypoint();
+                    break;
+                case 3:
+                    m_game4.Entrypoint();
+                    break;
+                case 4:
+                    m_game5.Entrypoint();
+                    break;
+                default:
+                    m_myKinect.UnbindBackgroundRemovalImage();
 					m_soundBackground.Stop();
 
 					double milliseconds = DateTime.Now.Subtract(startTime).TotalMilliseconds;

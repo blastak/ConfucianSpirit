@@ -53,10 +53,11 @@ namespace MainProgram
 			// 2. 키넥트 실행
 			myKinect = new MyKinectSensor(sensorChooserUi);
 
-			myKinect.BindBackgroundRemovalImage(pageStart.imgUser);
+            myKinect.BindBackgroundRemovalImage(pageStart.imgUser);
+            BindLoadingImg();
 			frame.Navigate(pageStart);
 
-			ReadyToSelect();
+            ReadyToSelect();
 
 			pageItem1 = new PageItem1(myKinect);
 			pageItem1.m_evtPageEnd += new EventHandler(EventEndOfPage);
@@ -67,6 +68,11 @@ namespace MainProgram
 
 			pageEnd.m_evtPageEnd += new EventHandler(EventRestart);
 		}
+
+        private void BindLoadingImg()
+        {
+            pageStart.imgLoading = LoadingMask;
+        }
 
 		void EventEndOfPage(object sender, EventArgs e)
 		{
@@ -86,7 +92,7 @@ namespace MainProgram
 		private void ReadyToSelect()
 		{
 			// 3. Loading 화면 안보이기
-			LoadingMask.Visibility = Visibility.Hidden;
+			//LoadingMask.Visibility = Visibility.Hidden;
 
 			// 4. 손 컨트롤 켜기
 			Bind();

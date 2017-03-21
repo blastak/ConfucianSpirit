@@ -20,8 +20,9 @@ namespace MainProgram
 		private Canvas m_canvas2;
 		private Image m_imgUserBody;
 		private Image m_imgTFFace;
+        private Image m_imgIcon;
 
-		public MyKinectSensor m_myKinect;
+        public MyKinectSensor m_myKinect;
 		private FallingThings myFallingThings;
 
 		private const int NumIntraFrames = 3;
@@ -56,7 +57,12 @@ namespace MainProgram
 
 		private int m_timeRemain;
 
-		public MyGameGravityTouch()
+		int lastID = -1;
+		private DispatcherTimer m_timerDescription = new DispatcherTimer();
+		int timerDes = 0;
+        int score;
+
+        public MyGameGravityTouch()
 		{
 			this.myFallingThings = new FallingThings(MaxShapes, this.targetFramerate, NumIntraFrames);
 
@@ -66,22 +72,23 @@ namespace MainProgram
 			this.myFallingThings.SetPolies(PolyType.All);
 			this.myFallingThings.SetGameMode(GameMode.Off);
 
-			string[] a = { "경성_03_02.png", "경성_03_03.png", "경성_03_04.png", "경성_03_05.png", "경성_03_06.png", "경성_03_07.png" };
+			string[] a = { "경성_03_02.png", "경성_03_03.png", "경성_03_04.png", "경성_03_05.png", "경성_03_06.png", "경성_03_07.png", "경성_03_08.png", "경성_03_09.png" };
 			this.myFallingThings.AddStrImage(a);
 
 			m_timerCountdown.Tick += new EventHandler(TimerCountdown);
-
+			m_timerDescription.Tick += new EventHandler(TimerDescription);
 		}
 
-		public void SetupUI(Canvas canvas, Canvas canvas2, Image userBody, Image tfFace)
+		public void SetupUI(Canvas canvas, Canvas canvas2, Image userBody, Image tfFace, Image icon)
 		{
 			m_canvas = canvas;
 			m_canvas2 = canvas2;
 			m_imgUserBody = userBody;
 			m_imgTFFace = tfFace;
-		}
+            m_imgIcon = icon;
+        }
 
-		public void SetupResource(string background, string questionSound)
+        public void SetupResource(string background, string questionSound)
 		{
 			m_strBackground = background;
 			m_strQuestionSound = questionSound;
@@ -91,9 +98,10 @@ namespace MainProgram
 		{
 			m_imgUserBody.Visibility = Visibility.Hidden;
 			m_imgTFFace.Visibility = Visibility.Hidden;
+            m_imgIcon.Visibility = Visibility.Hidden;
 
 
-			m_canvas.ClipToBounds = true;
+            m_canvas.ClipToBounds = true;
 			m_canvas2.ClipToBounds = true;
 
 			this.UpdatePlayfieldSize();
@@ -104,9 +112,11 @@ namespace MainProgram
 			}
 
 			m_timeRemain = 120;
+			lastID = -1;
+            score = 0;
 
-			// 1. 배경 보여주기
-			m_canvas.Background = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + m_strBackground)));
+            // 1. 배경 보여주기
+            m_canvas.Background = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + m_strBackground)));
 
 			// 2. 사운드 재생
 			m_startSound.Open(new Uri("Sounds/" + m_strQuestionSound, UriKind.Relative)); // 속성:빌드시자동복사
@@ -114,6 +124,71 @@ namespace MainProgram
 			m_startSound.Volume = 1;
 			//m_startSound.Position = TimeSpan.FromSeconds(45);
 			m_startSound.Play();
+
+			timerDes = 0;
+			m_timerDescription.Interval = TimeSpan.FromMilliseconds(1000);
+			m_timerDescription.Start();
+		}
+
+		private void TimerDescription(object sender, EventArgs e)
+		{
+			timerDes += 1;
+			
+			BitmapImage src;
+
+			if (timerDes == 5) // 수업바른
+			{
+				src = new BitmapImage(new Uri(m_strbase + "Images/" + "경성_03_07.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+			}
+			else if (timerDes == 8) // 부모시킨
+			{
+				src = new BitmapImage(new Uri(m_strbase + "Images/" + "경성_03_06.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+			}
+			else if (timerDes == 12) // 숙제
+			{
+				src = new BitmapImage(new Uri(m_strbase + "Images/" + "경성_03_09.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+			}
+			else if (timerDes == 14) // 깨끗얼굴
+			{
+				src = new BitmapImage(new Uri(m_strbase + "Images/" + "경성_03_05.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+			}
+			else if (timerDes == 18) // 단정X
+			{
+				src = new BitmapImage(new Uri(m_strbase + "Images/" + "경성_03_02.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+			}
+			else if (timerDes == 22) // 수업떠들
+			{
+				src = new BitmapImage(new Uri(m_strbase + "Images/" + "경성_03_03.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+			}
+			else if (timerDes == 25) // 수업중딴생각
+			{
+				src = new BitmapImage(new Uri(m_strbase + "Images/" + "경성_03_04.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+			}
+			else if (timerDes == 29) // 교실소란
+			{
+				src = new BitmapImage(new Uri(m_strbase + "Images/" + "경성_03_08.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+			}
+			else if(timerDes == 34) // 끝
+			{
+				m_timerDescription.Stop();
+                m_imgIcon.Visibility = Visibility.Hidden;
+			}
 		}
 
 		private void MediaEnd1(object sender, EventArgs e)
@@ -135,16 +210,23 @@ namespace MainProgram
 
 		private void TimerCountdown(object sender, EventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+			//System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 			m_timeRemain -= 1;
 			if (m_timeRemain <= 0)
 			{
 				m_timerCountdown.Stop();
-				m_canvas2.Visibility = Visibility.Hidden;
-				ResultGame(true);
+				ResultGame(false);
 			}
-		}
+            else if (myFallingThings.scores.ContainsKey(lastID))
+            {
+                if (myFallingThings.scores[lastID] >= 10)
+                {
+                    m_timerCountdown.Stop();
+                    ResultGame(true);
+                }
+            }
+        }
 
 		private void ResultGame(bool success)
 		{
@@ -166,7 +248,17 @@ namespace MainProgram
 			m_startSound.MediaEnded += new EventHandler(MediaEnd2);
 			m_startSound.Volume = 1;
 			m_startSound.Play();
-		}
+
+            if (myFallingThings.scores.ContainsKey(lastID))
+                score = myFallingThings.scores[lastID];
+
+            if (m_myKinect.sensorChooser != null)
+            {
+                m_myKinect.evtReadySingleSkel -= new EventHandler<AllFramesReadyEventArgs>(EventCheckHandOver);
+            }
+            this.myFallingThings.SetGameMode(GameMode.Off);
+            this.runningGameThread = false;
+        }
 
 		private void MediaEnd2(object sender, EventArgs e)
 		{
@@ -174,23 +266,14 @@ namespace MainProgram
 			m_startSound.Stop();
 			m_startSound.Close();
 
-			if (m_myKinect.sensorChooser != null)
-			{
-				m_myKinect.evtReadySingleSkel -= new EventHandler<AllFramesReadyEventArgs>(EventCheckHandOver);
-			}
-
-            this.myFallingThings.SetGameMode(GameMode.Off);
-			this.runningGameThread = false;
-			m_canvas.Children.Clear();
-			m_canvas2.Children.Clear();
-
-			m_evtGameManager(0, null);
+			m_evtGameManager((int)((double)score * 6.6), null);
 
 			m_imgUserBody.Visibility = Visibility.Hidden;
 			m_imgTFFace.Visibility = Visibility.Hidden;
-		}
+            m_canvas2.Visibility = Visibility.Hidden;
+        }
 
-		private void EventCheckHandOver(object sender, AllFramesReadyEventArgs e)
+        private void EventCheckHandOver(object sender, AllFramesReadyEventArgs e)
 		{
 			Skeleton skel = (Skeleton)sender;
 			int skeletonSlot = 0;
@@ -341,6 +424,7 @@ namespace MainProgram
 			{
 				foreach (var pair in this.players)
 				{
+					lastID = pair.Value.GetId();
 					HitType hit = this.myFallingThings.LookForHits(pair.Value.Segments, pair.Value.GetId());
 					if ((hit & HitType.Squeezed) != 0)
 					{
@@ -361,11 +445,11 @@ namespace MainProgram
 
 			// Draw new Wpf scene by adding all objects to canvas
 			m_canvas2.Children.Clear();
-			this.myFallingThings.DrawFrame(this.m_canvas2.Children);
+            this.myFallingThings.DrawFrame(this.m_canvas2.Children);
 			m_canvas.Children.Clear();
-			this.myFallingThings.DrawFrameScore(m_canvas.Children, m_canvas.ActualWidth, m_canvas.ActualHeight);
+            this.myFallingThings.DrawFrameScore(m_canvas.Children, m_canvas.ActualWidth, m_canvas.ActualHeight);
 
-			foreach (var player in this.players)
+            foreach (var player in this.players)
 			{
 				player.Value.Draw(m_canvas2.Children);
 			}

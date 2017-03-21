@@ -36,7 +36,7 @@ namespace MainProgram
 
 		public PageItem3(MyKinectSensor kinectSensor)
 		{
-			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+			//System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 			InitializeComponent();
 
@@ -54,7 +54,7 @@ namespace MainProgram
 			m_game2.m_myKinect = kinectSensor;
 			m_game2.m_evtGameManager += new EventHandler(EventGameManager);
 
-			m_game3.SetupUI(this.canvasBG, this.canvasBG2, this.imgUser2, this.imgFace);
+			m_game3.SetupUI(this.canvasBG, this.canvasBG2, this.imgUser2, this.imgFace, this.imgIcon);
 			m_game3.SetupResource("경성_03_01(터트리기).png", "경성_03_01(터트리기).m4a");
 			m_game3.m_myKinect = kinectSensor;
 			m_game3.m_evtGameManager += new EventHandler(EventGameManager);
@@ -70,7 +70,7 @@ namespace MainProgram
 
 		private void PageLoaded(object sender, EventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+			//System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 			m_myKinect.BindBackgroundRemovalImage(imgUser);
 			//m_myKinect.BindBackgroundRemovalImage(imgUser2);
@@ -92,7 +92,7 @@ namespace MainProgram
 
 		private void EventGameManager(object sender, EventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+			//System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 			if (sender != null)
 			{
@@ -101,14 +101,14 @@ namespace MainProgram
 
 			switch (m_idxGame)
 			{
-				case 0:
-					m_game1.Entrypoint();
-					break;
-				case 1:
-					m_game2.Entrypoint();
-					break;
-				case 2:
-					m_game3.Entrypoint();
+                case 0:
+                    m_game1.Entrypoint();
+                    break;
+                case 1:
+                    m_game2.Entrypoint();
+                    break;
+                case 2:
+                    m_game3.Entrypoint();
 					break;
 				case 3:
 					m_game4.Entrypoint();

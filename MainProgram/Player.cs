@@ -46,9 +46,11 @@ namespace MainProgram
             int i = colorId;
             colorId = (colorId + 1) % mixR.Count();
 
-            this.jointsBrush = new SolidColorBrush(System.Windows.Media.Color.FromRgb(jointCols[mixR[i]], jointCols[mixG[i]], jointCols[mixB[i]]));
-            this.bonesBrush = new SolidColorBrush(System.Windows.Media.Color.FromRgb(boneCols[mixR[i]], boneCols[mixG[i]], boneCols[mixB[i]]));
-            this.LastUpdated = DateTime.Now;
+			//this.jointsBrush = new SolidColorBrush(System.Windows.Media.Color.FromRgb(jointCols[mixR[i]], jointCols[mixG[i]], jointCols[mixB[i]]));
+			//this.bonesBrush = new SolidColorBrush(System.Windows.Media.Color.FromRgb(boneCols[mixR[i]], boneCols[mixG[i]], boneCols[mixB[i]]));
+			this.jointsBrush = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+			this.bonesBrush = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+			this.LastUpdated = DateTime.Now;
         }
 
         public bool IsAlive { get; set; }

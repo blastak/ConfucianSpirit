@@ -15,16 +15,18 @@
             <ColumnDefinition Width="128*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="4*"/>
+            <RowDefinition Height="144*"/>
+            <RowDefinition Height="463*"/>
+            <RowDefinition Height="113*"/>
         </Grid.RowDefinitions>
-        <Canvas Name="canvasBG" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
-        <Canvas Name="canvasBG2" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <Image Name="imgMask" Stretch="Fill" Visibility="Hidden" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
-        <Image Name="imgOverlayLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Visibility="Hidden" />
-        <Image Name="imgOverlayRight" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Grid.Row="1" Grid.Column="2" Visibility="Hidden"/>
-        <Image Name="imgUser" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="Fill" Grid.RowSpan="2" Grid.ColumnSpan="3" Visibility="Hidden"/>
-        <Image Name="imgFace" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Grid.RowSpan="2" Grid.ColumnSpan="3" Visibility="Hidden"/>
-        <Image Name="imgUser2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="Fill" Visibility="Hidden" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Canvas Name="canvasBG" Grid.RowSpan="3" Grid.ColumnSpan="3"/>
+        <Canvas Name="canvasBG2" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Image Name="imgMask" Stretch="Fill" Visibility="Hidden" Grid.RowSpan="3" Grid.ColumnSpan="3"/>
+        <Image Name="imgOverlayLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" Visibility="Hidden"/>
+        <Image Name="imgOverlayRight" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Visibility="Hidden"/>
+        <Image Name="imgUser" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="Fill" Visibility="Hidden" Grid.ColumnSpan="3" Grid.RowSpan="3"/>
+        <Image Name="imgFace" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Visibility="Hidden" Grid.ColumnSpan="3" Grid.RowSpan="3"/>
+        <Image Name="imgUser2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="Fill" Visibility="Hidden" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+        <Image Name="imgIcon" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="Uniform" Visibility="Hidden" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
     </Grid>
 </Page>

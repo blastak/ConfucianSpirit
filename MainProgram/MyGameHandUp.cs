@@ -76,8 +76,7 @@ namespace MainProgram
 		{
 			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-			m_timeRemain = 120;
-			score = 0;
+			m_timeRemain = 60;
 
 			// 0. 초기화
 			m_imgBlurMask.Visibility = Visibility.Hidden;
@@ -131,6 +130,7 @@ namespace MainProgram
 			m_timerCountdown.Interval = TimeSpan.FromMilliseconds(1000);
 			m_timerCountdown.Start();
 
+			score = 0;
 			m_flgHandLeftUp = false;
 			m_flgHandRightUp = false;
 			m_flgHandLeftDown = true;
@@ -201,7 +201,7 @@ namespace MainProgram
 				m_myKinect.evtReadySingleSkel -= new EventHandler<AllFramesReadyEventArgs>(EventCheckHandOver);
 			}
 
-			m_evtGameManager(score, null);
+			m_evtGameManager(score * 10, null);
 
 			m_imgBlurMask.Visibility = Visibility.Hidden;
 			m_imgOverlayLeft.Visibility = Visibility.Hidden;

@@ -44,6 +44,7 @@ namespace MainProgram
 		private string m_strQuestionSound2;
 		private int m_nTruth;
 		string m_strbase = @"pack://application:,,/";
+		int score;
 
 		public MyGameGestureBow()
 		{
@@ -73,7 +74,7 @@ namespace MainProgram
 		{
 			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-			m_timeRemain = 120;
+			m_timeRemain = 60;
 
 			// 0. 초기화
 			m_imgBlurMask.Visibility = Visibility.Hidden;
@@ -127,6 +128,7 @@ namespace MainProgram
 			m_timerCountdown.Interval = TimeSpan.FromMilliseconds(1000);
 			m_timerCountdown.Start();
 
+			score = 0;
 			m_cntBow = 0;
 			headYorig = 0;
 			headYmin = 9999;
@@ -183,6 +185,8 @@ namespace MainProgram
 			m_startSound.MediaEnded += new EventHandler(MediaEnd2);
 			m_startSound.Volume = 1;
 			m_startSound.Play();
+
+			score = 1 - success2;
 		}
 
 		// 3. 사운드 끝날때까지 딜레이
@@ -199,7 +203,7 @@ namespace MainProgram
 				m_myKinect.evtReadySingleSkel -= new EventHandler<AllFramesReadyEventArgs>(EventCheckHandOver);
 			}
 
-			m_evtGameManager(null, null);
+			m_evtGameManager(score * 10, null);
 
 			m_imgBlurMask.Visibility = Visibility.Hidden;
 			m_imgUserBody.Visibility = Visibility.Hidden;

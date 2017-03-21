@@ -125,7 +125,7 @@ namespace MainProgram
 			dragImg2.GoToOriginalPosition();
 
 
-			m_timeRemain = 120;
+			m_timeRemain = 60;
 			score = 0;
 
 			// 1. 배경 보여주기
@@ -151,7 +151,7 @@ namespace MainProgram
 		// 3. 사운드 끝날때까지 딜레이
 		private void MediaEnd1(object sender, EventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+			//System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 			m_startSound.MediaEnded -= new EventHandler(MediaEnd1);
 			m_startSound.Stop();
@@ -172,7 +172,7 @@ namespace MainProgram
 
 		private void TimerCountdown(object sender, EventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+			//System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 			m_timeRemain -= 1;
 			if(score >= 1)
@@ -199,7 +199,7 @@ namespace MainProgram
 
 		private void ResultGame(bool success)
 		{
-			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+			//System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 			int success2 = 0;
 			if (success)
@@ -224,13 +224,13 @@ namespace MainProgram
 		// 3. 사운드 끝날때까지 딜레이
 		private void MediaEnd2(object sender, EventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+			//System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 			m_startSound.MediaEnded -= new EventHandler(MediaEnd2);
 			m_startSound.Stop();
 			m_startSound.Close();
 
-			m_evtGameManager(score, null);
+			m_evtGameManager(score * 12, null);
 
 			m_canvas.Children.Remove(dragImg1);
 			m_canvas.Children.Remove(dragImg2);

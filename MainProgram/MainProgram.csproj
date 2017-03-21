@@ -199,6 +199,9 @@
   <ItemGroup>
     <Resource Include="Images\신충_08_01%283초간정지%29.PNG" />
     <Resource Include="Images\T포즈.png" />
+    <Resource Include="Images\loading.PNG" />
+    <Resource Include="Images\경성_03_08.png" />
+    <Resource Include="Images\경성_03_09.png" />
     <Content Include="KinectBackgroundRemoval180_32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -294,7 +297,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\loading.jpg" />
     <Resource Include="Images\게임첫화면1.png" />
     <Resource Include="Images\게임첫화면2.png" />
     <Resource Include="Images\게임첫화면3.png" />

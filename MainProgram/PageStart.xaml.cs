@@ -35,7 +35,9 @@ namespace MainProgram
 		private DispatcherTimer m_timerCountdown = new DispatcherTimer();
 		private int m_timeRemain;
 
-		public PageStart()
+        public Image imgLoading;
+
+        public PageStart()
 		{
 			InitializeComponent();
 
@@ -43,13 +45,7 @@ namespace MainProgram
 
 			canvasBG.Visibility = Visibility.Hidden;
 
-			m_soundBackground.Open(new Uri("Sounds/" + "게임시작배경음악.mp3", UriKind.Relative)); // 속성:빌드시자동복사
-			m_soundBackground.Volume = 0.3;
-
-			m_soundNarration.Open(new Uri("Sounds/" + "게임시작.m4a", UriKind.Relative)); // 속성:빌드시자동복사
-			m_soundNarration.Volume = 1;
-
-			m_soundNarrationTpose.Open(new Uri("Sounds/" + "T포즈.m4a", UriKind.Relative)); // 속성:빌드시자동복사
+            m_soundNarrationTpose.Open(new Uri("Sounds/" + "T포즈.m4a", UriKind.Relative)); // 속성:빌드시자동복사
 			m_soundNarrationTpose.Volume = 1;
 			m_soundNarrationTpose.MediaEnded += new EventHandler(TPoseMusic);
 			m_timerCountdown.Tick += new EventHandler(TimerCountdown);
@@ -59,24 +55,30 @@ namespace MainProgram
 
 		private void PageLoaded(object sender, RoutedEventArgs e)
 		{
-			buttonStart1.Visibility = Visibility.Hidden;
+			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            buttonStart1.Visibility = Visibility.Hidden;
 			buttonStart2.Visibility = Visibility.Hidden;
 			buttonStart3.Visibility = Visibility.Hidden;
 
-			canvasBG.Background = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + "T포즈.png")));
+            imgLoading.Visibility = Visibility.Hidden;
+
+            canvasBG.Background = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + "T포즈.png")));
 			canvasBG.Visibility = Visibility.Visible;
 
-			m_soundNarrationTpose.Position = TimeSpan.Zero;
+            m_soundNarrationTpose.Position = TimeSpan.Zero;
 			m_soundNarrationTpose.Play();
 		}
 
 		private void TPoseMusic(object sender, EventArgs e)
 		{
+			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+
 			m_soundNarrationTpose.Stop();
 			
 			imgUser.Visibility = Visibility.Visible;
 
-			m_timeRemain = 3;
+			m_timeRemain = 4;
 			// 7. 제한시간 시작
 			m_timerCountdown.Interval = TimeSpan.FromMilliseconds(1000);
 			m_timerCountdown.Start();
@@ -84,8 +86,10 @@ namespace MainProgram
 
 		private void TimerCountdown(object sender, EventArgs e)
 		{
+			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+
 			m_timeRemain -= 1;
-			if (m_timeRemain <= 0)
+            if (m_timeRemain <= 0)
 			{
 				m_timerCountdown.Stop();
 				imgUser.Visibility = Visibility.Hidden;
@@ -94,11 +98,19 @@ namespace MainProgram
 		}
 
 		private void PageLoaded2()
-		{
-			canvasBG.Background = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + "게임첫화면1.png")));
-			m_soundBackground.Play();
-			m_soundNarration.Play();
-			buttonStart1.Visibility = Visibility.Visible;
+        {
+            System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            m_soundBackground.Open(new Uri("Sounds/" + "게임시작배경음악.mp3", UriKind.Relative)); // 속성:빌드시자동복사
+            m_soundBackground.Volume = 0.3;
+            m_soundBackground.Play();
+
+            m_soundNarration.Open(new Uri("Sounds/" + "게임시작.m4a", UriKind.Relative)); // 속성:빌드시자동복사
+            m_soundNarration.Volume = 1;
+            m_soundNarration.Play();
+
+            canvasBG.Background = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + "게임첫화면1.png")));
+            buttonStart1.Visibility = Visibility.Visible;
 			buttonStart2.Visibility = Visibility.Visible;
 			buttonStart3.Visibility = Visibility.Visible;
 		}
@@ -107,8 +119,10 @@ namespace MainProgram
 		{
 			m_soundBackground.Stop();
 			m_soundNarration.Stop();
+            m_soundBackground.Close();
+            m_soundNarration.Close();
 
-			if (BtnClicked1 != null)
+            if (BtnClicked1 != null)
 				this.BtnClicked1(this, e);
 		}
 
@@ -116,8 +130,10 @@ namespace MainProgram
 		{
 			m_soundBackground.Stop();
 			m_soundNarration.Stop();
+            m_soundBackground.Close();
+            m_soundNarration.Close();
 
-			if (BtnClicked2 != null)
+            if (BtnClicked2 != null)
 				this.BtnClicked2(this, e);
 		}
 
@@ -125,8 +141,10 @@ namespace MainProgram
 		{
 			m_soundBackground.Stop();
 			m_soundNarration.Stop();
+            m_soundBackground.Close();
+            m_soundNarration.Close();
 
-			if (BtnClicked3 != null)
+            if (BtnClicked3 != null)
 				this.BtnClicked3(this, e);
 		}
 	}

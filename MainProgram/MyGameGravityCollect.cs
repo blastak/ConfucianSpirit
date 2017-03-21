@@ -20,8 +20,9 @@ namespace MainProgram
 		private Canvas m_canvas2;
 		private Image m_imgUserBody;
 		private Image m_imgTFFace;
+		private Image m_imgIcon;
 
-		public MyKinectSensor m_myKinect;
+        public MyKinectSensor m_myKinect;
 		private FallingThings myFallingThings;
 
 		private const int NumIntraFrames = 3;
@@ -56,6 +57,11 @@ namespace MainProgram
 
 		private int m_timeRemain;
 
+		int lastID = -1;
+		private DispatcherTimer m_timerDescription = new DispatcherTimer();
+		int timerDes = 0;
+        int score;
+
 		public MyGameGravityCollect()
 		{
 			this.myFallingThings = new FallingThings(MaxShapes, this.targetFramerate, NumIntraFrames);
@@ -70,15 +76,16 @@ namespace MainProgram
 			this.myFallingThings.AddStrImage(a);
 
 			m_timerCountdown.Tick += new EventHandler(TimerCountdown);
-
+			m_timerDescription.Tick += new EventHandler(TimerDescription);
 		}
 
-		public void SetupUI(Canvas canvas, Canvas canvas2, Image userBody, Image tfFace)
+		public void SetupUI(Canvas canvas, Canvas canvas2, Image userBody, Image tfFace, Image icon)
 		{
 			m_canvas = canvas;
 			m_canvas2 = canvas2;
 			m_imgUserBody = userBody;
 			m_imgTFFace = tfFace;
+            m_imgIcon = icon;
 		}
 
 		public void SetupResource(string background, string questionSound)
@@ -91,6 +98,7 @@ namespace MainProgram
 		{
 			m_imgUserBody.Visibility = Visibility.Hidden;
 			m_imgTFFace.Visibility = Visibility.Hidden;
+            m_imgIcon.Visibility = Visibility.Hidden;
 
 
 			m_canvas.ClipToBounds = true;
@@ -104,9 +112,11 @@ namespace MainProgram
 			}
 
 			m_timeRemain = 120;
+			lastID = -1;
+            score = 0;
 
-			// 1. 배경 보여주기
-			m_canvas.Background = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + m_strBackground)));
+            // 1. 배경 보여주기
+            m_canvas.Background = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + m_strBackground)));
 
 			// 2. 사운드 재생
 			m_startSound.Open(new Uri("Sounds/" + m_strQuestionSound, UriKind.Relative)); // 속성:빌드시자동복사
@@ -114,9 +124,74 @@ namespace MainProgram
 			m_startSound.Volume = 1;
 			//m_startSound.Position = TimeSpan.FromSeconds(45);
 			m_startSound.Play();
+
+			timerDes = 0;
+			m_timerDescription.Interval = TimeSpan.FromMilliseconds(1000);
+			m_timerDescription.Start();
 		}
 
-		private void MediaEnd1(object sender, EventArgs e)
+        private void TimerDescription(object sender, EventArgs e)
+        {
+            timerDes += 1;
+
+            BitmapImage src;
+
+            if (timerDes == 5) // 감사표현
+            {
+                src = new BitmapImage(new Uri(m_strbase + "Images/" + "예효_05_04.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+            }
+            else if (timerDes == 9) // 손씻기
+            {
+                src = new BitmapImage(new Uri(m_strbase + "Images/" + "예효_05_10.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+            }
+            else if (timerDes == 12) // 숙제
+            {
+                src = new BitmapImage(new Uri(m_strbase + "Images/" + "예효_05_06.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+            }
+            else if (timerDes == 14) // 분리수거
+            {
+                src = new BitmapImage(new Uri(m_strbase + "Images/" + "예효_05_07.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+            }
+            else if (timerDes == 18) // 반찬투정
+            {
+                src = new BitmapImage(new Uri(m_strbase + "Images/" + "예효_05_03.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+            }
+            else if (timerDes == 21) // 늦잠
+            {
+                src = new BitmapImage(new Uri(m_strbase + "Images/" + "예효_05_05.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+            }
+            else if (timerDes == 23) // 반항
+            {
+                src = new BitmapImage(new Uri(m_strbase + "Images/" + "예효_05_09.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+            }
+            else if (timerDes == 27) // 형제싸움
+            {
+                src = new BitmapImage(new Uri(m_strbase + "Images/" + "예효_05_08.png"));
+                m_imgIcon.Source = src;
+                m_imgIcon.Visibility = Visibility.Visible;
+            }
+            else if (timerDes == 32) // 끝
+            {
+                m_timerDescription.Stop();
+                m_imgIcon.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void MediaEnd1(object sender, EventArgs e)
 		{
 			m_startSound.MediaEnded -= new EventHandler(MediaEnd1);
 			m_startSound.Stop();
@@ -135,14 +210,22 @@ namespace MainProgram
 
 		private void TimerCountdown(object sender, EventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
+			//System.Diagnostics.Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 			m_timeRemain -= 1;
-			if (m_timeRemain <= 0)
-			{
-				m_timerCountdown.Stop();
-				ResultGame(true);
-			}
+            if (m_timeRemain <= 0)
+            {
+                m_timerCountdown.Stop();
+                ResultGame(false);
+            }
+            else if (myFallingThings.scores.ContainsKey(lastID))
+            {
+                if (myFallingThings.scores[lastID] >= 10)
+                {
+                    m_timerCountdown.Stop();
+                    ResultGame(true);
+                }
+            }
 		}
 
 		private void ResultGame(bool success)
@@ -166,7 +249,9 @@ namespace MainProgram
 			m_startSound.Volume = 1;
 			m_startSound.Play();
 
-			m_canvas2.Visibility = Visibility.Hidden;
+            if (myFallingThings.scores.ContainsKey(lastID))
+                score = myFallingThings.scores[lastID];
+			
 			if (m_myKinect.sensorChooser != null)
 			{
 				m_myKinect.evtReadySingleSkel -= new EventHandler<AllFramesReadyEventArgs>(EventCheckHandOver);
@@ -181,11 +266,12 @@ namespace MainProgram
 			m_startSound.Stop();
 			m_startSound.Close();
 
-			m_evtGameManager(0, null);
+            m_evtGameManager(score * 6, null);
 
 			m_imgUserBody.Visibility = Visibility.Hidden;
 			m_imgTFFace.Visibility = Visibility.Hidden;
-		}
+            m_canvas2.Visibility = Visibility.Hidden;
+        }
 
 		private void EventCheckHandOver(object sender, AllFramesReadyEventArgs e)
 		{
@@ -338,6 +424,7 @@ namespace MainProgram
 			{
 				foreach (var pair in this.players)
 				{
+					lastID = pair.Value.GetId();
 					HitType hit = this.myFallingThings.LookForHits2(pair.Value.Segments, pair.Value.GetId());
 					if ((hit & HitType.Squeezed) != 0)
 					{
@@ -356,13 +443,13 @@ namespace MainProgram
 				this.myFallingThings.AdvanceFrame();
 			}
 
-			// Draw new Wpf scene by adding all objects to canvas
-			m_canvas2.Children.Clear();
-			this.myFallingThings.DrawFrame(this.m_canvas2.Children);
-			m_canvas.Children.Clear();
-			this.myFallingThings.DrawFrameScore(m_canvas.Children, m_canvas.ActualWidth, m_canvas.ActualHeight);
+            // Draw new Wpf scene by adding all objects to canvas
+            m_canvas2.Children.Clear();
+            this.myFallingThings.DrawFrame(this.m_canvas2.Children);
+            m_canvas.Children.Clear();
+            this.myFallingThings.DrawFrameScore(m_canvas.Children, m_canvas.ActualWidth, m_canvas.ActualHeight);
 
-			foreach (var player in this.players)
+            foreach (var player in this.players)
 			{
 				player.Value.Draw2(m_canvas2.Children);
 			}
@@ -372,7 +459,7 @@ namespace MainProgram
 
 			this.CheckPlayers();
 
-			if(runningGameThread==false)
+			if (runningGameThread == false)
 			{
 				m_canvas.Children.Clear();
 				m_canvas2.Children.Clear();
