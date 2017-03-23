@@ -117,6 +117,7 @@ namespace MainProgram
 
             // 1. 배경 보여주기
             m_canvas.Background = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + m_strBackground)));
+			m_canvas.Visibility = Visibility.Visible;
 
 			// 2. 사운드 재생
 			m_startSound.Open(new Uri("Sounds/" + m_strQuestionSound, UriKind.Relative)); // 속성:빌드시자동복사
@@ -202,6 +203,10 @@ namespace MainProgram
 			m_timerCountdown.Start();
 
 			//m_imgUserBody.Visibility = Visibility.Visible;
+			m_canvas2.Visibility = Visibility.Visible;
+			predNextFrame = DateTime.MinValue;
+			lastFrameDrawn = DateTime.MinValue;
+			this.playersAlive = 0;
 
 			var myGameThread = new Thread(this.GameThread);
 			myGameThread.SetApartmentState(ApartmentState.STA);
@@ -252,13 +257,8 @@ namespace MainProgram
             if (myFallingThings.scores.ContainsKey(lastID))
                 score = myFallingThings.scores[lastID];
 
-            if (m_myKinect.sensorChooser != null)
-            {
-                m_myKinect.evtReadySingleSkel -= new EventHandler<AllFramesReadyEventArgs>(EventCheckHandOver);
-            }
-            this.myFallingThings.SetGameMode(GameMode.Off);
-            this.runningGameThread = false;
-        }
+			this.myFallingThings.SetGameMode(GameMode.Off); // 터지지 않음
+		}
 
 		private void MediaEnd2(object sender, EventArgs e)
 		{
@@ -266,14 +266,21 @@ namespace MainProgram
 			m_startSound.Stop();
 			m_startSound.Close();
 
+			this.runningGameThread = false; // thread가 멈추면 물체와 점수 그려지지 않음
+			if (m_myKinect.sensorChooser != null)
+			{
+				m_myKinect.evtReadySingleSkel -= new EventHandler<AllFramesReadyEventArgs>(EventCheckHandOver);
+			}
+			myFallingThings.Reset(); // 모든 물체 제거
+
 			m_evtGameManager((int)((double)score * 6.6), null);
 
 			m_imgUserBody.Visibility = Visibility.Hidden;
 			m_imgTFFace.Visibility = Visibility.Hidden;
-            m_canvas2.Visibility = Visibility.Hidden;
-        }
+			m_canvas2.Visibility = Visibility.Hidden;
+		}
 
-        private void EventCheckHandOver(object sender, AllFramesReadyEventArgs e)
+		private void EventCheckHandOver(object sender, AllFramesReadyEventArgs e)
 		{
 			Skeleton skel = (Skeleton)sender;
 			int skeletonSlot = 0;

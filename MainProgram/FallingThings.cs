@@ -150,16 +150,19 @@ namespace MainProgram
 
         public void Reset()
         {
-            for (int i = 0; i < this.things.Count; i++)
+			for (int i = 0; i < this.things.Count; i++)
             {
-                Thing thing = this.things[i];
-                if ((thing.State == ThingState.Bouncing) || (thing.State == ThingState.Falling))
-                {
-                    thing.State = ThingState.Dissolving;
-                    thing.Dissolve = 0;
-                    this.things[i] = thing;
-                }
-            }
+				//Thing thing = this.things[i];
+				//if ((thing.State == ThingState.Bouncing) || (thing.State == ThingState.Falling))
+				//{
+				//	thing.State = ThingState.Dissolving;
+				//	thing.Dissolve = 0;
+				//	this.things[i] = thing;
+				//}
+				Thing thing = this.things[i];
+				this.things.Remove(thing);
+				i--;
+			}
 
             this.gameStartTime = DateTime.Now;
             this.scores.Clear();
@@ -169,7 +172,7 @@ namespace MainProgram
         {
             this.gameMode = mode;
             this.gameStartTime = DateTime.Now;
-            this.scores.Clear();
+            //this.scores.Clear();
         }
 
         public void SetGravity(double f)
@@ -319,11 +322,13 @@ namespace MainProgram
 														case 3:
 														case 4:
 														case 5:
+														case 7:
 															points -= 1;
 															break;
 														case 0:
 														case 1:
 														case 2:
+														case 6:
 															points += 1;
 															break;
 													}
@@ -335,11 +340,13 @@ namespace MainProgram
 														case 0:
 														case 1:
 														case 2:
+														case 6:
 															points -= 1;
 															break;
 														case 3:
 														case 4:
 														case 5:
+														case 7:
 															points += 1;
 															break;
 													}
