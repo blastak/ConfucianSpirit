@@ -79,7 +79,7 @@ namespace MainProgram
 
 			m_soundBackground.Open(new Uri("Sounds/" + "배경음악1_예효.mp3", UriKind.Relative)); // 속성:빌드시자동복사
 			m_soundBackground.MediaEnded += new EventHandler(BackgroundMusicEnd);
-			m_soundBackground.Volume = 0.1;
+			m_soundBackground.Volume = 0.5;
 		}
 
 		private void PageLoaded(object sender, EventArgs e)
