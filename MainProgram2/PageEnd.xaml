@@ -1,0 +1,16 @@
+﻿<Page x:Class="MainProgram2.PageEnd"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MainProgram2"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1280"
+	  Loaded="Page_Loaded"
+      Title="PageEnd">
+
+    <Grid>
+
+		<Label x:Name="label" Content="End" Background="Gray" HorizontalAlignment="Left" Margin="471,319,0,0" VerticalAlignment="Top" Height="150" Width="373" FontSize="80"/>
+	</Grid>
+</Page>

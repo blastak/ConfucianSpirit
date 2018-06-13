@@ -1,0 +1,19 @@
+﻿<Window x:Class="MainProgram2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MainProgram2"
+        mc:Ignorable="d"
+		xmlns:k="clr-namespace:Microsoft.Kinect.Toolkit;assembly=Microsoft.Kinect.Toolkit"
+		xmlns:k2="clr-namespace:Microsoft.Kinect.Toolkit.Controls;assembly=Microsoft.Kinect.Toolkit.Controls"
+		Title="ConfucianSpirit" Height="720" Width="1280" KeyDown="Window_KeyDown" Closing="Window_Closing" WindowStartupLocation="CenterScreen"
+		WindowStyle="None" ResizeMode="NoResize"> <!-- WindowState="Maximized"> -->
+	<k2:KinectRegion x:Name="kinectRegion">
+		<Grid>
+			<Image Name="m_image" Source="Images/MainWindow_로고.png" Visibility="Visible" Stretch="Fill"/>
+			<Frame x:Name="m_frame" NavigationUIVisibility="Hidden"/>
+			<k:KinectSensorChooserUI Name="m_sensorChooserUi" DataContext="{Binding}" Height="52" VerticalAlignment="Top" HorizontalAlignment="Center" Width="63" />
+		</Grid>
+	</k2:KinectRegion>
+</Window>

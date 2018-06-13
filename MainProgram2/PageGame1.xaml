@@ -1,0 +1,32 @@
+﻿<Page x:Class="MainProgram2.PageGame1"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MainProgram2"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1280"
+	  xmlns:k2="clr-namespace:Microsoft.Kinect.Toolkit.Controls;assembly=Microsoft.Kinect.Toolkit.Controls"
+	  Loaded="Page_Loaded"
+      Title="PageGame1">
+
+    <Grid>
+		<Image Name="m_imgBackground" Source="Images/PageGame1_배경화면.png" Stretch="Fill" Visibility="Visible"/>
+		<MediaElement Name="m_videoIntro" Source="Media/PageGame1_게임설명.mp4" Width="800" LoadedBehavior="Manual" MediaEnded="m_videoIntro_MediaEnded" />
+		<k2:KinectTileButton Name="m_btnNext" Height="100" Click="m_btnNext_Click" BorderThickness="0" Visibility="Visible" Margin="969,582,91,38">
+			<k2:KinectTileButton.Background>
+				<ImageBrush ImageSource="Images/PageGame1_다음버튼.png" Stretch="Fill"/>
+			</k2:KinectTileButton.Background>
+		</k2:KinectTileButton>
+		<k2:KinectTileButton Name="m_btnHighSpeed" Height="100" Click="m_btnHighSpeed_Click" BorderThickness="0" Visibility="Visible" Margin="392,334,668,286">
+			<k2:KinectTileButton.Background>
+				<ImageBrush ImageSource="Images/PageGame1_빠르게버튼.png" Stretch="Fill"/>
+			</k2:KinectTileButton.Background>
+		</k2:KinectTileButton>
+		<k2:KinectTileButton Name="m_btnLowSpeed" Height="100" Click="m_btnLowSpeed_Click" BorderThickness="0" Visibility="Visible" Margin="772,334,288,286">
+			<k2:KinectTileButton.Background>
+				<ImageBrush ImageSource="Images/PageGame1_느리게버튼.png" Stretch="Fill"/>
+			</k2:KinectTileButton.Background>
+		</k2:KinectTileButton>
+	</Grid>
+</Page>

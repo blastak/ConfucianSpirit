@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Kinect.Toolkit.Co
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupProgram", "SetupProgram\SetupProgram.vdproj", "{42CAB171-530D-4C6D-B9D1-742B24D38A25}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainProgram2", "MainProgram2\MainProgram2.csproj", "{80A7995B-6ECA-4998-9149-89E77BF6F30F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{4508C4D1-85BB-4F3F-9E3B-CC93D231C65D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{42CAB171-530D-4C6D-B9D1-742B24D38A25}.Debug|Any CPU.ActiveCfg = Debug
 		{42CAB171-530D-4C6D-B9D1-742B24D38A25}.Release|Any CPU.ActiveCfg = Release
+		{80A7995B-6ECA-4998-9149-89E77BF6F30F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80A7995B-6ECA-4998-9149-89E77BF6F30F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80A7995B-6ECA-4998-9149-89E77BF6F30F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80A7995B-6ECA-4998-9149-89E77BF6F30F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
