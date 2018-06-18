@@ -6,11 +6,52 @@
       xmlns:local="clr-namespace:MainProgram2"
       mc:Ignorable="d" 
       d:DesignHeight="720" d:DesignWidth="1280"
+	  xmlns:k2="clr-namespace:Microsoft.Kinect.Toolkit.Controls;assembly=Microsoft.Kinect.Toolkit.Controls"
 	  Loaded="Page_Loaded"
       Title="PageGame2">
 
-    <Grid>
-		<Label x:Name="label" Content="Game2" Background="Gray" HorizontalAlignment="Left" Margin="471,319,0,0" VerticalAlignment="Top" Height="150" Width="373" FontSize="80"/>
-
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="60*"/>
+			<RowDefinition Height="231*"/>
+			<RowDefinition Height="39*"/>
+			<RowDefinition Height="38*"/>
+			<RowDefinition Height="212*"/>
+			<RowDefinition Height="48*"/>
+			<RowDefinition Height="32*"/>
+			<RowDefinition Height="23*"/>
+			<RowDefinition Height="20*"/>
+			<RowDefinition Height="17*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="109*"/>
+			<ColumnDefinition Width="261*"/>
+			<ColumnDefinition Width="110*"/>
+			<ColumnDefinition Width="111*"/>
+			<ColumnDefinition Width="258*"/>
+			<ColumnDefinition Width="111*"/>
+			<ColumnDefinition Width="27*"/>
+			<ColumnDefinition Width="255*"/>
+			<ColumnDefinition Width="38*"/>
+		</Grid.ColumnDefinitions>
+		<Image Name="m_imgBackground" Source="Images/PageGame2_01_배경화면.png" Stretch="Fill" Visibility="Visible" Grid.ColumnSpan="9" Grid.RowSpan="10"/>
+		<MediaElement Name="m_videoIntro" Source="Media/PageGame2_게임설명.mp4" Visibility="Hidden" LoadedBehavior="Manual" MediaEnded="m_videoIntro_MediaEnded" Grid.Row="0" Grid.Column="0" Grid.RowSpan="10" Grid.ColumnSpan="9" />
+		<k2:KinectTileButton Name="m_btnNext" Click="m_btnNext_Click" BorderThickness="0" Visibility="Visible" Grid.Row="5" Grid.Column="7" Width="Auto" Height="Auto" Grid.RowSpan="3">
+			<k2:KinectTileButton.Background>
+				<ImageBrush ImageSource="Images/PageGame2_02_다음버튼.png" Stretch="Fill"/>
+			</k2:KinectTileButton.Background>
+		</k2:KinectTileButton>
+		<MediaElement Name="m_video1" Source="Media/PageGame2_보기1.mp4" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3"/>
+		<MediaElement Name="m_video2" Source="Media/PageGame2_보기2.mp4" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" Grid.ColumnSpan="3"/>
+		<MediaElement Name="m_video3" Source="Media/PageGame2_보기3.mp4" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="4"/>
+		<MediaElement Name="m_video4" Source="Media/PageGame2_보기4.mp4" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="3" Grid.Column="3" Grid.RowSpan="4" Grid.ColumnSpan="3"/>
+		<Image Name="m_imgBlank1" Source="Images/PageGame2_03_빈칸.png" Stretch="Fill" Visibility="Visible" Grid.RowSpan="2" Grid.Column="1" Grid.Row="2"/>
+		<Image Name="m_imgBlank2" Source="Images/PageGame2_03_빈칸.png" Stretch="Fill" Visibility="Visible" Grid.RowSpan="2" Grid.Column="4" Grid.Row="2"/>
+		<Image Name="m_imgBlank3" Source="Images/PageGame2_03_빈칸.png" Stretch="Fill" Visibility="Visible" Grid.RowSpan="3" Grid.Row="6" Grid.Column="1"/>
+		<Image Name="m_imgBlank4" Source="Images/PageGame2_03_빈칸.png" Stretch="Fill" Visibility="Visible" Grid.RowSpan="3" Grid.Column="4" Grid.Row="6"/>
+		<Canvas Name="m_canvas" Grid.Row="0" Grid.Column="0" Grid.RowSpan="10" Grid.ColumnSpan="9" Visibility="Hidden"/>
+		<Viewbox Stretch="Uniform" Grid.Column="7" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,0,50,0">
+			<Label x:Name="m_labelRemainSecond" Visibility="Visible" Content="0"  FontSize="100"  VerticalContentAlignment="Center" FontWeight="Bold"/>
+		</Viewbox>
 	</Grid>
 </Page>

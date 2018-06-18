@@ -23,26 +23,92 @@ namespace MainProgram2
 	{
 		string m_strbase = @"pack://application:,,/";
 		public event EventHandler m_evtPageFinish;
+		public event EventHandler m_evtBindHand;
+		public event EventHandler m_evtUnBindHand;
+
 		public DispatcherTimer m_timerPageFinish = new DispatcherTimer();
+
+		private MediaPlayer m_soundBackground = new MediaPlayer();
+
+		private int m_cntRemainSecond;
+		public bool m_bSkip;
 
 		public PageGame3()
 		{
 			InitializeComponent();
-			m_timerPageFinish.Interval = TimeSpan.FromSeconds(5); // 시간 고쳐야함
+
+			m_soundBackground.Open(new Uri("Media/" + "PageGame3_배경음악.mp3", UriKind.Relative));
+			m_soundBackground.Volume = 1;
+
+			m_timerPageFinish.Interval = TimeSpan.FromSeconds(1);
 			m_timerPageFinish.Tick += new EventHandler(TimerPageFinish);
 		}
-
-
+		
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
+			m_labelRemainSecond.Visibility = Visibility.Hidden;
+			m_videoIntro.Visibility = Visibility.Visible;
+			m_btnNext.Visibility = Visibility.Visible;
+
+			m_videoIntro.Position = TimeSpan.Zero;
+			m_videoIntro.Play();
+
+			// 배경음악 시작
+			m_soundBackground.Position = TimeSpan.Zero;
+			m_soundBackground.Play();
+
+			// kinect control on
+			m_evtBindHand(null, null);
+		}
+
+		private void m_videoIntro_MediaEnded(object sender, RoutedEventArgs e)
+		{
+			// 인트로 동영상 반복재생
+			m_videoIntro.Position = TimeSpan.Zero;
+		}
+
+		private void m_btnNext_Click(object sender, RoutedEventArgs e)
+		{
+			m_videoIntro.Stop();
+
+			m_videoIntro.Visibility = Visibility.Hidden;
+			m_btnNext.Visibility = Visibility.Hidden;
+
+			// kinect control off
+			m_evtUnBindHand(null, null);
+
+			m_video1.Position = TimeSpan.Zero;
+			m_video2.Position = TimeSpan.Zero;
+			m_video1.Play();
+			m_video2.Play();
+
+			m_bSkip = false;
+			m_cntRemainSecond = 60;
+			m_labelRemainSecond.Content = m_cntRemainSecond;
+			m_labelRemainSecond.Visibility = Visibility.Visible;
 			m_timerPageFinish.Start();
 		}
 
 		private void TimerPageFinish(object sender, EventArgs e)
 		{
-			m_timerPageFinish.Stop();
+			m_labelRemainSecond.Content = m_cntRemainSecond;
 
-			m_evtPageFinish(null, null);
+			if (m_cntRemainSecond < 0)
+			{
+				// 타이머 종료
+				m_timerPageFinish.Stop();
+
+				// 배경음악 종료
+				m_soundBackground.Stop();
+
+				// 페이지 종료
+				m_evtPageFinish(null, null);
+			}
+
+			m_cntRemainSecond--;
+
+			if (m_bSkip == true)
+				m_cntRemainSecond = -1;
 		}
 	}
 }

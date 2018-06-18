@@ -23,6 +23,10 @@ namespace MainProgram2
 	{
 		string m_strbase = @"pack://application:,,/";
 		public event EventHandler m_evtPageFinish;
+		public event EventHandler m_evtBindHand;
+		public event EventHandler m_evtUnBindHand;
+		public event EventHandler m_evtBindBGRemoval;
+		public event EventHandler m_evtUnBindBGRemoval;
 
 		private MediaPlayer m_soundNarration = new MediaPlayer();
 		public DispatcherTimer m_timerWaitNarration = new DispatcherTimer();
@@ -43,7 +47,11 @@ namespace MainProgram2
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
 			// T자세 화면
-			m_imgBackground.Source = new BitmapImage(new Uri(m_strbase + "Images/" + "PageBegin_T포즈.png"));
+			m_imgBackground.Source = new BitmapImage(new Uri(m_strbase + "Images/" + "PageBegin_01_T포즈.png"));
+
+			// background removal on
+			m_imgUser.Visibility = Visibility.Visible;
+			m_evtBindBGRemoval(m_imgUser, null);
 
 			// 나레이션 시작
 			m_soundNarration.Position = TimeSpan.Zero;
@@ -62,13 +70,20 @@ namespace MainProgram2
 			// 나레이션 종료
 			m_soundNarration.Stop();
 
+			// background removal off
+			m_imgUser.Visibility = Visibility.Hidden;
+			m_evtUnBindBGRemoval(null, null);
+
 			// 배경화면과 버튼보이기
-			m_imgBackground.Source = new BitmapImage(new Uri(m_strbase + "Images/" + "PageBegin_배경화면.png"));
+			m_imgBackground.Source = new BitmapImage(new Uri(m_strbase + "Images/" + "PageBegin_02_배경화면.png"));
 			m_btnGameStart.Visibility = Visibility.Visible;
 
 			// 배경음악 시작
 			m_soundBackground.Position = TimeSpan.Zero;
 			m_soundBackground.Play();
+
+			// kinect control on
+			m_evtBindHand(null, null);
 		}
 
 		private void m_btnGameStart_Click(object sender, RoutedEventArgs e)
@@ -78,6 +93,9 @@ namespace MainProgram2
 
 			// 버튼 감추기
 			m_btnGameStart.Visibility = Visibility.Hidden;
+
+			// kinect control off
+			m_evtUnBindHand(null, null);
 
 			// 페이지 종료 이벤트 발생 시킴
 			m_evtPageFinish(sender, e);

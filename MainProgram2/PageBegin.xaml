@@ -23,9 +23,9 @@
 		<Image Name="m_imgBackground" Grid.RowSpan="3" Grid.ColumnSpan="3" Stretch="Fill" Visibility="Visible"/>
 		<Image Name="m_imgUser" Grid.RowSpan="3" Grid.ColumnSpan="3" Stretch="Fill"/>
 		<Grid Grid.Row="1" Grid.Column="1">
-			<k2:KinectTileButton Name="m_btnGameStart" Height="Auto" Width="Auto" Margin="0,0,0,0" Click="m_btnGameStart_Click" BorderThickness="0" Visibility="Hidden">
+			<k2:KinectTileButton Name="m_btnGameStart" Height="Auto" Width="Auto" Click="m_btnGameStart_Click" BorderThickness="0" Visibility="Hidden">
 				<k2:KinectTileButton.Background>
-					<ImageBrush ImageSource="Images/PageBegin_시작버튼.png" Stretch="Fill"/>
+					<ImageBrush ImageSource="Images/PageBegin_02_시작버튼.png" Stretch="Fill"/>
 				</k2:KinectTileButton.Background>
 			</k2:KinectTileButton>
 		</Grid>

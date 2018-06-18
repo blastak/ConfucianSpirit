@@ -28,7 +28,7 @@ namespace MainProgram2
 		public PageFeedback()
 		{
 			InitializeComponent();
-			m_timerPageFinish.Interval = TimeSpan.FromSeconds(5); // 시간 고쳐야함
+			m_timerPageFinish.Interval = TimeSpan.FromSeconds(2); // 시간 고쳐야함
 			m_timerPageFinish.Tick += new EventHandler(TimerPageFinish);
 		}
 

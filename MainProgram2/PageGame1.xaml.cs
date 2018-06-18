@@ -23,22 +23,33 @@ namespace MainProgram2
 	{
 		string m_strbase = @"pack://application:,,/";
 		public event EventHandler m_evtPageFinish;
+		public event EventHandler m_evtBindHand;
+		public event EventHandler m_evtUnBindHand;
 
-		public DispatcherTimer m_timerGameOver = new DispatcherTimer();
+		public DispatcherTimer m_timerPageFinish = new DispatcherTimer();
 
+		private MediaPlayer m_soundBackground = new MediaPlayer();
 
-		int gravity_factor;
+		private int m_gravity_factor = 2;
+
+		private int m_cntRemainSecond;
+		public bool m_bSkip;
 
 		public PageGame1()
 		{
 			InitializeComponent();
 
-			m_timerGameOver.Interval = TimeSpan.FromSeconds(5); // 시간을 늘려야 함
-			m_timerGameOver.Tick += new EventHandler(TimerGameOver);
+			m_soundBackground.Open(new Uri("Media/" + "PageGame1_배경음악.mp3", UriKind.Relative));
+			m_soundBackground.Volume = 1;
+
+			m_timerPageFinish.Interval = TimeSpan.FromSeconds(1);
+			m_timerPageFinish.Tick += new EventHandler(TimerPageFinish);
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
+			m_labelRemainSecond.Visibility = Visibility.Hidden;
+			m_labelScore.Visibility = Visibility.Hidden;
 			m_btnHighSpeed.Visibility = Visibility.Hidden;
 			m_btnLowSpeed.Visibility = Visibility.Hidden;
 
@@ -47,6 +58,13 @@ namespace MainProgram2
 
 			m_videoIntro.Position = TimeSpan.Zero;
 			m_videoIntro.Play();
+
+			// 배경음악 시작
+			m_soundBackground.Position = TimeSpan.Zero;
+			m_soundBackground.Play();
+
+			// kinect control on
+			m_evtBindHand(null, null);
 		}
 
 		private void m_videoIntro_MediaEnded(object sender, RoutedEventArgs e)
@@ -69,29 +87,54 @@ namespace MainProgram2
 
 		private void m_btnHighSpeed_Click(object sender, RoutedEventArgs e)
 		{
-			gravity_factor = 5;
+			m_gravity_factor = 5;
 
-			m_btnHighSpeed.Visibility = Visibility.Hidden;
-			m_btnLowSpeed.Visibility = Visibility.Hidden;
-
-			m_timerGameOver.Start();
+			GameStart();
 		}
 
 		private void m_btnLowSpeed_Click(object sender, RoutedEventArgs e)
 		{
-			gravity_factor = 2;
+			m_gravity_factor = 2;
+
+			GameStart();
+		}
+
+		private void GameStart()
+		{
+			// kinect control off
+			m_evtUnBindHand(null, null);
 
 			m_btnHighSpeed.Visibility = Visibility.Hidden;
 			m_btnLowSpeed.Visibility = Visibility.Hidden;
 
-			m_timerGameOver.Start();
+			m_labelScore.Content = 0;
+			m_labelScore.Visibility = Visibility.Visible;
+
+			m_bSkip = false;
+			m_cntRemainSecond = 60;
+			m_labelRemainSecond.Content = m_cntRemainSecond;
+			m_labelRemainSecond.Visibility = Visibility.Visible;
+			m_timerPageFinish.Start();
 		}
 
-		private void TimerGameOver(object sender, EventArgs e)
+		private void TimerPageFinish(object sender, EventArgs e)
 		{
-			m_timerGameOver.Stop();
+			m_labelRemainSecond.Content = m_cntRemainSecond;
+			if (m_cntRemainSecond < 0)
+			{
+				// 타이머 종료
+				m_timerPageFinish.Stop();
 
-			m_evtPageFinish(null, null);
+				// 배경음악 종료
+				m_soundBackground.Stop();
+
+				// 페이지 종료
+				m_evtPageFinish(null, null);
+			}
+			m_cntRemainSecond--;
+
+			if (m_bSkip == true)
+				m_cntRemainSecond = -1;
 		}
 	}
 }

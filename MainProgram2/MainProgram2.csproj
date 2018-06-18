@@ -62,6 +62,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="DragImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -69,6 +73,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DragImage.xaml.cs">
+      <DependentUpon>DragImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -166,19 +173,62 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\MainWindow_로고.png" />
-    <Resource Include="Images\PageBegin_T포즈.png" />
-    <Resource Include="Images\PageBegin_배경화면.png" />
-    <Resource Include="Images\PageBegin_시작버튼.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\PageGame1_느리게버튼.png" />
-    <Resource Include="Images\PageGame1_다음버튼.png" />
-    <Resource Include="Images\PageGame1_빠르게버튼.png" />
+    <Resource Include="Images\PageGame1_04_깨끗이씻기_글포함.png" />
+    <Resource Include="Images\PageGame1_04_부모님께반말하기_글포함.png" />
+    <Resource Include="Images\PageGame1_04_선생님께인사_글포함.png" />
+    <Resource Include="Images\PageGame1_04_손님한테인사 안하기_글포함.png" />
+    <Resource Include="Images\PageGame1_04_스스로일어나기_글포함.png" />
+    <Resource Include="Images\PageGame1_04_식전인사하기_글포함.png" />
+    <Resource Include="Images\PageGame1_04_위험한장소가기_글포함.png" />
+    <Resource Include="Images\PageGame1_04_인사거절하기_글포함.png" />
+    <Resource Include="Images\PageGame1_04_주머니에손넣고인사_글포함.png" />
+    <Resource Include="Images\PageGame1_04_집안청소_글포함.png" />
+    <Resource Include="Images\PageGame1_04_형제와싸움_글포함.png" />
+    <Content Include="Media\PageGame1_배경음악.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageGame2_배경음악.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageGame3_게임설명.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageGame3_배경음악.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageGame3_보기1.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageGame3_보기2.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Images\PageGame2_03_빈칸.png" />
+    <Resource Include="Images\PageGame3_01_배경화면.png" />
+    <Resource Include="Images\PageGame3_02_다음버튼.png" />
+    <Content Include="Media\PageGame2_게임설명.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageGame2_보기1.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageGame2_보기2.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageGame2_보기3.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageGame2_보기4.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Images\PageGame2_01_배경화면.png" />
+    <Resource Include="Images\PageGame2_02_다음버튼.png" />
+    <Resource Include="Images\PageGame2_03_보기1.png" />
+    <Resource Include="Images\PageGame2_03_보기2.png" />
+    <Resource Include="Images\PageGame2_03_보기3.png" />
+    <Resource Include="Images\PageGame2_03_보기4.png" />
     <Content Include="Media\PageGame1_게임설명.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Images\PageGame1_배경화면.png" />
     <Content Include="KinectBackgroundRemoval180_32.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -191,6 +241,27 @@
     <Content Include="Media\PageBegin_배경음악.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MainWindow_로고.png" />
+    <Resource Include="Images\PageBegin_01_T포즈.png" />
+    <Resource Include="Images\PageBegin_02_배경화면.png" />
+    <Resource Include="Images\PageBegin_02_시작버튼.png" />
+    <Resource Include="Images\PageGame1_01_배경화면.png" />
+    <Resource Include="Images\PageGame1_02_다음버튼.png" />
+    <Resource Include="Images\PageGame1_03_느리게버튼.png" />
+    <Resource Include="Images\PageGame1_03_빠르게버튼.png" />
+    <Resource Include="Images\PageGame1_04_깨끗이씻기.png" />
+    <Resource Include="Images\PageGame1_04_부모님께반말하기.png" />
+    <Resource Include="Images\PageGame1_04_선생님께인사.png" />
+    <Resource Include="Images\PageGame1_04_손님한테인사 안하기.png" />
+    <Resource Include="Images\PageGame1_04_스스로일어나기.png" />
+    <Resource Include="Images\PageGame1_04_식전인사하기.png" />
+    <Resource Include="Images\PageGame1_04_위험한장소가기.png" />
+    <Resource Include="Images\PageGame1_04_인사거절하기.png" />
+    <Resource Include="Images\PageGame1_04_주머니에손넣고인사.png" />
+    <Resource Include="Images\PageGame1_04_집안청소.png" />
+    <Resource Include="Images\PageGame1_04_형제와싸움.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

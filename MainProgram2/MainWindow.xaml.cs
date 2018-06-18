@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Kinect.Toolkit.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,13 +43,23 @@ namespace MainProgram2
 
 			m_pageBegin.m_evtPageFinish += new EventHandler(GoToNextGame);
 			m_pageFeedback.m_evtPageFinish += new EventHandler(GoToNextGame);
-
-			m_pageGameBow.m_evtPageFinish += new EventHandler(GoToFeedback);
+			m_pageGameBow.m_evtPageFinish += new EventHandler(GoToNextGame);
 			m_pageGame1.m_evtPageFinish += new EventHandler(GoToFeedback);
 			m_pageGame2.m_evtPageFinish += new EventHandler(GoToFeedback);
 			m_pageGame3.m_evtPageFinish += new EventHandler(GoToFeedback);
-
 			m_pageEnd.m_evtPageFinish += new EventHandler(GoToBegin);
+
+			m_pageBegin.m_evtBindHand += new EventHandler(EventBindHand);
+			m_pageBegin.m_evtUnBindHand += new EventHandler(EventUnBindHand);
+			m_pageBegin.m_evtBindBGRemoval += new EventHandler(EventBindBGRemoval);
+			m_pageBegin.m_evtUnBindBGRemoval += new EventHandler(EventUnBindBGRemoval);
+
+			m_pageGame1.m_evtBindHand += new EventHandler(EventBindHand);
+			m_pageGame1.m_evtUnBindHand += new EventHandler(EventUnBindHand);
+			m_pageGame2.m_evtBindHand += new EventHandler(EventBindHand);
+			m_pageGame2.m_evtUnBindHand += new EventHandler(EventUnBindHand);
+			m_pageGame3.m_evtBindHand += new EventHandler(EventBindHand);
+			m_pageGame3.m_evtUnBindHand += new EventHandler(EventUnBindHand);
 
 			m_timerLaunchKinect.Interval = TimeSpan.FromSeconds(0.1);
 			m_timerLaunchKinect.Tick += new EventHandler(TimerLaunchKinect);
@@ -67,6 +78,11 @@ namespace MainProgram2
 				case Key.Escape:
 					Close();
 					break;
+				case Key.Return:
+					m_pageGame1.m_bSkip = true;
+					m_pageGame2.m_bSkip = true;
+					m_pageGame3.m_bSkip = true;
+					break;
 			}
 		}
 
@@ -82,7 +98,7 @@ namespace MainProgram2
 
 			m_myKinect = new MyKinectSensor(m_sensorChooserUi); // 키넥트 실행. 로딩시 blocking 때문에 timer를 이용하였음
 
-			m_timerGoToPageBegin.Interval = TimeSpan.FromSeconds(2);
+			m_timerGoToPageBegin.Interval = TimeSpan.FromSeconds(2); // 최소 2초간 로고 보이기
 			m_timerGoToPageBegin.Tick += new EventHandler(TimerGoToPageBegin);
 			m_timerGoToPageBegin.Start();
 		}
@@ -90,16 +106,17 @@ namespace MainProgram2
 		private void TimerGoToPageBegin(object sender, EventArgs e)
 		{
 			m_timerGoToPageBegin.Stop();
+			m_image.Visibility = Visibility.Hidden;
 
 			GoToBegin(null, null);
 		}
 
 		private void GoToBegin(object sender, EventArgs e)
 		{
-			//m_myKinect.BindBackgroundRemovalImage(m_pageBegin.m_imgUser);
 			m_frame.Navigate(m_pageBegin);
 
-			m_numRandom = RandomNumber(1, 3);
+			m_numRandom = RandomNumber(1, 6);
+			m_numRandom = 3;
 		}
 
 		int idxGame = 0;
@@ -184,6 +201,28 @@ namespace MainProgram2
 		{
 			Random random = new Random(DateTime.Now.Millisecond);
 			return random.Next(min, max);
+		}
+
+		private void EventBindHand(object sender, EventArgs e)
+		{
+			// Bind the senUserControl1.xamlsor chooser's current sensor to the KinectRegion
+			var regionSensorBinding = new Binding("Kinect") { Source = m_myKinect.sensorChooser };
+			BindingOperations.SetBinding(this.m_kinectRegion, KinectRegion.KinectSensorProperty, regionSensorBinding);
+		}
+
+		private void EventUnBindHand(object sender, EventArgs e)
+		{
+			BindingOperations.ClearBinding(this.m_kinectRegion, KinectRegion.KinectSensorProperty);
+		}
+
+		private void EventBindBGRemoval(object sender, EventArgs e)
+		{
+			m_myKinect.BindBackgroundRemovalImage((Image)sender);
+		}
+
+		private void EventUnBindBGRemoval(object sender, EventArgs e)
+		{
+			m_myKinect.UnbindBackgroundRemovalImage();
 		}
 	}
 }

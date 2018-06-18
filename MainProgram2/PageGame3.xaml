@@ -6,11 +6,34 @@
       xmlns:local="clr-namespace:MainProgram2"
       mc:Ignorable="d" 
       d:DesignHeight="720" d:DesignWidth="1280"
+	  xmlns:k2="clr-namespace:Microsoft.Kinect.Toolkit.Controls;assembly=Microsoft.Kinect.Toolkit.Controls"
 	  Loaded="Page_Loaded"
       Title="PageGame3">
 
-    <Grid>
-		<Label x:Name="label" Content="Game3" Background="Gray" HorizontalAlignment="Left" Margin="471,319,0,0" VerticalAlignment="Top" Height="150" Width="373" FontSize="80"/>
-
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="31*"/>
+			<RowDefinition Height="261*"/>
+			<RowDefinition Height="49*"/>
+			<RowDefinition Height="19*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="640*"/>
+			<ColumnDefinition Width="344*"/>
+			<ColumnDefinition Width="259*"/>
+			<ColumnDefinition Width="37*"/>
+		</Grid.ColumnDefinitions>
+		<Image Name="m_imgBackground" Source="Images/PageGame3_01_배경화면.png" Stretch="Fill" Visibility="Visible" Grid.ColumnSpan="4" Grid.RowSpan="4"/>
+		<MediaElement Name="m_videoIntro" Source="Media/PageGame3_게임설명.mp4" Visibility="Hidden" LoadedBehavior="Manual" MediaEnded="m_videoIntro_MediaEnded" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="4" />
+		<k2:KinectTileButton Name="m_btnNext" Click="m_btnNext_Click" BorderThickness="0" Visibility="Visible" Width="Auto" Height="Auto" Grid.Column="2" Grid.Row="2">
+			<k2:KinectTileButton.Background>
+				<ImageBrush ImageSource="Images/PageGame3_02_다음버튼.png" Stretch="Fill"/>
+			</k2:KinectTileButton.Background>
+		</k2:KinectTileButton>
+		<MediaElement Name="m_video1" Source="Media/PageGame3_보기1.mp4" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
+		<MediaElement Name="m_video2" Source="Media/PageGame3_보기2.mp4" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
+		<Viewbox Stretch="Uniform" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,0,50,0">
+			<Label x:Name="m_labelRemainSecond" Visibility="Visible" Content="0"  FontSize="100"  VerticalContentAlignment="Center" FontWeight="Bold"/>
+		</Viewbox>
 	</Grid>
 </Page>
