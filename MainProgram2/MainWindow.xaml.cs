@@ -23,7 +23,7 @@ namespace MainProgram2
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public MyKinectSensor m_myKinect = null;
+		public static MyKinectSensor m_myKinect = null;
 		public DispatcherTimer m_timerLaunchKinect = new DispatcherTimer();
 		public DispatcherTimer m_timerGoToPageBegin = new DispatcherTimer();
 
@@ -54,12 +54,26 @@ namespace MainProgram2
 			m_pageBegin.m_evtBindBGRemoval += new EventHandler(EventBindBGRemoval);
 			m_pageBegin.m_evtUnBindBGRemoval += new EventHandler(EventUnBindBGRemoval);
 
+			m_pageGameBow.m_evtBindHand += new EventHandler(EventBindHand);
+			m_pageGameBow.m_evtUnBindHand += new EventHandler(EventUnBindHand);
+			m_pageGameBow.m_evtBindBGRemoval += new EventHandler(EventBindBGRemoval);
+			m_pageGameBow.m_evtUnBindBGRemoval += new EventHandler(EventUnBindBGRemoval);
+			m_pageGameBow.m_evtBindSkeletonImage += new EventHandler(EventBindSkeletonImage);
+			m_pageGameBow.m_evtUnBindSkeletonImage += new EventHandler(EventUnBindSkeletonImage);
+
 			m_pageGame1.m_evtBindHand += new EventHandler(EventBindHand);
 			m_pageGame1.m_evtUnBindHand += new EventHandler(EventUnBindHand);
+
 			m_pageGame2.m_evtBindHand += new EventHandler(EventBindHand);
 			m_pageGame2.m_evtUnBindHand += new EventHandler(EventUnBindHand);
+
 			m_pageGame3.m_evtBindHand += new EventHandler(EventBindHand);
 			m_pageGame3.m_evtUnBindHand += new EventHandler(EventUnBindHand);
+			m_pageGame3.m_evtBindSkeletonImage += new EventHandler(EventBindSkeletonImage);
+			m_pageGame3.m_evtUnBindSkeletonImage += new EventHandler(EventUnBindSkeletonImage);
+
+			m_pageFeedback.m_evtBindHand += new EventHandler(EventBindHand);
+			m_pageFeedback.m_evtUnBindHand += new EventHandler(EventUnBindHand);
 
 			m_timerLaunchKinect.Interval = TimeSpan.FromSeconds(0.1);
 			m_timerLaunchKinect.Tick += new EventHandler(TimerLaunchKinect);
@@ -79,6 +93,7 @@ namespace MainProgram2
 					Close();
 					break;
 				case Key.Return:
+					m_pageGameBow.m_bSkip = true;
 					m_pageGame1.m_bSkip = true;
 					m_pageGame2.m_bSkip = true;
 					m_pageGame3.m_bSkip = true;
@@ -116,7 +131,9 @@ namespace MainProgram2
 			m_frame.Navigate(m_pageBegin);
 
 			m_numRandom = RandomNumber(1, 6);
-			m_numRandom = 3;
+#if DEBUG
+			m_numRandom = 1;
+#endif
 		}
 
 		int idxGame = 0;
@@ -130,6 +147,8 @@ namespace MainProgram2
 			}
 			else if(idxGame == 5)
 			{
+				m_pageEnd.m_scores = m_pageGame1.m_nScore + m_pageGame2.m_nScore + m_pageGame3.m_nScore;
+				m_pageEnd.m_seconds = (60 - m_pageGame1.m_cntRemainSecond + 60 - m_pageGame2.m_cntRemainSecond + 60 - m_pageGame3.m_cntRemainSecond);
 				m_frame.Navigate(m_pageEnd);
 				idxGame = 0;
 			}
@@ -194,6 +213,7 @@ namespace MainProgram2
 
 		private void GoToFeedback(object sender, EventArgs e)
 		{
+			m_pageFeedback.m_bGoodOrBad = (bool)sender;
 			m_frame.Navigate(m_pageFeedback);
 		}
 
@@ -223,6 +243,16 @@ namespace MainProgram2
 		private void EventUnBindBGRemoval(object sender, EventArgs e)
 		{
 			m_myKinect.UnbindBackgroundRemovalImage();
+		}
+
+		private void EventBindSkeletonImage(object sender, EventArgs e)
+		{
+			m_myKinect.BindSkeletonImage((Image)sender);
+		}
+
+		private void EventUnBindSkeletonImage(object sender, EventArgs e)
+		{
+			m_myKinect.UnbindSkeletonImage();
 		}
 	}
 }

@@ -15,45 +15,49 @@
 			<ColumnDefinition Width="118*"/>
 			<ColumnDefinition Width="148*"/>
 			<ColumnDefinition Width="111*"/>
-			<ColumnDefinition Width="186*"/>
-			<ColumnDefinition Width="211*"/>
-			<ColumnDefinition Width="143*"/>
-			<ColumnDefinition Width="95*"/>
-			<ColumnDefinition Width="122*"/>
-			<ColumnDefinition Width="103*"/>
+			<ColumnDefinition Width="132*"/>
+			<ColumnDefinition Width="265*"/>
+			<ColumnDefinition Width="128*"/>
+			<ColumnDefinition Width="62*"/>
+			<ColumnDefinition Width="224*"/>
+			<ColumnDefinition Width="49*"/>
 			<ColumnDefinition Width="44*"/>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="60*"/>
-			<RowDefinition Height="279*"/>
-			<RowDefinition Height="83*"/>
-			<RowDefinition Height="65*"/>
-			<RowDefinition Height="100*"/>
-			<RowDefinition Height="52*"/>
+			<RowDefinition Height="178*"/>
+			<RowDefinition Height="39*"/>
+			<RowDefinition Height="29*"/>
+			<RowDefinition Height="137*"/>
+			<RowDefinition Height="44*"/>
+			<RowDefinition Height="64*"/>
+			<RowDefinition Height="88*"/>
 			<RowDefinition Height="36*"/>
 			<RowDefinition Height="45*"/>
 		</Grid.RowDefinitions>
-		<Image Name="m_imgBackground" Source="Images/PageGame1_01_배경화면.png" Stretch="Fill" Visibility="Visible" Grid.RowSpan="8" Grid.ColumnSpan="10"/>
-		<MediaElement Name="m_videoIntro" Source="Media/PageGame1_게임설명.mp4" Visibility="Hidden" LoadedBehavior="Manual" MediaEnded="m_videoIntro_MediaEnded" Grid.Row="0" Grid.Column="0" Grid.RowSpan="8" Grid.ColumnSpan="10" />
-		<k2:KinectTileButton Name="m_btnNext" Click="m_btnNext_Click" BorderThickness="0" Visibility="Visible" Grid.Row="5" Grid.Column="7" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="Auto" Height="Auto">
+		<Image Name="m_imgBackground" Source="Images/PageGame1_01_배경화면.png" Stretch="Fill" Visibility="Visible" Grid.RowSpan="10" Grid.ColumnSpan="10"/>
+		<Image Name="m_imgBigCircle" Stretch="Fill" Visibility="Visible" Grid.Row="0" Grid.Column="3" Grid.RowSpan="10" Grid.ColumnSpan="7"/>
+		<Image Name="m_imgTop" Source="Images/PageGame1_03_보기.png" Stretch="Fill" Visibility="Visible" Grid.Row="1" Grid.Column="3" Grid.RowSpan="2" Grid.ColumnSpan="7"/>
+		<MediaElement Name="m_videoIntro" Source="Media/PageGame1_게임설명.mp4" Visibility="Hidden" LoadedBehavior="Manual" MediaEnded="m_videoIntro_MediaEnded" Grid.Row="0" Grid.Column="0" Grid.RowSpan="10" Grid.ColumnSpan="10" />
+		<k2:KinectTileButton Name="m_btnNext" Click="m_btnNext_Click" BorderThickness="0" Visibility="Visible" Grid.Row="7" Grid.Column="7" Grid.RowSpan="3" Grid.ColumnSpan="2" Width="Auto" Height="Auto">
 			<k2:KinectTileButton.Background>
 				<ImageBrush ImageSource="Images/PageGame1_02_다음버튼.png" Stretch="Fill"/>
 			</k2:KinectTileButton.Background>
 		</k2:KinectTileButton>
-		<k2:KinectTileButton Name="m_btnHighSpeed" Click="m_btnHighSpeed_Click" BorderThickness="0" Visibility="Visible" Grid.Row="2" Grid.Column="4" Grid.RowSpan="1" Width="Auto" Height="Auto">
+		<k2:KinectTileButton Name="m_btnHighSpeed" Click="m_btnHighSpeed_Click" BorderThickness="0" Visibility="Visible" Grid.Row="4" Grid.Column="4" Grid.RowSpan="1" Width="Auto" Height="Auto">
 			<k2:KinectTileButton.Background>
 				<ImageBrush ImageSource="Images/PageGame1_03_빠르게버튼.png" Stretch="Fill"/>
 			</k2:KinectTileButton.Background>
 		</k2:KinectTileButton>
-		<k2:KinectTileButton Name="m_btnLowSpeed" Click="m_btnLowSpeed_Click" BorderThickness="0" Visibility="Visible" Grid.Row="2" Grid.Column="6" Grid.RowSpan="1" Grid.ColumnSpan="2" Width="Auto" Height="Auto">
+		<k2:KinectTileButton Name="m_btnLowSpeed" Click="m_btnLowSpeed_Click" BorderThickness="0" Visibility="Visible" Grid.Row="4" Grid.Column="6" Grid.RowSpan="1" Grid.ColumnSpan="2" Width="Auto" Height="Auto" Margin="0,0,6,0">
 			<k2:KinectTileButton.Background>
 				<ImageBrush ImageSource="Images/PageGame1_03_느리게버튼.png" Stretch="Fill"/>
 			</k2:KinectTileButton.Background>
 		</k2:KinectTileButton>
-		<Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="4" Grid.RowSpan="2">
+		<Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="6" Grid.RowSpan="2">
 			<Label x:Name="m_labelScore" Visibility="Visible" Content="0" FontSize="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="Yellow" />
 		</Viewbox>
-		<Viewbox Stretch="Uniform" Grid.Column="7" Grid.ColumnSpan="3" HorizontalAlignment="Right" Margin="0,0,50,0">
+		<Viewbox Stretch="Uniform" Grid.Column="8" HorizontalAlignment="Right" Margin="0,0,6,0" Width="29">
 			<Label x:Name="m_labelRemainSecond" Visibility="Visible" Content="0"  FontSize="100"  VerticalContentAlignment="Center" FontWeight="Bold"/>
 		</Viewbox>
 	</Grid>

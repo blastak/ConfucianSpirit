@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Kinect;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,12 +26,15 @@ namespace MainProgram2
 		public event EventHandler m_evtPageFinish;
 		public event EventHandler m_evtBindHand;
 		public event EventHandler m_evtUnBindHand;
+		public event EventHandler m_evtBindSkeletonImage;
+		public event EventHandler m_evtUnBindSkeletonImage;
 
 		public DispatcherTimer m_timerPageFinish = new DispatcherTimer();
 
 		private MediaPlayer m_soundBackground = new MediaPlayer();
 
-		private int m_cntRemainSecond;
+		public int m_nScore;
+		public int m_cntRemainSecond;
 		public bool m_bSkip;
 
 		public PageGame3()
@@ -39,14 +43,25 @@ namespace MainProgram2
 
 			m_soundBackground.Open(new Uri("Media/" + "PageGame3_배경음악.mp3", UriKind.Relative));
 			m_soundBackground.Volume = 1;
+			m_soundBackground.MediaEnded += new EventHandler(BackgroundMusicEnd);
 
 			m_timerPageFinish.Interval = TimeSpan.FromSeconds(1);
 			m_timerPageFinish.Tick += new EventHandler(TimerPageFinish);
 		}
-		
+
+		private void BackgroundMusicEnd(object sender, EventArgs e)
+		{
+			m_soundBackground.Position = TimeSpan.Zero;
+		}
+
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
 			m_labelRemainSecond.Visibility = Visibility.Hidden;
+			m_video1.Visibility = Visibility.Hidden;
+			m_video1.Visibility = Visibility.Hidden;
+			m_btnVideo1.Visibility = Visibility.Hidden;
+			m_btnVideo2.Visibility = Visibility.Hidden;
+
 			m_videoIntro.Visibility = Visibility.Visible;
 			m_btnNext.Visibility = Visibility.Visible;
 
@@ -74,15 +89,23 @@ namespace MainProgram2
 			m_videoIntro.Visibility = Visibility.Hidden;
 			m_btnNext.Visibility = Visibility.Hidden;
 
-			// kinect control off
-			m_evtUnBindHand(null, null);
+			m_video1.Visibility = Visibility.Visible;
+			m_video1.Visibility = Visibility.Visible;
+			m_btnVideo1.Visibility = Visibility.Visible;
+			m_btnVideo2.Visibility = Visibility.Visible;
+
 
 			m_video1.Position = TimeSpan.Zero;
 			m_video2.Position = TimeSpan.Zero;
 			m_video1.Play();
 			m_video2.Play();
 
+			// kinect skeleton image on
+			m_imgSkeleton.Visibility = Visibility.Visible;
+			m_evtBindSkeletonImage(m_imgSkeleton, null);
+
 			m_bSkip = false;
+			m_nScore = 0;
 			m_cntRemainSecond = 60;
 			m_labelRemainSecond.Content = m_cntRemainSecond;
 			m_labelRemainSecond.Visibility = Visibility.Visible;
@@ -93,22 +116,52 @@ namespace MainProgram2
 		{
 			m_labelRemainSecond.Content = m_cntRemainSecond;
 
-			if (m_cntRemainSecond < 0)
+			if (m_cntRemainSecond < 0 || m_bSkip == true)
 			{
 				// 타이머 종료
 				m_timerPageFinish.Stop();
+
+				// 동영상 종료
+				m_video1.Stop();
+				m_video2.Stop();
+
+				// kinect control off
+				m_evtUnBindHand(null, null);
+
+				// kinect skeleton image off
+				m_imgSkeleton.Visibility = Visibility.Hidden;
+				m_evtUnBindSkeletonImage(null, null);
+
 
 				// 배경음악 종료
 				m_soundBackground.Stop();
 
 				// 페이지 종료
-				m_evtPageFinish(null, null);
+				if (m_nScore >= 10)
+				{
+					m_evtPageFinish(true, null);
+				}
+				else
+				{
+					m_evtPageFinish(false, null);
+				}
 			}
+			else
+			{
+				m_cntRemainSecond--;
+			}
+		}
 
-			m_cntRemainSecond--;
+		private void m_btnVideo1_Click(object sender, RoutedEventArgs e)
+		{
+			m_nScore = 10;
+			m_bSkip = true;
+		}
 
-			if (m_bSkip == true)
-				m_cntRemainSecond = -1;
+		private void m_btnVideo2_Click(object sender, RoutedEventArgs e)
+		{
+			m_nScore = 0;
+			m_bSkip = true;
 		}
 	}
 }

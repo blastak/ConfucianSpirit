@@ -9,11 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MainProgram2</RootNamespace>
     <AssemblyName>MainProgram2</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -111,7 +112,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyFallingShapes.cs" />
+    <Compile Include="MyFallingThings.cs" />
+    <Compile Include="MyGameGravity.cs" />
     <Compile Include="MyKinectSensor.cs" />
+    <Compile Include="MySkelPlayer.cs" />
     <Compile Include="PageBegin.xaml.cs">
       <DependentUpon>PageBegin.xaml</DependentUpon>
     </Compile>
@@ -184,6 +189,32 @@
     <Resource Include="Images\PageGame1_04_주머니에손넣고인사_글포함.png" />
     <Resource Include="Images\PageGame1_04_집안청소_글포함.png" />
     <Resource Include="Images\PageGame1_04_형제와싸움_글포함.png" />
+    <Resource Include="Images\PageFeedback_01_잘했을때.png" />
+    <Resource Include="Images\PageFeedback_02_못했을때.png" />
+    <Resource Include="Images\PageFeedback_03_시작버튼.png" />
+    <Resource Include="Images\PageGameBow_01_배경화면.png" />
+    <Resource Include="Images\PageGameBow_02_보기_남자.png" />
+    <Resource Include="Images\PageGameBow_02_보기_여자.png" />
+    <Resource Include="Images\PageGameBow_02_성별선택.png" />
+    <Resource Include="Images\PageGameBow_03_공수설명.png" />
+    <Resource Include="Images\PageGameBow_03_보기_남녀.png" />
+    <Resource Include="Images\PageEnd_01_배경화면.png" />
+    <Resource Include="Images\PageEnd_02_다시버튼.png" />
+    <Resource Include="Images\PageGameBow_04_공수설명.png" />
+    <Resource Include="Images\PageGameBow_04_선택_남자.png" />
+    <Resource Include="Images\PageGameBow_04_선택_여자.png" />
+    <Resource Include="Images\PageGameBow_05_공수설명_키넥트와함께.png" />
+    <Resource Include="Images\PageGameBow_06_공수설명.png" />
+    <Resource Include="Images\PageGameBow_06_공수설명_남자.png" />
+    <Resource Include="Images\PageGameBow_06_공수설명_여자.png" />
+    <Resource Include="Images\PageGame1_04_하교후인사하기.png" />
+    <Resource Include="Images\PageGame1_04_하교후인사하기_글포함.png" />
+    <Resource Include="Images\PageGame3_03_보기.png" />
+    <Resource Include="Images\PageGame3_03_틀렸을때.png" />
+    <Resource Include="Images\PageGame1_03_보기.png" />
+    <Content Include="Media\PageEnd_배경음악.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Media\PageGame1_배경음악.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

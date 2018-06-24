@@ -47,7 +47,8 @@ namespace MainProgram2
 		UIElement m_currentItem;
 		private Point m_gripPoint;
 
-		private int m_cntRemainSecond;
+		public int m_nScore;
+		public int m_cntRemainSecond;
 		public bool m_bSkip;
 
 
@@ -57,9 +58,15 @@ namespace MainProgram2
 
 			m_soundBackground.Open(new Uri("Media/" + "PageGame2_배경음악.mp3", UriKind.Relative));
 			m_soundBackground.Volume = 1;
+			m_soundBackground.MediaEnded += new EventHandler(BackgroundMusicEnd);
 
 			m_timerPageFinish.Interval = TimeSpan.FromSeconds(1);
 			m_timerPageFinish.Tick += new EventHandler(TimerPageFinish);
+		}
+
+		private void BackgroundMusicEnd(object sender, EventArgs e)
+		{
+			m_soundBackground.Position = TimeSpan.Zero;
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -105,6 +112,43 @@ namespace MainProgram2
 			m_videoIntro.Visibility = Visibility.Hidden;
 			m_btnNext.Visibility = Visibility.Hidden;
 
+			m_video1.Visibility = Visibility.Visible;
+			m_video2.Visibility = Visibility.Visible;
+			m_video3.Visibility = Visibility.Visible;
+			m_video4.Visibility = Visibility.Visible;
+
+#if DEBUG
+			m_video1.SpeedRatio = 20;
+			m_video2.SpeedRatio = 20;
+			m_video3.SpeedRatio = 20;
+			m_video4.SpeedRatio = 20;
+#endif
+
+			m_video1.Position = TimeSpan.Zero;
+			m_video2.Position = TimeSpan.Zero;
+			m_video3.Position = TimeSpan.Zero;
+			m_video4.Position = TimeSpan.Zero;
+
+			m_video1.Play();
+		}
+
+		private void m_video1_MediaEnded(object sender, RoutedEventArgs e)
+		{
+			m_video2.Play();
+		}
+
+		private void m_video2_MediaEnded(object sender, RoutedEventArgs e)
+		{
+			m_video3.Play();
+		}
+
+		private void m_video3_MediaEnded(object sender, RoutedEventArgs e)
+		{
+			m_video4.Play();
+		}
+
+		private void m_video4_MediaEnded(object sender, RoutedEventArgs e)
+		{
 			GameStart();
 		}
 
@@ -158,25 +202,11 @@ namespace MainProgram2
 			KinectRegion.AddHandPointerGripReleaseHandler(m_canvas, this.OnHandPointerGripRelease);
 			KinectRegion.AddQueryInteractionStatusHandler(m_canvas, this.OnQueryInteractionStatus);
 
-			m_video1.Position = TimeSpan.Zero;
-			m_video2.Position = TimeSpan.Zero;
-			m_video3.Position = TimeSpan.Zero;
-			m_video4.Position = TimeSpan.Zero;
-			m_video1.Play();
-			m_video2.Play();
-			m_video3.Play();
-			m_video4.Play();
-
 			m_dragImg1.Visibility = Visibility.Visible;
 			m_dragImg2.Visibility = Visibility.Visible;
 			m_dragImg3.Visibility = Visibility.Visible;
 			m_dragImg4.Visibility = Visibility.Visible;
 			m_canvas.Visibility = Visibility.Visible;
-
-			m_video1.Visibility = Visibility.Visible;
-			m_video2.Visibility = Visibility.Visible;
-			m_video3.Visibility = Visibility.Visible;
-			m_video4.Visibility = Visibility.Visible;
 
 			m_imgBlank1.Visibility = Visibility.Visible;
 			m_imgBlank2.Visibility = Visibility.Visible;
@@ -184,6 +214,7 @@ namespace MainProgram2
 			m_imgBlank4.Visibility = Visibility.Visible;
 
 			m_bSkip = false;
+			m_nScore = 0;
 			m_cntRemainSecond = 60;
 			m_labelRemainSecond.Content = m_cntRemainSecond;
 			m_labelRemainSecond.Visibility = Visibility.Visible;
@@ -193,7 +224,7 @@ namespace MainProgram2
 		private void TimerPageFinish(object sender, EventArgs e)
 		{
 			m_labelRemainSecond.Content = m_cntRemainSecond;
-			if (m_cntRemainSecond < 0)
+			if (m_cntRemainSecond < 0 || m_bSkip == true || m_nScore >= 40)
 			{
 				// 타이머 종료
 				m_timerPageFinish.Stop();
@@ -224,12 +255,19 @@ namespace MainProgram2
 				m_soundBackground.Stop();
 
 				// 페이지 종료
-				m_evtPageFinish(null, null);
+				if (m_nScore >= 40)
+				{
+					m_evtPageFinish(true, null);
+				}
+				else
+				{
+					m_evtPageFinish(false, null);
+				}
 			}
-			m_cntRemainSecond--;
-
-			if (m_bSkip == true)
-				m_cntRemainSecond = -1;
+			else
+			{
+				m_cntRemainSecond--;
+			}
 		}
 
 		private void OnHandPointerMove(object sender, HandPointerEventArgs kinectHandPointerEventArgs)
@@ -316,7 +354,7 @@ namespace MainProgram2
 					//show message and fix position
 					(m_currentItem as DragImage).GoToCorrectPosition();
 
-					//score += 1;
+					m_nScore += 10;
 
 					KinectRegion.RemoveHandPointerGripHandler(m_currentItem, this.OnHandPointerGrip);
 				}
@@ -338,6 +376,30 @@ namespace MainProgram2
 				queryInteractionStatusEventArgs.IsInGripInteraction = this.m_lastGripState == GripState.Gripped;
 				queryInteractionStatusEventArgs.Handled = true;
 			}
+		}
+
+		private void m_video1_Loaded(object sender, RoutedEventArgs e)
+		{
+			m_video1.Play();
+			m_video1.Pause();
+		}
+
+		private void m_video2_Loaded(object sender, RoutedEventArgs e)
+		{
+			m_video2.Play();
+			m_video2.Pause();
+		}
+
+		private void m_video3_Loaded(object sender, RoutedEventArgs e)
+		{
+			m_video3.Play();
+			m_video3.Pause();
+		}
+
+		private void m_video4_Loaded(object sender, RoutedEventArgs e)
+		{
+			m_video4.Play();
+			m_video4.Pause();
 		}
 	}
 }

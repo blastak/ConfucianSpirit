@@ -4,11 +4,52 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MainProgram2"
+	  xmlns:k2="clr-namespace:Microsoft.Kinect.Toolkit.Controls;assembly=Microsoft.Kinect.Toolkit.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="720" d:DesignWidth="1280"
 	  Loaded="Page_Loaded" Title="PageGameBow">
 
 	<Grid>
-		<Label x:Name="label" Content="GameBow" Background="Gray" HorizontalAlignment="Left" Margin="471,319,0,0" VerticalAlignment="Top" Height="150" Width="373" FontSize="80"/>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="167*"/>
+			<ColumnDefinition Width="69*"/>
+			<ColumnDefinition Width="238*"/>
+			<ColumnDefinition Width="363*"/>
+			<ColumnDefinition Width="222*"/>
+			<ColumnDefinition Width="76*"/>
+			<ColumnDefinition Width="145*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="15*"/>
+			<RowDefinition Height="99*"/>
+			<RowDefinition Height="114*"/>
+			<RowDefinition Height="58*"/>
+			<RowDefinition Height="106*"/>
+			<RowDefinition Height="113*"/>
+			<RowDefinition Height="80*"/>
+			<RowDefinition Height="135*"/>
+		</Grid.RowDefinitions>
+		<Image Name="m_imgBackground" Source="Images/PageGameBow_01_배경화면.png" Grid.Row="0" Grid.Column="0" Grid.RowSpan="8" Grid.ColumnSpan="7" Stretch="Fill" Visibility="Visible"/>
+		<Image Name="m_imgTop" Source="Images/PageGameBow_02_성별선택.png" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" Stretch="Fill" Visibility="Visible"/>
+		<k2:KinectTileButton Name="m_btnMale" Height="Auto" Width="Auto" Click="m_btnMale_Click" BorderThickness="0" Visibility="Visible" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
+			<k2:KinectTileButton.Background>
+				<ImageBrush ImageSource="Images/PageGameBow_02_보기_남자.png" Stretch="Fill"/>
+			</k2:KinectTileButton.Background>
+		</k2:KinectTileButton>
+		<k2:KinectTileButton Name="m_btnFemale" Height="Auto" Width="Auto" Click="m_btnFemale_Click" BorderThickness="0" Visibility="Visible" Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="2">
+			<k2:KinectTileButton.Background>
+				<ImageBrush ImageSource="Images/PageGameBow_02_보기_여자.png" Stretch="Fill"/>
+			</k2:KinectTileButton.Background>
+		</k2:KinectTileButton>
+		<Image Name="m_imgTop2" Source="Images/PageGameBow_03_공수설명.png" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" Stretch="Fill" Visibility="Visible"/>
+		<Image Name="m_imgMaleFemale" Source="Images/PageGameBow_03_보기_남녀.png" Grid.Row="4" Grid.Column="2" Grid.RowSpan="4" Grid.ColumnSpan="3" Stretch="Fill" Visibility="Visible"/>
+		<Image Name="m_imgTop3" Source="Images/PageGameBow_04_공수설명.png" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" Stretch="Fill" Visibility="Visible"/>
+		<Image Name="m_imgSelectedMF" Source="Images/PageGameBow_04_선택_남자.png" Grid.Row="4" Grid.Column="3" Grid.RowSpan="4" Grid.ColumnSpan="1" Stretch="Fill" Visibility="Visible"/>
+		<Image Name="m_imgTop4" Source="Images/PageGameBow_05_공수설명_키넥트와함께.png" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" Stretch="Fill" Visibility="Visible"/>
+		<Image Name="m_imgUserBG" Grid.Row="3" Grid.Column="0" Grid.RowSpan="5" Grid.ColumnSpan="7" Stretch="Fill" Visibility="Visible" />
+		<Image Name="m_imgUserSkel" Grid.Row="3" Grid.Column="0" Grid.RowSpan="5" Grid.ColumnSpan="7" Stretch="Fill" Visibility="Visible"/>
+		<Image Name="m_imgTop5" Source="Images/PageGameBow_06_공수설명.png" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" Stretch="Fill" Visibility="Visible"/>
+		<Image Name="m_imgMiddle1" Source="Images/PageGameBow_06_공수설명_남자.png" Grid.Row="4" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" Stretch="Fill" Visibility="Visible"/>
+		<Image Name="m_imgMiddle2" Source="Images/PageGameBow_06_공수설명_여자.png" Grid.Row="6" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" Stretch="Fill" Visibility="Visible"/>
 	</Grid>
 </Page>

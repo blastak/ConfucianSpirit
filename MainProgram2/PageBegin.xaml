@@ -11,19 +11,19 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="7*"/>
-			<RowDefinition Height="2*"/>
-			<RowDefinition Height="1*"/>
+			<RowDefinition Height="246*"/>
+			<RowDefinition Height="97*"/>
+			<RowDefinition Height="17*"/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="1*"/>
-			<ColumnDefinition Width="1*"/>
-			<ColumnDefinition Width="1*"/>
+			<ColumnDefinition Width="541*"/>
+			<ColumnDefinition Width="205*"/>
+			<ColumnDefinition Width="534*"/>
 		</Grid.ColumnDefinitions>
 		<Image Name="m_imgBackground" Grid.RowSpan="3" Grid.ColumnSpan="3" Stretch="Fill" Visibility="Visible"/>
 		<Image Name="m_imgUser" Grid.RowSpan="3" Grid.ColumnSpan="3" Stretch="Fill"/>
 		<Grid Grid.Row="1" Grid.Column="1">
-			<k2:KinectTileButton Name="m_btnGameStart" Height="Auto" Width="Auto" Click="m_btnGameStart_Click" BorderThickness="0" Visibility="Hidden">
+			<k2:KinectTileButton Name="m_btnGameStart" Height="Auto" Width="Auto" Click="m_btnGameStart_Click" BorderThickness="0" Visibility="Visible">
 				<k2:KinectTileButton.Background>
 					<ImageBrush ImageSource="Images/PageBegin_02_시작버튼.png" Stretch="Fill"/>
 				</k2:KinectTileButton.Background>

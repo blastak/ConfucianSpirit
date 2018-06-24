@@ -1,16 +1,31 @@
-﻿<Page x:Class="MainProgram2.PageFeedback"
+﻿<Page
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MainProgram2"
+      xmlns:k2="http://schemas.microsoft.com/kinect/2013" x:Class="MainProgram2.PageFeedback"
       mc:Ignorable="d" 
       d:DesignHeight="720" d:DesignWidth="1280"
 	  Loaded="Page_Loaded"
       Title="PageFeedback">
 
-    <Grid>
-		<Label x:Name="label" Content="Feedback" Background="Gray" HorizontalAlignment="Left" Margin="471,319,0,0" VerticalAlignment="Top" Height="150" Width="373" FontSize="80"/>
-
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="119*"/>
+			<RowDefinition Height="48*"/>
+			<RowDefinition Height="13*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="550*"/>
+			<ColumnDefinition Width="209*"/>
+			<ColumnDefinition Width="521*"/>
+		</Grid.ColumnDefinitions>
+		<Image x:Name="m_imgGoodOrBad" Stretch="Fill" Source="Images/PageFeedback_01_잘했을때.png" Visibility="Visible" Grid.ColumnSpan="3" Grid.RowSpan="3"/>
+		<k2:KinectTileButton Name="m_btnNext" Click="m_btnNext_Click" BorderThickness="0" Visibility="Visible" Grid.Row="1" Grid.Column="1" Width="Auto" Height="Auto">
+			<k2:KinectTileButton.Background>
+				<ImageBrush ImageSource="Images/PageFeedback_03_시작버튼.png" Stretch="Fill"/>
+			</k2:KinectTileButton.Background>
+		</k2:KinectTileButton>
 	</Grid>
 </Page>

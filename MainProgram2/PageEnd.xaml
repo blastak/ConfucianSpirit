@@ -9,8 +9,25 @@
 	  Loaded="Page_Loaded"
       Title="PageEnd">
 
-    <Grid>
-
-		<Label x:Name="label" Content="End" Background="Gray" HorizontalAlignment="Left" Margin="471,319,0,0" VerticalAlignment="Top" Height="150" Width="373" FontSize="80"/>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="42*"/>
+			<RowDefinition Height="19*"/>
+			<RowDefinition Height="29*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="179*"/>
+			<ColumnDefinition Width="214*"/>
+			<ColumnDefinition Width="511*"/>
+			<ColumnDefinition Width="194*"/>
+			<ColumnDefinition Width="182*"/>
+		</Grid.ColumnDefinitions>
+		<Image Name="m_imgBackground" Source="Images/PageEnd_01_배경화면.png" Stretch="Fill" Visibility="Visible" Grid.ColumnSpan="5" Grid.RowSpan="3"/>
+		<Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="1">
+			<TextBlock x:Name="textBlock_Time" FontSize="100" Foreground="Black" HorizontalAlignment="Center" Text="0:00" TextAlignment="Center" FontWeight="Bold" VerticalAlignment="Center" Height="Auto" Width="Auto"/>
+		</Viewbox>
+		<Viewbox Stretch="Uniform" Grid.Column="3" Grid.Row="1">
+			<TextBlock x:Name="textBlock_Score" FontSize="100" Foreground="Black" HorizontalAlignment="Center" Text="0" TextAlignment="Center" FontWeight="Bold" VerticalAlignment="Center" Height="Auto" Width="Auto"/>
+		</Viewbox>
 	</Grid>
 </Page>

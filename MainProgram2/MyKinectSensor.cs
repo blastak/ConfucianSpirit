@@ -24,9 +24,10 @@ namespace MainProgram2
 		private BackgroundRemovedColorStream backgroundRemovedColorStream;
 
 		private Image imgBackgroundRemoval = null;
+		private Image imgSkeleton = null;
 
 		private DrawingGroup m_drawingGroup = null;
-		private DrawingImage m_imageSource = null;
+		//private DrawingImage m_imageSource = null;
 
 		private int m_idPlayer = -1;
 
@@ -39,6 +40,8 @@ namespace MainProgram2
 
 		public MyKinectSensor(KinectSensorChooserUI ui)
 		{
+			this.m_drawingGroup = new DrawingGroup();
+			
 			this.sensorChooser = new KinectSensorChooser();
 			this.sensorChooser.KinectChanged += this.SensorChooserOnKinectChanged;
 			ui.KinectSensorChooser = this.sensorChooser;
@@ -54,7 +57,18 @@ namespace MainProgram2
 		{
 			imgBackgroundRemoval = null;
 		}
-		
+
+		public void BindSkeletonImage(Image input_image)
+		{
+			imgSkeleton = input_image;
+			imgSkeleton.Source = new DrawingImage(this.m_drawingGroup);
+		}
+
+		public void UnbindSkeletonImage()
+		{
+			imgSkeleton = null;
+		}
+
 		public void Closing()
 		{
 			if (null != this.backgroundRemovedColorStream)
@@ -173,6 +187,11 @@ namespace MainProgram2
 					hi = skeletons[m_idPlayer];
 					evtReadySingleSkel(hi, e);
 				}
+
+				if(imgSkeleton != null && m_idPlayer != -1)
+				{
+					MySkeletonFrameReady(skeletons[m_idPlayer], e);
+				}
 			}
 			catch (InvalidOperationException)
 			{
@@ -265,47 +284,49 @@ namespace MainProgram2
 				//dc.DrawRectangle(null, null, new Rect(0.0, 0.0, 640, 480));
 				dc.DrawRectangle(null, new Pen(Brushes.Blue, 1), new Rect(0.0, 0.0, 640, 480));
 
-				if (skeletons.Length != 0)
-				{
-					Single distMin = Single.MaxValue;
-					Skeleton player = new Skeleton();
+				this.DrawBonesAndJoints((Skeleton)sender, dc);
 
-					foreach (Skeleton skel in skeletons)
-					{
-						// 화면밖으로 벗어났을 때 빨간선
-						//RenderClippedEdges(skel, dc);
+				//if (skeletons.Length != 0)
+				//{
+				//	Single distMin = Single.MaxValue;
+				//	Skeleton player = new Skeleton();
 
-						if (null == skel)
-						{
-							continue;
-						}
+				//	foreach (Skeleton skel in skeletons)
+				//	{
+				//		// 화면밖으로 벗어났을 때 빨간선
+				//		//RenderClippedEdges(skel, dc);
 
-						if (skel.TrackingState != SkeletonTrackingState.Tracked)
-						{
-							continue;
-						}
+				//		if (null == skel)
+				//		{
+				//			continue;
+				//		}
 
-						Single dist = skel.Position.Z;
-						if (dist < distMin && dist >= 0.5)
-						{
-							player = skel;
-							distMin = dist;
-						}
-					}
+				//		if (skel.TrackingState != SkeletonTrackingState.Tracked)
+				//		{
+				//			continue;
+				//		}
 
-					if (player.TrackingState == SkeletonTrackingState.Tracked)
-					{
-						this.DrawBonesAndJoints(player, dc);
-					}
-					else if (player.TrackingState == SkeletonTrackingState.PositionOnly)
-					{
-						dc.DrawEllipse(
-						Brushes.Blue,
-						null,
-						this.SkeletonPointToScreen(player.Position),
-						10, 10);
-					}
-				}
+				//		Single dist = skel.Position.Z;
+				//		if (dist < distMin && dist >= 0.5)
+				//		{
+				//			player = skel;
+				//			distMin = dist;
+				//		}
+				//	}
+
+				//	if (player.TrackingState == SkeletonTrackingState.Tracked)
+				//	{
+				//		this.DrawBonesAndJoints(player, dc);
+				//	}
+				//	else if (player.TrackingState == SkeletonTrackingState.PositionOnly)
+				//	{
+				//		dc.DrawEllipse(
+				//		Brushes.Blue,
+				//		null,
+				//		this.SkeletonPointToScreen(player.Position),
+				//		10, 10);
+				//	}
+				//}
 
 				// prevent drawing outside of our render area
 				this.m_drawingGroup.ClipGeometry = new RectangleGeometry(new Rect(0.0, 0.0, 640, 480));

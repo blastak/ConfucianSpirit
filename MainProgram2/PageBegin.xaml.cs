@@ -46,6 +46,8 @@ namespace MainProgram2
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
+			m_btnGameStart.Visibility = Visibility.Hidden;
+
 			// T자세 화면
 			m_imgBackground.Source = new BitmapImage(new Uri(m_strbase + "Images/" + "PageBegin_01_T포즈.png"));
 
