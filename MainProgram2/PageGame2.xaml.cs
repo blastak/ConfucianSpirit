@@ -34,6 +34,10 @@ namespace MainProgram2
 		public DragImage m_dragImg4 = null;
 
 		private MediaPlayer m_soundBackground = new MediaPlayer();
+		private MediaPlayer m_soundVideo1Background = new MediaPlayer();
+		private MediaPlayer m_soundVideo2Background = new MediaPlayer();
+		private MediaPlayer m_soundVideo3Background = new MediaPlayer();
+		private MediaPlayer m_soundVideo4Background = new MediaPlayer();
 
 		private enum GripState
 		{
@@ -59,6 +63,15 @@ namespace MainProgram2
 			m_soundBackground.Open(new Uri("Media/" + "PageGame2_배경음악.mp3", UriKind.Relative));
 			m_soundBackground.Volume = 1;
 			m_soundBackground.MediaEnded += new EventHandler(BackgroundMusicEnd);
+
+			m_soundVideo1Background.Open(new Uri("Media/" + "PageGame2_보기1_배경음악.mp3", UriKind.Relative));
+			m_soundVideo1Background.Volume = 1;
+			m_soundVideo2Background.Open(new Uri("Media/" + "PageGame2_보기2_배경음악.mp3", UriKind.Relative));
+			m_soundVideo2Background.Volume = 1;
+			m_soundVideo3Background.Open(new Uri("Media/" + "PageGame2_보기3_배경음악.mp3", UriKind.Relative));
+			m_soundVideo3Background.Volume = 1;
+			m_soundVideo4Background.Open(new Uri("Media/" + "PageGame2_보기4_배경음악.mp3", UriKind.Relative));
+			m_soundVideo4Background.Volume = 1;
 
 			m_timerPageFinish.Interval = TimeSpan.FromSeconds(1);
 			m_timerPageFinish.Tick += new EventHandler(TimerPageFinish);
@@ -124,31 +137,48 @@ namespace MainProgram2
 			m_video4.SpeedRatio = 20;
 #endif
 
+			m_soundVideo1Background.Position = TimeSpan.Zero;
+			m_soundVideo2Background.Position = TimeSpan.Zero;
+			m_soundVideo3Background.Position = TimeSpan.Zero;
+			m_soundVideo4Background.Position = TimeSpan.Zero;
+
 			m_video1.Position = TimeSpan.Zero;
 			m_video2.Position = TimeSpan.Zero;
 			m_video3.Position = TimeSpan.Zero;
 			m_video4.Position = TimeSpan.Zero;
 
 			m_video1.Play();
+			m_soundVideo1Background.Play();
 		}
 
 		private void m_video1_MediaEnded(object sender, RoutedEventArgs e)
 		{
+			m_soundVideo1Background.Stop();
+
 			m_video2.Play();
+			m_soundVideo2Background.Play();
 		}
 
 		private void m_video2_MediaEnded(object sender, RoutedEventArgs e)
 		{
+			m_soundVideo2Background.Stop();
+
 			m_video3.Play();
+			m_soundVideo3Background.Play();
 		}
 
 		private void m_video3_MediaEnded(object sender, RoutedEventArgs e)
 		{
+			m_soundVideo3Background.Stop();
+
 			m_video4.Play();
+			m_soundVideo4Background.Play();
 		}
 
 		private void m_video4_MediaEnded(object sender, RoutedEventArgs e)
 		{
+			m_soundVideo4Background.Stop();
+
 			GameStart();
 		}
 

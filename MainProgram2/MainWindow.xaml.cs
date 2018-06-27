@@ -103,8 +103,11 @@ namespace MainProgram2
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			if(m_myKinect != null)
+			if (m_myKinect != null)
+			{
+				m_pageGame1.m_gameGravity.m_runningGameThread = false;
 				m_myKinect.Closing();
+			}
 		}
 
 		private void TimerLaunchKinect(object sender, EventArgs e)

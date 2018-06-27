@@ -119,14 +119,14 @@ namespace MainProgram2
 
 		private void m_btnHighSpeed_Click(object sender, RoutedEventArgs e)
 		{
-			m_gravity_factor = 5;
+			m_gravity_factor = 3;
 
 			CallBigCircle();
 		}
 
 		private void m_btnLowSpeed_Click(object sender, RoutedEventArgs e)
 		{
-			m_gravity_factor = 2;
+			m_gravity_factor = 1;
 
 			CallBigCircle();
 		}
@@ -176,6 +176,7 @@ namespace MainProgram2
 			m_canvasSkel.Visibility = Visibility.Visible;
 			m_gameGravity.SetCanvas(m_canvasSkel);
 
+			m_gameGravity.SetGameSpeed(m_gravity_factor);
 			m_gameGravity.SetGameMode(0);
 
 			m_gameGravity.GameStart();

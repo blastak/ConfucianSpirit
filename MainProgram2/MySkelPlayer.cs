@@ -128,7 +128,7 @@ namespace MainProgram2
 						rect.SetValue(Canvas.TopProperty, seg.Y1 - seg.Radius * 5);
 						rect.Stretch = Stretch.Fill;
 						var abrush = new ImageBrush(); //定义图片画刷
-						string uri1 = @"pack://application:,,/" + "Images/" + "예효_05_02.png";
+						string uri1 = @"pack://application:,,/" + "Images/" + "바구니.png";
 						abrush.ImageSource = new BitmapImage(new Uri(uri1));
 						rect.Fill = abrush;//填充
 						children.Add(rect);

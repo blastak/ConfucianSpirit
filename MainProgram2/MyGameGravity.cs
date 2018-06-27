@@ -13,7 +13,7 @@ namespace MainProgram2
 	public class MyGameGravity
 	{
 		private MyFallingThings myFallingThings;
-		private const int MaxShapes = 2;
+		private const int MaxShapes = 3; // 동시에 떨어지는 개수
 		private const double MinFramerate = 15;
 		private const double MaxFramerate = 70;
 		private const int NumIntraFrames = 3;
@@ -70,6 +70,11 @@ namespace MainProgram2
 		public void SetGameMode(int mode)
 		{
 			m_mode = mode;
+		}
+
+		public void SetGameSpeed(int factor)
+		{
+			myFallingThings.SetGravity(dropGravity * factor);
 		}
 
 		public void GameStart()

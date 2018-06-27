@@ -212,13 +212,32 @@
     <Resource Include="Images\PageGame3_03_보기.png" />
     <Resource Include="Images\PageGame3_03_틀렸을때.png" />
     <Resource Include="Images\PageGame1_03_보기.png" />
+    <Resource Include="Images\바구니.png" />
     <Content Include="Media\PageEnd_배경음악.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageFeedback_Good.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageFeedback_Bad.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Media\PageGame1_배경음악.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Media\PageGame2_배경음악.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageGame2_보기1_배경음악.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageGame2_보기2_배경음악.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageGame2_보기3_배경음악.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\PageGame2_보기4_배경음악.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Media\PageGame3_게임설명.mp4">
