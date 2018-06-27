@@ -107,7 +107,7 @@ namespace MainProgram2
 			this.UpdateSegmentPosition(j, j, seg);
 		}
 
-		public void Draw(UIElementCollection children)
+		public void Draw(UIElementCollection children, int mode)
         {
             if (!this.IsAlive)
             {
@@ -121,19 +121,35 @@ namespace MainProgram2
                 Segment seg = segment.Value.GetEstimatedSegment(cur);
                 if (!seg.IsCircle())
                 {
-                    var line = new Line
-                        {
-                            StrokeThickness = seg.Radius * 2,
-                            X1 = seg.X1,
-                            Y1 = seg.Y1,
-                            X2 = seg.X2,
-                            Y2 = seg.Y2,
-                            Stroke = this.bonesBrush,
-                            StrokeEndLineCap = PenLineCap.Round,
-                            StrokeStartLineCap = PenLineCap.Round
-                        };
-                    children.Add(line);
-                }
+					if (mode == 0 || mode == 2) // 바구니
+					{
+						var rect = new Rectangle { Width = seg.Radius * 30, Height = seg.Radius * 30 };
+						rect.SetValue(Canvas.LeftProperty, seg.X1 - seg.Radius * 15);
+						rect.SetValue(Canvas.TopProperty, seg.Y1 - seg.Radius * 5);
+						rect.Stretch = Stretch.Fill;
+						var abrush = new ImageBrush(); //定义图片画刷
+						string uri1 = @"pack://application:,,/" + "Images/" + "예효_05_02.png";
+						abrush.ImageSource = new BitmapImage(new Uri(uri1));
+						rect.Fill = abrush;//填充
+						children.Add(rect);
+					}
+
+					if (mode == 1 || mode == 2) // 스켈레톤
+					{
+						var line = new Line
+						{
+							StrokeThickness = seg.Radius * 2,
+							X1 = seg.X1,
+							Y1 = seg.Y1,
+							X2 = seg.X2,
+							Y2 = seg.Y2,
+							Stroke = this.bonesBrush,
+							StrokeEndLineCap = PenLineCap.Round,
+							StrokeStartLineCap = PenLineCap.Round
+						};
+						children.Add(line);
+					}
+				}
             }
 
             foreach (var segment in this.segments)

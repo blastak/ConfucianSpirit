@@ -31,8 +31,9 @@ namespace MainProgram2
 
 		private MediaPlayer m_soundBackground = new MediaPlayer();
 
-		//public MyGameGravityTouch m_game3 = new MyGameGravityTouch();
-		//public MyGameGravityCollect m_game5 = new MyGameGravityCollect();
+		public MyGameGravity m_gameGravity = new MyGameGravity();
+
+		public MyKinectSensor m_myKinect = null;
 
 		private int m_gravity_factor = 2;
 
@@ -72,6 +73,11 @@ namespace MainProgram2
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
+			if(m_myKinect != null && m_gameGravity.m_myKinect == null)
+			{
+				m_gameGravity.m_myKinect = m_myKinect;
+			}
+
 			m_labelRemainSecond.Visibility = Visibility.Hidden;
 			m_labelScore.Visibility = Visibility.Hidden;
 			m_btnHighSpeed.Visibility = Visibility.Hidden;
@@ -115,19 +121,19 @@ namespace MainProgram2
 		{
 			m_gravity_factor = 5;
 
-			GameStart();
+			CallBigCircle();
 		}
 
 		private void m_btnLowSpeed_Click(object sender, RoutedEventArgs e)
 		{
 			m_gravity_factor = 2;
 
-			GameStart();
+			CallBigCircle();
 		}
 
 		string[] strBigCircles = { "PageGame1_04_깨끗이씻기_글포함.png", "PageGame1_04_부모님께반말하기_글포함.png", "PageGame1_04_선생님께인사_글포함.png", "PageGame1_04_손님한테인사 안하기_글포함.png", "PageGame1_04_스스로일어나기_글포함.png", "PageGame1_04_식전인사하기_글포함.png", "PageGame1_04_위험한장소가기_글포함.png", "PageGame1_04_인사거절하기_글포함.png", "PageGame1_04_주머니에손넣고인사_글포함.png", "PageGame1_04_집안청소_글포함.png", "PageGame1_04_형제와싸움_글포함.png", "PageGame1_04_하교후인사하기_글포함.png" };
 		int idxBigCircle = 0;
-		private void GameStart()
+		private void CallBigCircle()
 		{
 			// kinect control off
 			m_evtUnBindHand(null, null);
@@ -157,25 +163,52 @@ namespace MainProgram2
 				m_labelScore.Content = m_nScore;
 				m_labelScore.Visibility = Visibility.Visible;
 
-				m_bSkip = false;
-				m_cntRemainSecond = 60;
-				m_labelRemainSecond.Content = m_cntRemainSecond;
-				m_labelRemainSecond.Visibility = Visibility.Visible;
-				m_timerPageFinish.Start();
+				GravityGameStart();
 			}
 			else
 			{
 				m_imgBigCircle.Source = new BitmapImage(new Uri(m_strbase + "Images/" + strBigCircles[idxBigCircle]));
 			}
 		}
+
+		private void GravityGameStart()
+		{
+			m_canvasSkel.Visibility = Visibility.Visible;
+			m_gameGravity.SetCanvas(m_canvasSkel);
+
+			m_gameGravity.SetGameMode(0);
+
+			m_gameGravity.GameStart();
+
+			m_bSkip = false;
+			m_cntRemainSecond = 60;
+			m_labelRemainSecond.Content = m_cntRemainSecond;
+			m_labelRemainSecond.Visibility = Visibility.Visible;
+			m_timerPageFinish.Start();
+		}
 		
 		private void TimerPageFinish(object sender, EventArgs e)
 		{
+			m_nScore = m_gameGravity.GetGameResult();
+
+			if (m_nScore >= 20 && m_gameGravity.m_mode == 0)
+			{
+				m_gameGravity.SetGameMode(1);
+			}
+			else if (m_nScore >= 40 && m_gameGravity.m_mode == 1)
+			{
+				m_gameGravity.SetGameMode(2);
+			}
+
+			m_labelScore.Content = m_nScore;
 			m_labelRemainSecond.Content = m_cntRemainSecond;
-			if (m_cntRemainSecond < 0 || m_bSkip == true)
+			if (m_cntRemainSecond < 0 || m_bSkip == true || m_nScore >= 60)
 			{
 				// 타이머 종료
 				m_timerPageFinish.Stop();
+
+				// 게임 종료
+				m_gameGravity.GameEnd();
 
 				// 배경음악 종료
 				m_soundBackground.Stop();

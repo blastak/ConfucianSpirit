@@ -123,6 +123,8 @@ namespace MainProgram2
 			m_timerGoToPageBegin.Stop();
 			m_image.Visibility = Visibility.Hidden;
 
+			m_pageGame1.m_myKinect = m_myKinect;
+
 			GoToBegin(null, null);
 		}
 
@@ -242,7 +244,7 @@ namespace MainProgram2
 
 		private void EventUnBindBGRemoval(object sender, EventArgs e)
 		{
-			m_myKinect.UnbindBackgroundRemovalImage();
+			m_myKinect.UnBindBackgroundRemovalImage();
 		}
 
 		private void EventBindSkeletonImage(object sender, EventArgs e)
@@ -252,7 +254,7 @@ namespace MainProgram2
 
 		private void EventUnBindSkeletonImage(object sender, EventArgs e)
 		{
-			m_myKinect.UnbindSkeletonImage();
+			m_myKinect.UnBindSkeletonImage();
 		}
 	}
 }

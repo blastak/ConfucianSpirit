@@ -37,6 +37,7 @@
 		</Grid.RowDefinitions>
 		<Image Name="m_imgBackground" Source="Images/PageGame1_01_배경화면.png" Stretch="Fill" Visibility="Visible" Grid.RowSpan="10" Grid.ColumnSpan="10"/>
 		<Image Name="m_imgBigCircle" Stretch="Fill" Visibility="Visible" Grid.Row="0" Grid.Column="3" Grid.RowSpan="10" Grid.ColumnSpan="7"/>
+		<Canvas Name="m_canvasSkel" Grid.Row="0" Grid.Column="3" Grid.RowSpan="10" Grid.ColumnSpan="7"/>
 		<Image Name="m_imgTop" Source="Images/PageGame1_03_보기.png" Stretch="Fill" Visibility="Visible" Grid.Row="1" Grid.Column="3" Grid.RowSpan="2" Grid.ColumnSpan="7"/>
 		<MediaElement Name="m_videoIntro" Source="Media/PageGame1_게임설명.mp4" Visibility="Hidden" LoadedBehavior="Manual" MediaEnded="m_videoIntro_MediaEnded" Grid.Row="0" Grid.Column="0" Grid.RowSpan="10" Grid.ColumnSpan="10" />
 		<k2:KinectTileButton Name="m_btnNext" Click="m_btnNext_Click" BorderThickness="0" Visibility="Visible" Grid.Row="7" Grid.Column="7" Grid.RowSpan="3" Grid.ColumnSpan="2" Width="Auto" Height="Auto">

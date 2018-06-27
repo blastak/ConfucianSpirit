@@ -24,7 +24,7 @@ namespace MainProgram2
 		private BackgroundRemovedColorStream backgroundRemovedColorStream;
 
 		private Image imgBackgroundRemoval = null;
-		private Image imgSkeleton = null;
+		private Image m_imgSkeleton = null;
 
 		private DrawingGroup m_drawingGroup = null;
 		//private DrawingImage m_imageSource = null;
@@ -53,20 +53,20 @@ namespace MainProgram2
 			imgBackgroundRemoval = input_image;
 		}
 
-		public void UnbindBackgroundRemovalImage()
+		public void UnBindBackgroundRemovalImage()
 		{
 			imgBackgroundRemoval = null;
 		}
 
 		public void BindSkeletonImage(Image input_image)
 		{
-			imgSkeleton = input_image;
-			imgSkeleton.Source = new DrawingImage(this.m_drawingGroup);
+			m_imgSkeleton = input_image;
+			m_imgSkeleton.Source = new DrawingImage(this.m_drawingGroup);
 		}
 
-		public void UnbindSkeletonImage()
+		public void UnBindSkeletonImage()
 		{
-			imgSkeleton = null;
+			m_imgSkeleton = null;
 		}
 
 		public void Closing()
@@ -178,20 +178,16 @@ namespace MainProgram2
 						this.backgroundRemovedColorStream.ProcessColor(colorFrame.GetRawPixelData(), colorFrame.Timestamp);
 					}
 				}
+				
+				this.ChooseSkeleton(); // 매 프레임 가장가까운 플레이어를 선택
 
-				this.ChooseSkeleton();
+				MySkeletonFrameReady(sender, e); // 단순 스켈레톤 그리기 할때
 
 				if (evtReadySingleSkel != null && m_idPlayer != -1)
 				{
-					object hi;
-					hi = skeletons[m_idPlayer];
-					evtReadySingleSkel(hi, e);
+					evtReadySingleSkel(skeletons[m_idPlayer], e);
 				}
 
-				if(imgSkeleton != null && m_idPlayer != -1)
-				{
-					MySkeletonFrameReady(skeletons[m_idPlayer], e);
-				}
 			}
 			catch (InvalidOperationException)
 			{
@@ -277,59 +273,22 @@ namespace MainProgram2
 
 		private void MySkeletonFrameReady(object sender, AllFramesReadyEventArgs e)
 		{
-			using (DrawingContext dc = this.m_drawingGroup.Open())
+			if (m_imgSkeleton != null)
 			{
-				// Draw a transparent background to set the render size
-				//dc.DrawRectangle(null, new Pen(Brushes.Blue,10), new Rect(0.0, 0.0, 640, 480));
-				//dc.DrawRectangle(null, null, new Rect(0.0, 0.0, 640, 480));
-				dc.DrawRectangle(null, new Pen(Brushes.Blue, 1), new Rect(0.0, 0.0, 640, 480));
+				using (DrawingContext dc = this.m_drawingGroup.Open())
+				{
+					// Draw a transparent background to set the render size
+					//dc.DrawRectangle(null, new Pen(Brushes.Blue, 1), new Rect(0.0, 0.0, 640, 480)); // 외각의 사각형
+					dc.DrawRectangle(null, null, new Rect(0.0, 0.0, 640, 480));
 
-				this.DrawBonesAndJoints((Skeleton)sender, dc);
+					if (m_idPlayer != -1)
+					{
+						this.DrawBonesAndJoints(skeletons[m_idPlayer], dc);
+					}
 
-				//if (skeletons.Length != 0)
-				//{
-				//	Single distMin = Single.MaxValue;
-				//	Skeleton player = new Skeleton();
-
-				//	foreach (Skeleton skel in skeletons)
-				//	{
-				//		// 화면밖으로 벗어났을 때 빨간선
-				//		//RenderClippedEdges(skel, dc);
-
-				//		if (null == skel)
-				//		{
-				//			continue;
-				//		}
-
-				//		if (skel.TrackingState != SkeletonTrackingState.Tracked)
-				//		{
-				//			continue;
-				//		}
-
-				//		Single dist = skel.Position.Z;
-				//		if (dist < distMin && dist >= 0.5)
-				//		{
-				//			player = skel;
-				//			distMin = dist;
-				//		}
-				//	}
-
-				//	if (player.TrackingState == SkeletonTrackingState.Tracked)
-				//	{
-				//		this.DrawBonesAndJoints(player, dc);
-				//	}
-				//	else if (player.TrackingState == SkeletonTrackingState.PositionOnly)
-				//	{
-				//		dc.DrawEllipse(
-				//		Brushes.Blue,
-				//		null,
-				//		this.SkeletonPointToScreen(player.Position),
-				//		10, 10);
-				//	}
-				//}
-
-				// prevent drawing outside of our render area
-				this.m_drawingGroup.ClipGeometry = new RectangleGeometry(new Rect(0.0, 0.0, 640, 480));
+					// prevent drawing outside of our render area
+					this.m_drawingGroup.ClipGeometry = new RectangleGeometry(new Rect(0.0, 0.0, 640, 480));
+				}
 			}
 		}
 

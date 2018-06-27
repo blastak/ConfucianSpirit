@@ -74,7 +74,7 @@ namespace MainProgram2
         private System.Windows.Media.Color baseColor = System.Windows.Media.Color.FromRgb(0, 0, 0);
         private PolyType polyTypes = PolyType.All;
         private DateTime gameStartTime;
-
+		
         public MyFallingThings(int maxThings, double framerate, int intraFrames)
         {
             this.maxThings = maxThings;
@@ -198,7 +198,7 @@ namespace MainProgram2
             this.polyTypes = polies;
         }
 
-        public HitType LookForHits(Dictionary<Bone, BoneData> segments, int playerId)
+        public HitType LookForHits(Dictionary<Bone, BoneData> segments, int playerId, int mode)
         {
             DateTime cur = DateTime.Now;
             HitType allHits = HitType.None;
@@ -315,40 +315,52 @@ namespace MainProgram2
 												//				 : 5;
 												int points = 0;
 												int idxSides = polyDefs[thing.Shape].Sides;
-												if (pair.Key.Joint1 == JointType.FootLeft || pair.Key.Joint1 == JointType.FootRight)
+												if(mode == 0 || mode == 2) //바구니
 												{
-													switch (idxSides)
+													if (pair.Key.Joint1 == JointType.Head)
 													{
-														case 3:
-														case 4:
-														case 5:
-														case 7:
-															points -= 1;
-															break;
-														case 0:
-														case 1:
-														case 2:
-														case 6:
-															points += 1;
-															break;
+														switch (idxSides)
+														{
+															case 0:
+															case 2:
+															case 4:
+															case 5:
+															case 9:
+															case 10:
+																points += 10;
+																break;
+															case 1:
+															case 3:
+															case 6:
+															case 7:
+															case 8:
+															case 11:
+																break;
+														}
 													}
 												}
-												else if(pair.Key.Joint1 == JointType.HandLeft || pair.Key.Joint1 == JointType.HandRight)
+												if(mode == 1 || mode == 2) // 스켈레톤
 												{
-													switch (idxSides)
+													if (pair.Key.Joint1 == JointType.FootLeft || pair.Key.Joint1 == JointType.FootRight)
 													{
-														case 0:
-														case 1:
-														case 2:
-														case 6:
-															points -= 1;
-															break;
-														case 3:
-														case 4:
-														case 5:
-														case 7:
-															points += 1;
-															break;
+														switch (idxSides)
+														{
+															case 0:
+															case 2:
+															case 4:
+															case 5:
+															case 9:
+															case 10:
+																break;
+															case 1:
+															case 3:
+															case 6:
+															case 7:
+															case 8:
+															case 11:
+																points += 10;
+																break;
+														}
 													}
 												}
 												
@@ -394,179 +406,179 @@ namespace MainProgram2
             return allHits;
         }
 
-		public HitType LookForHits2(Dictionary<Bone, BoneData> segments, int playerId)
-		{
-			DateTime cur = DateTime.Now;
-			HitType allHits = HitType.None;
+		//public HitType LookForHits2(Dictionary<Bone, BoneData> segments, int playerId)
+		//{
+		//	DateTime cur = DateTime.Now;
+		//	HitType allHits = HitType.None;
 
-			// Zero out score if necessary
-			if (!this.scores.ContainsKey(playerId))
-			{
-				this.scores.Add(playerId, 0);
-			}
+		//	// Zero out score if necessary
+		//	if (!this.scores.ContainsKey(playerId))
+		//	{
+		//		this.scores.Add(playerId, 0);
+		//	}
 
-			foreach (var pair in segments)
-			{
-				for (int i = 0; i < this.things.Count; i++)
-				{
-					HitType hit = HitType.None;
-					Thing thing = this.things[i];
-					switch (thing.State)
-					{
-						case ThingState.Bouncing:
-						case ThingState.Falling:
-							{
-								var hitCenter = new System.Windows.Point(0, 0);
-								double lineHitLocation = 0;
-								Segment seg = pair.Value.GetEstimatedSegment(cur);
-								if (thing.Hit(seg, ref hitCenter, ref lineHitLocation))
-								{
-									double fMs = 1000;
-									if (thing.TimeLastHit != DateTime.MinValue)
-									{
-										fMs = cur.Subtract(thing.TimeLastHit).TotalMilliseconds;
-										thing.AvgTimeBetweenHits = (thing.AvgTimeBetweenHits * 0.8) + (0.2 * fMs);
-									}
+		//	foreach (var pair in segments)
+		//	{
+		//		for (int i = 0; i < this.things.Count; i++)
+		//		{
+		//			HitType hit = HitType.None;
+		//			Thing thing = this.things[i];
+		//			switch (thing.State)
+		//			{
+		//				case ThingState.Bouncing:
+		//				case ThingState.Falling:
+		//					{
+		//						var hitCenter = new System.Windows.Point(0, 0);
+		//						double lineHitLocation = 0;
+		//						Segment seg = pair.Value.GetEstimatedSegment(cur);
+		//						if (thing.Hit(seg, ref hitCenter, ref lineHitLocation))
+		//						{
+		//							double fMs = 1000;
+		//							if (thing.TimeLastHit != DateTime.MinValue)
+		//							{
+		//								fMs = cur.Subtract(thing.TimeLastHit).TotalMilliseconds;
+		//								thing.AvgTimeBetweenHits = (thing.AvgTimeBetweenHits * 0.8) + (0.2 * fMs);
+		//							}
 
-									thing.TimeLastHit = cur;
+		//							thing.TimeLastHit = cur;
 
-									// Bounce off head and hands
-									if (seg.IsCircle())
-									{
-										// Bounce off of hand/head/foot
-										thing.BounceOff(
-											hitCenter.X,
-											hitCenter.Y,
-											seg.Radius,
-											pair.Value.XVelocity / this.targetFrameRate,
-											pair.Value.YVelocity / this.targetFrameRate);
+		//							// Bounce off head and hands
+		//							if (seg.IsCircle())
+		//							{
+		//								// Bounce off of hand/head/foot
+		//								thing.BounceOff(
+		//									hitCenter.X,
+		//									hitCenter.Y,
+		//									seg.Radius,
+		//									pair.Value.XVelocity / this.targetFrameRate,
+		//									pair.Value.YVelocity / this.targetFrameRate);
 
-										if (fMs > 100.0)
-										{
-											hit |= HitType.Hand;
-										}
-									}
-									else
-									{
-										// Bounce off line segment
-										double velocityX = (pair.Value.XVelocity * (1.0 - lineHitLocation)) + (pair.Value.XVelocity2 * lineHitLocation);
-										double velocityY = (pair.Value.YVelocity * (1.0 - lineHitLocation)) + (pair.Value.YVelocity2 * lineHitLocation);
+		//								if (fMs > 100.0)
+		//								{
+		//									hit |= HitType.Hand;
+		//								}
+		//							}
+		//							else
+		//							{
+		//								// Bounce off line segment
+		//								double velocityX = (pair.Value.XVelocity * (1.0 - lineHitLocation)) + (pair.Value.XVelocity2 * lineHitLocation);
+		//								double velocityY = (pair.Value.YVelocity * (1.0 - lineHitLocation)) + (pair.Value.YVelocity2 * lineHitLocation);
 
-										thing.BounceOff(
-											hitCenter.X,
-											hitCenter.Y,
-											seg.Radius,
-											velocityX / this.targetFrameRate,
-											velocityY / this.targetFrameRate);
+		//								thing.BounceOff(
+		//									hitCenter.X,
+		//									hitCenter.Y,
+		//									seg.Radius,
+		//									velocityX / this.targetFrameRate,
+		//									velocityY / this.targetFrameRate);
 
-										if (fMs > 100.0)
-										{
-											hit |= HitType.Arm;
-										}
-									}
+		//								if (fMs > 100.0)
+		//								{
+		//									hit |= HitType.Arm;
+		//								}
+		//							}
 
-									if (this.gameMode == GameMode.TwoPlayer)
-									{
-										//if (thing.State == ThingState.Falling)
-										//{
-										//    thing.State = ThingState.Bouncing;
-										//    thing.TouchedBy = playerId;
-										//    thing.Hotness = 1;
-										//    thing.FlashCount = 0;
-										//}
-										//else if (thing.State == ThingState.Bouncing)
-										//{
-										//    if (thing.TouchedBy != playerId)
-										//    {
-										//        if (seg.IsCircle())
-										//        {
-										//            thing.TouchedBy = playerId;
-										//            thing.Hotness = Math.Min(thing.Hotness + 1, 4);
-										//        }
-										//        else
-										//        {
-										//            hit |= HitType.Popped;
-										//            this.AddToScore(thing.TouchedBy, 5 << (thing.Hotness - 1), thing.Center);
-										//        }
-										//    }
-										//}
-									}
-									else if (this.gameMode == GameMode.Solo)
-									{
-										if (seg.IsCircle())
-										{
-											if (thing.State == ThingState.Falling)
-											{
-												thing.State = ThingState.Bouncing;
-												thing.TouchedBy = playerId;
-												thing.Hotness = 1;
-												thing.FlashCount = 0;
-											}
-											else if ((thing.State == ThingState.Bouncing) && (fMs > 100.0))
-											{
-												hit |= HitType.Popped;
-												//int points = (pair.Key.Joint1 == JointType.FootLeft
-												//			  || pair.Key.Joint1 == JointType.FootRight)
-												//				 ? 10
-												//				 : 5;
-												int points = 0;
-												int idxSides = polyDefs[thing.Shape].Sides;
-												switch(idxSides)
-												{
-													case 0:
-													case 2:
-													case 5:
-													case 6:
-														points -= 1;
-														break;
-													case 1:
-													case 3:
-													case 4:
-													case 7:
-														points += 1;
-														break;
-												}
-												this.AddToScore(
-													thing.TouchedBy,
-													points,
-													thing.Center);
-												thing.TouchedBy = playerId;
-											}
-										}
-									}
+		//							if (this.gameMode == GameMode.TwoPlayer)
+		//							{
+		//								//if (thing.State == ThingState.Falling)
+		//								//{
+		//								//    thing.State = ThingState.Bouncing;
+		//								//    thing.TouchedBy = playerId;
+		//								//    thing.Hotness = 1;
+		//								//    thing.FlashCount = 0;
+		//								//}
+		//								//else if (thing.State == ThingState.Bouncing)
+		//								//{
+		//								//    if (thing.TouchedBy != playerId)
+		//								//    {
+		//								//        if (seg.IsCircle())
+		//								//        {
+		//								//            thing.TouchedBy = playerId;
+		//								//            thing.Hotness = Math.Min(thing.Hotness + 1, 4);
+		//								//        }
+		//								//        else
+		//								//        {
+		//								//            hit |= HitType.Popped;
+		//								//            this.AddToScore(thing.TouchedBy, 5 << (thing.Hotness - 1), thing.Center);
+		//								//        }
+		//								//    }
+		//								//}
+		//							}
+		//							else if (this.gameMode == GameMode.Solo)
+		//							{
+		//								if (seg.IsCircle())
+		//								{
+		//									if (thing.State == ThingState.Falling)
+		//									{
+		//										thing.State = ThingState.Bouncing;
+		//										thing.TouchedBy = playerId;
+		//										thing.Hotness = 1;
+		//										thing.FlashCount = 0;
+		//									}
+		//									else if ((thing.State == ThingState.Bouncing) && (fMs > 100.0))
+		//									{
+		//										hit |= HitType.Popped;
+		//										//int points = (pair.Key.Joint1 == JointType.FootLeft
+		//										//			  || pair.Key.Joint1 == JointType.FootRight)
+		//										//				 ? 10
+		//										//				 : 5;
+		//										int points = 0;
+		//										int idxSides = polyDefs[thing.Shape].Sides;
+		//										switch(idxSides)
+		//										{
+		//											case 0:
+		//											case 2:
+		//											case 5:
+		//											case 6:
+		//												points -= 1;
+		//												break;
+		//											case 1:
+		//											case 3:
+		//											case 4:
+		//											case 7:
+		//												points += 1;
+		//												break;
+		//										}
+		//										this.AddToScore(
+		//											thing.TouchedBy,
+		//											points,
+		//											thing.Center);
+		//										thing.TouchedBy = playerId;
+		//									}
+		//								}
+		//							}
 
-									this.things[i] = thing;
+		//							this.things[i] = thing;
 
-									// 두번 터치할 일이 없기 때문에 신경안써도 됨
-									if (thing.AvgTimeBetweenHits < 8)
-									{
-										hit |= HitType.Popped | HitType.Squeezed;
-										if (this.gameMode != GameMode.Off)
-										{
-											this.AddToScore(playerId, 1, thing.Center);
-										}
-									}
-								}
-							}
+		//							// 두번 터치할 일이 없기 때문에 신경안써도 됨
+		//							if (thing.AvgTimeBetweenHits < 8)
+		//							{
+		//								hit |= HitType.Popped | HitType.Squeezed;
+		//								if (this.gameMode != GameMode.Off)
+		//								{
+		//									this.AddToScore(playerId, 1, thing.Center);
+		//								}
+		//							}
+		//						}
+		//					}
 
-							break;
-					}
+		//					break;
+		//			}
 
-					if ((hit & HitType.Popped) != 0)
-					{
-						thing.State = ThingState.Dissolving;
-						thing.Dissolve = 0;
-						thing.XVelocity = thing.YVelocity = 0;
-						thing.SpinRate = (thing.SpinRate * 6) + 0.2;
-						this.things[i] = thing;
-					}
+		//			if ((hit & HitType.Popped) != 0)
+		//			{
+		//				thing.State = ThingState.Dissolving;
+		//				thing.Dissolve = 0;
+		//				thing.XVelocity = thing.YVelocity = 0;
+		//				thing.SpinRate = (thing.SpinRate * 6) + 0.2;
+		//				this.things[i] = thing;
+		//			}
 
-					allHits |= hit;
-				}
-			}
+		//			allHits |= hit;
+		//		}
+		//	}
 
-			return allHits;
-		}
+		//	return allHits;
+		//}
 
 
 		public void AdvanceFrame()
@@ -655,8 +667,8 @@ namespace MainProgram2
                 PolyType tryType;
                 //do
                 {
-					//tryType = alltypes[this.rnd.Next(alltypes.Length)];
-					tryType = alltypes[this.rnd.Next(strCircleImage.Length)];
+					tryType = alltypes[this.rnd.Next(alltypes.Length)];
+					//tryType = alltypes[this.rnd.Next(strCircleImage.Length)];
 				}
                 //while ((this.polyTypes & tryType) == 0);
 
