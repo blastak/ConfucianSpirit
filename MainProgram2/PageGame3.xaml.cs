@@ -38,6 +38,8 @@ namespace MainProgram2
 		public int m_cntRemainSecond;
 		public bool m_bSkip;
 
+		public MyKinectSensor m_myKinect = null;
+
 		public PageGame3()
 		{
 			InitializeComponent();
@@ -55,10 +57,10 @@ namespace MainProgram2
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
 			m_labelRemainSecond.Visibility = Visibility.Hidden;
-			m_video1.Visibility = Visibility.Hidden;
-			m_video1.Visibility = Visibility.Hidden;
-			m_btnVideo1.Visibility = Visibility.Hidden;
-			m_btnVideo2.Visibility = Visibility.Hidden;
+			m_videoLeft.Visibility = Visibility.Hidden;
+			m_videoLeft.Visibility = Visibility.Hidden;
+			m_btnVideoLeft.Visibility = Visibility.Hidden;
+			m_btnVideoRight.Visibility = Visibility.Hidden;
 
 			m_videoIntro.Visibility = Visibility.Visible;
 			m_btnNext.Visibility = Visibility.Visible;
@@ -80,6 +82,7 @@ namespace MainProgram2
 			m_videoIntro.Position = TimeSpan.Zero;
 		}
 
+		int m_numRandom = 0;
 		private void m_btnNext_Click(object sender, RoutedEventArgs e)
 		{
 			m_videoIntro.Stop();
@@ -87,16 +90,27 @@ namespace MainProgram2
 			m_videoIntro.Visibility = Visibility.Hidden;
 			m_btnNext.Visibility = Visibility.Hidden;
 
-			m_video1.Visibility = Visibility.Visible;
-			m_video1.Visibility = Visibility.Visible;
-			m_btnVideo1.Visibility = Visibility.Visible;
-			m_btnVideo2.Visibility = Visibility.Visible;
+			m_numRandom = RandomNumber(1, 2 + 1);
+			if (m_numRandom == 1)
+			{
+				m_videoLeft.Source = new Uri("Media/" + "PageGame3_보기1.mp4", UriKind.Relative);
+				m_videoRight.Source = new Uri("Media/" + "PageGame3_보기2.mp4", UriKind.Relative);
+			}
+			else
+			{
+				m_videoLeft.Source = new Uri("Media/" + "PageGame3_보기2.mp4", UriKind.Relative);
+				m_videoRight.Source = new Uri("Media/" + "PageGame3_보기1.mp4", UriKind.Relative);
+			}
 
+			m_videoLeft.Visibility = Visibility.Visible;
+			m_videoLeft.Visibility = Visibility.Visible;
+			m_btnVideoLeft.Visibility = Visibility.Visible;
+			m_btnVideoRight.Visibility = Visibility.Visible;
 
-			m_video1.Position = TimeSpan.Zero;
-			m_video2.Position = TimeSpan.Zero;
-			m_video1.Play();
-			m_video2.Play();
+			m_videoLeft.Position = TimeSpan.Zero;
+			m_videoRight.Position = TimeSpan.Zero;
+			m_videoLeft.Play();
+			m_videoRight.Play();
 
 			// 인트로 배경음악 종료
 			m_soundIntroBackground.Stop();
@@ -108,6 +122,11 @@ namespace MainProgram2
 			// kinect skeleton image on
 			m_imgSkeleton.Visibility = Visibility.Visible;
 			m_evtBindSkeletonImage(m_imgSkeleton, null);
+
+			if (m_myKinect.sensorChooser != null)
+			{
+				m_myKinect.evtReadySingleSkel += new EventHandler<AllFramesReadyEventArgs>(EventCheckHandOver);
+			}
 
 			m_bSkip = false;
 			m_nScore = 0;
@@ -127,11 +146,16 @@ namespace MainProgram2
 				m_timerPageFinish.Stop();
 
 				// 동영상 종료
-				m_video1.Stop();
-				m_video2.Stop();
+				m_videoLeft.Stop();
+				m_videoRight.Stop();
 
 				// kinect control off
 				m_evtUnBindHand(null, null);
+
+				if (m_myKinect.sensorChooser != null)
+				{
+					m_myKinect.evtReadySingleSkel -= new EventHandler<AllFramesReadyEventArgs>(EventCheckHandOver);
+				}
 
 				// kinect skeleton image off
 				m_imgSkeleton.Visibility = Visibility.Hidden;
@@ -157,16 +181,77 @@ namespace MainProgram2
 			}
 		}
 
-		private void m_btnVideo1_Click(object sender, RoutedEventArgs e)
+		private void m_btnVideoLeft_Click(object sender, RoutedEventArgs e)
 		{
-			m_nScore = 10;
-			m_bSkip = true;
+			if (playerPos == -1) // 왼쪽
+			{
+				if (m_numRandom == 1) // random 1은 왼쪽이 정답
+				{
+					m_nScore = 10;
+					m_bSkip = true;
+				}
+				else
+				{
+					m_nScore = 0;
+					m_bSkip = true;
+				}
+			}
 		}
 
-		private void m_btnVideo2_Click(object sender, RoutedEventArgs e)
+		private void m_btnVideoRight_Click(object sender, RoutedEventArgs e)
 		{
-			m_nScore = 0;
-			m_bSkip = true;
+			if (playerPos == 1) // 오른쪽
+			{
+				if (m_numRandom == 2) // random 2은 오른쪽이 정답
+				{
+					m_nScore = 10;
+					m_bSkip = true;
+				}
+				else
+				{
+					m_nScore = 0;
+					m_bSkip = true;
+				}
+			}
+		}
+
+		private int RandomNumber(int min, int max)
+		{
+			Random random = new Random(DateTime.Now.Millisecond);
+			return random.Next(min, max);
+		}
+
+		int playerPos = 0; // -1은 왼쪽, 0은 가운데, 1은 오른쪽
+		private void EventCheckHandOver(object sender, AllFramesReadyEventArgs e)
+		{
+			Skeleton player = (Skeleton)sender;
+
+			int cntLeft = 0;
+			int cntRight = 0;
+			for (int i = 0; i < 20; i++)
+			{
+				if (player.Joints[(JointType)i].Position.X < 0) // 왼쪽에 있을 경우
+				{
+					cntLeft++;
+				}
+				else
+				{
+					cntRight++;
+				}
+			}
+
+			if (cntLeft == 20)
+			{
+				playerPos = -1;
+			}
+			else if (cntRight == 20)
+			{
+				playerPos = 1;
+			}
+			else
+			{
+				playerPos = 0;
+			}
 		}
 	}
 }

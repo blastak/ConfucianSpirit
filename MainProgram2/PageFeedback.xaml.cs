@@ -30,21 +30,27 @@ namespace MainProgram2
 
 		private MediaPlayer m_soundGoodBackground = new MediaPlayer();
 		private MediaPlayer m_soundBadBackground = new MediaPlayer();
-		
+		private bool m_bOnce = true;
+
 		public PageFeedback()
 		{
 			InitializeComponent();
-
-			m_soundGoodBackground.Open(new Uri("Media/" + "PageFeedback_Good.wav", UriKind.Relative));
-			m_soundGoodBackground.Volume = 1;
-
-			m_soundBadBackground.Open(new Uri("Media/" + "PageFeedback_Bad.mp3", UriKind.Relative));
-			m_soundBadBackground.Volume = 1;
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
-			if(m_bGoodOrBad == true)
+			if (m_bOnce)
+			{
+				m_bOnce = false;
+
+				m_soundGoodBackground.Open(new Uri("Media/" + "PageFeedback_Good.wav", UriKind.Relative));
+				m_soundGoodBackground.Volume = 1;
+
+				m_soundBadBackground.Open(new Uri("Media/" + "PageFeedback_Bad.mp3", UriKind.Relative));
+				m_soundBadBackground.Volume = 1;
+			}
+
+			if (m_bGoodOrBad == true)
 			{
 				m_imgGoodOrBad.Source = new BitmapImage(new Uri(m_strbase + "Images/" + "PageFeedback_01_잘했을때.png"));
 				m_soundGoodBackground.Position = TimeSpan.Zero;

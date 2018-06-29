@@ -198,6 +198,8 @@ namespace MainProgram2
             this.polyTypes = polies;
         }
 
+		public bool ignoreFactor = false;
+
         public HitType LookForHits(Dictionary<Bone, BoneData> segments, int playerId, int mode)
         {
             DateTime cur = DateTime.Now;
@@ -315,7 +317,18 @@ namespace MainProgram2
 												//				 : 5;
 												int points = 0;
 												int idxSides = polyDefs[thing.Shape].Sides;
-												if(mode == 0 || mode == 2) //바구니
+
+												int myAdder = 10;
+
+												if (mode == 2)
+												{
+													if (ignoreFactor == true)
+														myAdder = 0;
+													else
+														myAdder = 5;
+												}
+
+												if (mode == 0) //바구니
 												{
 													if (pair.Key.Joint1 == JointType.Head)
 													{
@@ -327,7 +340,7 @@ namespace MainProgram2
 															case 5:
 															case 9:
 															case 10:
-																points += 10;
+																points += myAdder;
 																break;
 															case 1:
 															case 3:
@@ -339,9 +352,9 @@ namespace MainProgram2
 														}
 													}
 												}
-												if(mode == 1 || mode == 2) // 스켈레톤
+												else if(mode == 1) // 스켈레톤
 												{
-													if (pair.Key.Joint1 == JointType.FootLeft || pair.Key.Joint1 == JointType.FootRight)
+													if (pair.Key.Joint1 == JointType.FootLeft || pair.Key.Joint1 == JointType.FootRight || pair.Key.Joint1 == JointType.AnkleLeft || pair.Key.Joint1 == JointType.AnkleRight)
 													{
 														switch (idxSides)
 														{
@@ -358,7 +371,53 @@ namespace MainProgram2
 															case 7:
 															case 8:
 															case 11:
-																points += 10;
+																points += myAdder;
+																break;
+														}
+													}
+												}
+												else if(mode == 2) // 스켈위에 바구니
+												{
+													if (pair.Key.Joint1 == JointType.Head || pair.Key.Joint1 == JointType.HandLeft || pair.Key.Joint1 == JointType.HandRight)
+													{
+														switch (idxSides)
+														{
+															case 0:
+															case 2:
+															case 4:
+															case 5:
+															case 9:
+															case 10:
+																points += myAdder;
+																break;
+															case 1:
+															case 3:
+															case 6:
+															case 7:
+															case 8:
+															case 11:
+																break;
+														}
+													}
+
+													if (pair.Key.Joint1 == JointType.FootLeft || pair.Key.Joint1 == JointType.FootRight || pair.Key.Joint1 == JointType.AnkleLeft || pair.Key.Joint1 == JointType.AnkleRight)
+													{
+														switch (idxSides)
+														{
+															case 0:
+															case 2:
+															case 4:
+															case 5:
+															case 9:
+															case 10:
+																break;
+															case 1:
+															case 3:
+															case 6:
+															case 7:
+															case 8:
+															case 11:
+																points += myAdder;
 																break;
 														}
 													}
@@ -381,7 +440,7 @@ namespace MainProgram2
                                         hit |= HitType.Popped | HitType.Squeezed;
                                         if (this.gameMode != GameMode.Off)
                                         {
-                                            this.AddToScore(playerId, 1, thing.Center);
+                                            //this.AddToScore(playerId, 1, thing.Center);
                                         }
                                     }
                                 }

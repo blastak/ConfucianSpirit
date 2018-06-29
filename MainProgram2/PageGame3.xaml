@@ -33,15 +33,15 @@
 				<ImageBrush ImageSource="Images/PageGame3_02_다음버튼.png" Stretch="Fill"/>
 			</k2:KinectTileButton.Background>
 		</k2:KinectTileButton>
-		<MediaElement Name="m_video1" Source="Media/PageGame3_보기1.mp4" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"/>
-		<MediaElement Name="m_video2" Source="Media/PageGame3_보기2.mp4" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="4"/>
+		<MediaElement Name="m_videoLeft" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"/>
+		<MediaElement Name="m_videoRight" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="4"/>
 		<Viewbox Stretch="Uniform" Grid.Column="3" HorizontalAlignment="Right" Margin="0,0,13,0">
 			<Label x:Name="m_labelRemainSecond" Visibility="Visible" Content="0"  FontSize="100"  VerticalContentAlignment="Center" FontWeight="Bold"/>
 		</Viewbox>
 		<Image Name="m_imgSkeleton" Stretch="Fill" Visibility="Visible" Grid.ColumnSpan="5" Grid.RowSpan="5"/>
-		<k2:KinectTileButton Name="m_btnVideo1" Click="m_btnVideo1_Click" Background="Transparent" BorderThickness="0" Visibility="Visible" Width="Auto" Height="Auto" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3">
+		<k2:KinectTileButton Name="m_btnVideoLeft" Click="m_btnVideoLeft_Click" Background="Transparent" BorderThickness="0" Visibility="Visible" Width="Auto" Height="Auto" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3">
 		</k2:KinectTileButton>
-		<k2:KinectTileButton Name="m_btnVideo2" Click="m_btnVideo2_Click" Background="Transparent" BorderThickness="0" Visibility="Visible" Width="Auto" Height="Auto" Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="4">
+		<k2:KinectTileButton Name="m_btnVideoRight" Click="m_btnVideoRight_Click" Background="Transparent" BorderThickness="0" Visibility="Visible" Width="Auto" Height="Auto" Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="4">
 		</k2:KinectTileButton>
 	</Grid>
 </Page>

@@ -126,7 +126,9 @@ namespace MainProgram2
 			m_timerGoToPageBegin.Stop();
 			m_image.Visibility = Visibility.Hidden;
 
+			m_pageGameBow.m_myKinect = m_myKinect;
 			m_pageGame1.m_myKinect = m_myKinect;
+			m_pageGame3.m_myKinect = m_myKinect;
 
 			GoToBegin(null, null);
 		}
@@ -135,10 +137,10 @@ namespace MainProgram2
 		{
 			m_frame.Navigate(m_pageBegin);
 
-			m_numRandom = RandomNumber(1, 6);
+			m_numRandom = RandomNumber(1, 6 + 1);
 #if DEBUG
-			m_numRandom = 1;
-			idxGame = 1;
+			m_numRandom = 1; // 1일때 예효, 3일때 신충, 5일때 경성 부터 시작
+			idxGame = 1; // 해제하면 인사하기 넘기기
 #endif
 		}
 

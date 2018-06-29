@@ -10,7 +10,7 @@
 	  Loaded="Page_Loaded"
       Title="PageGame1">
 
-	<Grid>
+	<Grid Background="Red">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="118*"/>
 			<ColumnDefinition Width="148*"/>
@@ -61,5 +61,10 @@
 		<Viewbox Stretch="Uniform" Grid.Column="8" HorizontalAlignment="Right" Margin="0,0,6,0" Width="29">
 			<Label x:Name="m_labelRemainSecond" Visibility="Visible" Content="0"  FontSize="100"  VerticalContentAlignment="Center" FontWeight="Bold"/>
 		</Viewbox>
+		<Rectangle Name="m_imgRedMask" Stretch="Fill" Visibility="Visible" Grid.Row="0" Grid.Column="3" Grid.RowSpan="10" Grid.ColumnSpan="7">
+			<Rectangle.Fill>
+				<SolidColorBrush Color="Red" Opacity="0.4"/>
+			</Rectangle.Fill>
+		</Rectangle>
 	</Grid>
 </Page>

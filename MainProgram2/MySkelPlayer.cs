@@ -157,28 +157,26 @@ namespace MainProgram2
 					}
 					if (seg.IsCircle())
 					{
-						if(mode == 2 && segment.Key.Joint1 == JointType.Head)
+						var circle = new Ellipse { Width = seg.Radius * 2, Height = seg.Radius * 2 };
+						circle.SetValue(Canvas.LeftProperty, seg.X1 - seg.Radius);
+						circle.SetValue(Canvas.TopProperty, seg.Y1 - seg.Radius);
+						circle.Stroke = this.jointsBrush;
+						circle.StrokeThickness = 1;
+						circle.Fill = this.bonesBrush;
+						children.Add(circle);
+
+						if (mode == 2 && segment.Key.Joint1 == JointType.Head)
 						{
 							// 임시 테스트 (여기에 바구니만 와야함, 바구니 캐릭터 말고)
-							var rect = new Rectangle { Width = seg.Radius * 30, Height = seg.Radius * 30 };
-							rect.SetValue(Canvas.LeftProperty, seg.X1 - seg.Radius * 15);
-							rect.SetValue(Canvas.TopProperty, seg.Y1 - seg.Radius * 5);
+							var rect = new Rectangle { Width = seg.Radius * 20, Height = seg.Radius * 10 };
+							rect.SetValue(Canvas.LeftProperty, seg.X1 - rect.Width / 2.0); //왼쪽으로 쉬프트
+							rect.SetValue(Canvas.TopProperty, seg.Y1 - rect.Height); // 위로 쉬프트
 							rect.Stretch = Stretch.Fill;
 							var abrush = new ImageBrush(); //定义图片画刷
-							string uri1 = @"pack://application:,,/" + "Images/" + "바구니.png";
+							string uri1 = @"pack://application:,,/" + "Images/" + "바구니만.png";
 							abrush.ImageSource = new BitmapImage(new Uri(uri1));
 							rect.Fill = abrush;//填充
 							children.Add(rect);
-						}
-						else
-						{
-							var circle = new Ellipse { Width = seg.Radius * 2, Height = seg.Radius * 2 };
-							circle.SetValue(Canvas.LeftProperty, seg.X1 - seg.Radius);
-							circle.SetValue(Canvas.TopProperty, seg.Y1 - seg.Radius);
-							circle.Stroke = this.jointsBrush;
-							circle.StrokeThickness = 1;
-							circle.Fill = this.bonesBrush;
-							children.Add(circle);
 						}
 					}
 				}

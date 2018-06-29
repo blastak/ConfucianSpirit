@@ -184,40 +184,78 @@ namespace MainProgram2
 			GameStart();
 		}
 
+		int m_numRandom = 0;
 		private void GameStart()
 		{
-			m_dragImg1 = new DragImage("PageGame2_03_보기1.png");
-			m_dragImg2 = new DragImage("PageGame2_03_보기2.png");
-			m_dragImg3 = new DragImage("PageGame2_03_보기3.png");
-			m_dragImg4 = new DragImage("PageGame2_03_보기4.png");
+			double aW = m_canvas.ActualWidth;
+			double aH = m_canvas.ActualHeight;
+
+			Size allImgSize = new Size(aW * 0.22, aH * 0.19);
+			string[] dragImages = new string[4];
+			Point[] posOriginal = new Point[4];
+			Point[] posCorrect = new Point[4];
+			dragImages[0] = "PageGame2_03_보기1.png";
+			dragImages[1] = "PageGame2_03_보기2.png";
+			dragImages[2] = "PageGame2_03_보기3.png";
+			dragImages[3] = "PageGame2_03_보기4.png";
+
+			posOriginal[0] = new Point(aW * ((1680 - allImgSize.Width / 2.0) / 1920.0), aH * ((195 - allImgSize.Height / 2.0) / 1080.0));
+			posOriginal[1] = new Point(aW * ((1680 - allImgSize.Width / 2.0) / 1920.0), aH * ((430 - allImgSize.Height / 2.0) / 1080.0));
+			posOriginal[2] = new Point(aW * ((1680 - allImgSize.Width / 2.0) / 1920.0), aH * ((665 - allImgSize.Height / 2.0) / 1080.0));
+			posOriginal[3] = new Point(aW * ((1680 - allImgSize.Width / 2.0) / 1920.0), aH * ((900 - allImgSize.Height / 2.0) / 1080.0));
+
+			posCorrect[0] = new Point(aW * ((360 - allImgSize.Width / 2.0) / 1920.0), aH * ((494 - allImgSize.Height / 2.0) / 1080.0));
+			posCorrect[1] = new Point(aW * ((1078 - allImgSize.Width / 2.0) / 1920.0), aH * ((494 - allImgSize.Height / 2.0) / 1080.0));
+			posCorrect[2] = new Point(aW * ((360 - allImgSize.Width / 2.0) / 1920.0), aH * ((998 - allImgSize.Height / 2.0) / 1080.0));
+			posCorrect[3] = new Point(aW * ((1078 - allImgSize.Width / 2.0) / 1920.0), aH * ((998 - allImgSize.Height / 2.0) / 1080.0));
+
+			m_numRandom = RandomNumber(1, 4 + 1);
+			int[] randIdx = new int[4];
+			if (m_numRandom == 1)
+			{
+				randIdx[0] = 1; randIdx[1] = 3; randIdx[2] = 2; randIdx[3] = 4;
+			}
+			else if (m_numRandom == 2)
+			{
+				randIdx[0] = 2; randIdx[1] = 1; randIdx[2] = 4; randIdx[3] = 3;
+			}
+			else if (m_numRandom == 3)
+			{
+				randIdx[0] = 3; randIdx[1] = 4; randIdx[2] = 1; randIdx[3] = 2;
+			}
+			else if (m_numRandom == 4)
+			{
+				randIdx[0] = 4; randIdx[1] = 2; randIdx[2] = 3; randIdx[3] = 1;
+			}
+
+			m_dragImg1 = new DragImage(dragImages[0]);
+			m_dragImg2 = new DragImage(dragImages[1]);
+			m_dragImg3 = new DragImage(dragImages[2]);
+			m_dragImg4 = new DragImage(dragImages[3]);
 
 			m_canvas.Children.Add(m_dragImg1);
 			m_canvas.Children.Add(m_dragImg2);
 			m_canvas.Children.Add(m_dragImg3);
 			m_canvas.Children.Add(m_dragImg4);
 
-			double aW = m_canvas.ActualWidth;
-			double aH = m_canvas.ActualHeight;
-
-
-			m_dragImg1.ImgSize = new Size(aW * 0.2, aH * 0.1);
-			m_dragImg1.OriginalPosition = new Point(aW * 0.775, aH * 0.2);
-			m_dragImg1.CorrectPosition = new Point(aW * 0.0875, aH * 0.407);
+			m_dragImg1.ImgSize = allImgSize;
+			m_dragImg1.OriginalPosition = posOriginal[randIdx[0] - 1];
+			m_dragImg1.CorrectPosition = posCorrect[0];
 			m_dragImg1.CorrectRadius = aW * 0.2;
 
-			m_dragImg2.ImgSize = new Size(aW * 0.2, aH * 0.1);
-			m_dragImg2.OriginalPosition = new Point(aW * 0.775, aH * 0.4);
-			m_dragImg2.CorrectPosition = new Point(aW * 0.46328125, aH * 0.407);
+			m_dragImg2.ImgSize = allImgSize;
+			m_dragImg2.OriginalPosition = posOriginal[randIdx[1] - 1];
+			m_dragImg2.CorrectPosition = posCorrect[1];
 			m_dragImg2.CorrectRadius = aW * 0.2;
 
-			m_dragImg3.ImgSize = new Size(aW * 0.2, aH * 0.1);
-			m_dragImg3.OriginalPosition = new Point(aW * 0.775, aH * 0.6);
-			m_dragImg3.CorrectPosition = new Point(aW * 0.0875, aH * 0.87361);
+			m_dragImg3.ImgSize = allImgSize;
+			m_dragImg3.OriginalPosition = posOriginal[randIdx[2] - 1];
+			m_dragImg3.CorrectPosition = posCorrect[2];
 			m_dragImg3.CorrectRadius = aW * 0.2;
 
-			m_dragImg4.ImgSize = new Size(aW * 0.2, aH * 0.1);
-			m_dragImg4.OriginalPosition = new Point(aW * 0.775, aH * 0.8);
-			m_dragImg4.CorrectPosition = new Point(aW * 0.46328125, aH * 0.87361);
+			m_dragImg4.ImgSize = allImgSize;
+			m_dragImg4.OriginalPosition = posOriginal[randIdx[3] - 1];
+			m_dragImg4.CorrectPosition = posCorrect[3];
 			m_dragImg4.CorrectRadius = aW * 0.2;
 
 			m_dragImg1.GoToOriginalPosition();
@@ -436,6 +474,12 @@ namespace MainProgram2
 		{
 			m_video4.Play();
 			m_video4.Pause();
+		}
+
+		private int RandomNumber(int min, int max)
+		{
+			Random random = new Random(DateTime.Now.Millisecond);
+			return random.Next(min, max);
 		}
 	}
 }

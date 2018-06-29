@@ -33,6 +33,7 @@ namespace MainProgram2
 		private MediaPlayer m_soundBackground1 = new MediaPlayer();
 		private MediaPlayer m_soundBackground2 = new MediaPlayer();
 		private MediaPlayer m_soundBackground3 = new MediaPlayer();
+		private bool m_bOnce = true;
 
 		public MyGameGravity m_gameGravity = new MyGameGravity();
 
@@ -51,18 +52,13 @@ namespace MainProgram2
 			m_soundIntroBackground.Open(new Uri("Media/" + "PageGame공통_인트로_배경음악.mp3", UriKind.Relative));
 			m_soundIntroBackground.Volume = 1;
 
-			m_soundBackground1.Open(new Uri("Media/" + "PageGame1_배경음악_1.mp3", UriKind.Relative));
-			m_soundBackground1.Volume = 1;
-			m_soundBackground2.Open(new Uri("Media/" + "PageGame1_배경음악_2.mp3", UriKind.Relative));
-			m_soundBackground2.Volume = 1;
-			m_soundBackground3.Open(new Uri("Media/" + "PageGame1_배경음악_3.wav", UriKind.Relative));
-			m_soundBackground3.Volume = 1;
-
 			m_timerPageFinish.Interval = TimeSpan.FromSeconds(1);
 			m_timerPageFinish.Tick += new EventHandler(TimerPageFinish);
 
 			m_timerBigCircle.Interval = TimeSpan.FromSeconds(2);
 			m_timerBigCircle.Tick += new EventHandler(TimerBigCircle);
+			
+			m_gameGravity.m_evtHandLow += new EventHandler(EventHandLow);
 
 			//m_game3.SetupUI(this.canvasBG, this.canvasBG2, this.imgUser2, this.imgFace, this.imgIcon);
 			//m_game3.SetupResource("경성_03_01(터트리기).png", "경성_03_01(터트리기).m4a");
@@ -78,11 +74,25 @@ namespace MainProgram2
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
-			if(m_myKinect != null && m_gameGravity.m_myKinect == null)
+			if (m_bOnce)
+			{
+				m_bOnce = false;
+
+				m_soundBackground1.Open(new Uri("Media/" + "PageGame1_배경음악_1.mp3", UriKind.Relative));
+				m_soundBackground1.Volume = 1;
+				m_soundBackground2.Open(new Uri("Media/" + "PageGame1_배경음악_2.mp3", UriKind.Relative));
+				m_soundBackground2.Volume = 1;
+				m_soundBackground3.Open(new Uri("Media/" + "PageGame1_배경음악_3.wav", UriKind.Relative));
+				m_soundBackground3.Volume = 1;
+			}
+
+
+			if (m_myKinect != null && m_gameGravity.m_myKinect == null)
 			{
 				m_gameGravity.m_myKinect = m_myKinect;
 			}
 
+			m_imgRedMask.Visibility = Visibility.Hidden;
 			m_labelRemainSecond.Visibility = Visibility.Hidden;
 			m_labelScore.Visibility = Visibility.Hidden;
 			m_btnHighSpeed.Visibility = Visibility.Hidden;
@@ -235,7 +245,9 @@ namespace MainProgram2
 				// 게임 종료
 				m_gameGravity.GameEnd();
 
-				// 배경음악3 종료
+				// 배경음악123 종료
+				m_soundBackground1.Stop();
+				m_soundBackground2.Stop();
 				m_soundBackground3.Stop();
 
 				// 페이지 종료
@@ -252,6 +264,14 @@ namespace MainProgram2
 			{
 				m_cntRemainSecond--;
 			}
+		}
+
+		private void EventHandLow(object sender, EventArgs e)
+		{
+			if ((int)sender == 1)
+				m_imgRedMask.Visibility = Visibility.Visible;
+			else
+				m_imgRedMask.Visibility = Visibility.Hidden;
 		}
 	}
 }

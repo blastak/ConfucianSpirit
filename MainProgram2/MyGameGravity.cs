@@ -13,7 +13,7 @@ namespace MainProgram2
 	public class MyGameGravity
 	{
 		private MyFallingThings myFallingThings;
-		private const int MaxShapes = 3; // 동시에 떨어지는 개수
+		private const int MaxShapes = 2; // 동시에 떨어지는 개수
 		private const double MinFramerate = 15;
 		private const double MaxFramerate = 70;
 		private const int NumIntraFrames = 3;
@@ -40,6 +40,8 @@ namespace MainProgram2
 		private readonly Dictionary<int, MySkelPlayer> players = new Dictionary<int, MySkelPlayer>();
 
 		public int m_mode = -1;
+
+		public event EventHandler m_evtHandLow;
 
 		public MyGameGravity()
 		{
@@ -126,8 +128,8 @@ namespace MainProgram2
 
 			playerBounds.X = 0;
 			playerBounds.Width = m_canvasSkel.ActualWidth;
-			playerBounds.Y = m_canvasSkel.ActualHeight * 0.2;
-			playerBounds.Height = m_canvasSkel.ActualHeight * 0.75;
+			playerBounds.Y = m_canvasSkel.ActualHeight * 0.5;
+			playerBounds.Height = m_canvasSkel.ActualHeight * 0.5;
 
 			foreach (var player in players)
 			{
@@ -210,6 +212,26 @@ namespace MainProgram2
 					player.UpdateBonePosition(skel.Joints, JointType.HipCenter, JointType.ShoulderCenter);
 				}
 			}
+			
+			// 손 올리는거 감시
+			if(m_mode == 2)
+			{
+				float handL = skel.Joints[JointType.HandLeft].Position.Y;
+				float handR = skel.Joints[JointType.HandRight].Position.Y;
+				float shoulderL = skel.Joints[JointType.ShoulderLeft].Position.Y;
+				float shoulderR = skel.Joints[JointType.ShoulderRight].Position.Y;
+
+				if(handL < shoulderL || handR < shoulderR)
+				{
+					myFallingThings.ignoreFactor = true;
+					m_evtHandLow(1, null);
+				}
+				else
+				{
+					myFallingThings.ignoreFactor = false;
+					m_evtHandLow(0, null);
+				}
+			}
 		}
 
 
@@ -277,14 +299,7 @@ namespace MainProgram2
 					m_lastID = pair.Value.GetId();
 
 					HitType hit;
-					if (m_mode==0)
-					{
-						hit = myFallingThings.LookForHits(pair.Value.Segments, pair.Value.GetId(), m_mode);
-					}
-					else
-					{
-						hit = myFallingThings.LookForHits(pair.Value.Segments, pair.Value.GetId(), m_mode);
-					}
+					hit = myFallingThings.LookForHits(pair.Value.Segments, pair.Value.GetId(), m_mode);
 
 					if ((hit & HitType.Squeezed) != 0)
 					{
