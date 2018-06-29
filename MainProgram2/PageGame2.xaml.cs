@@ -33,11 +33,14 @@ namespace MainProgram2
 		public DragImage m_dragImg3 = null;
 		public DragImage m_dragImg4 = null;
 
-		private MediaPlayer m_soundBackground = new MediaPlayer();
+		private MediaPlayer m_soundIntroBackground = new MediaPlayer();
+
 		private MediaPlayer m_soundVideo1Background = new MediaPlayer();
 		private MediaPlayer m_soundVideo2Background = new MediaPlayer();
 		private MediaPlayer m_soundVideo3Background = new MediaPlayer();
 		private MediaPlayer m_soundVideo4Background = new MediaPlayer();
+
+		private MediaPlayer m_soundBackground = new MediaPlayer();
 
 		private enum GripState
 		{
@@ -60,9 +63,11 @@ namespace MainProgram2
 		{
 			InitializeComponent();
 
+			m_soundIntroBackground.Open(new Uri("Media/" + "PageGame공통_인트로_배경음악.mp3", UriKind.Relative));
+			m_soundIntroBackground.Volume = 1;
+
 			m_soundBackground.Open(new Uri("Media/" + "PageGame2_배경음악.mp3", UriKind.Relative));
 			m_soundBackground.Volume = 1;
-			m_soundBackground.MediaEnded += new EventHandler(BackgroundMusicEnd);
 
 			m_soundVideo1Background.Open(new Uri("Media/" + "PageGame2_보기1_배경음악.mp3", UriKind.Relative));
 			m_soundVideo1Background.Volume = 1;
@@ -75,11 +80,6 @@ namespace MainProgram2
 
 			m_timerPageFinish.Interval = TimeSpan.FromSeconds(1);
 			m_timerPageFinish.Tick += new EventHandler(TimerPageFinish);
-		}
-
-		private void BackgroundMusicEnd(object sender, EventArgs e)
-		{
-			m_soundBackground.Position = TimeSpan.Zero;
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -104,10 +104,10 @@ namespace MainProgram2
 			m_videoIntro.Position = TimeSpan.Zero;
 			m_videoIntro.Play();
 
-			// 배경음악 시작
-			m_soundBackground.Position = TimeSpan.Zero;
-			m_soundBackground.Play();
-
+			// 인트로 배경음악 시작
+			m_soundIntroBackground.Position = TimeSpan.Zero;
+			m_soundIntroBackground.Play();
+			
 			// kinect control on
 			m_evtBindHand(null, null);
 		}
@@ -136,6 +136,8 @@ namespace MainProgram2
 			m_video3.SpeedRatio = 20;
 			m_video4.SpeedRatio = 20;
 #endif
+			// 인트로 배경음악 종료
+			m_soundIntroBackground.Stop();
 
 			m_soundVideo1Background.Position = TimeSpan.Zero;
 			m_soundVideo2Background.Position = TimeSpan.Zero;
@@ -242,6 +244,10 @@ namespace MainProgram2
 			m_imgBlank2.Visibility = Visibility.Visible;
 			m_imgBlank3.Visibility = Visibility.Visible;
 			m_imgBlank4.Visibility = Visibility.Visible;
+
+			// 배경음악 시작
+			m_soundBackground.Position = TimeSpan.Zero;
+			m_soundBackground.Play();
 
 			m_bSkip = false;
 			m_nScore = 0;

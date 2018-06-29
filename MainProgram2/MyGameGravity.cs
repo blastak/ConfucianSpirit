@@ -168,40 +168,47 @@ namespace MainProgram2
 				player.IsAlive = true;
 
 				// Head, hands, feet (hit testing happens in order here)
-				player.UpdateJointPosition(skel.Joints, JointType.Head);
-				player.UpdateJointPosition(skel.Joints, JointType.HandLeft);
-				player.UpdateJointPosition(skel.Joints, JointType.HandRight);
-				player.UpdateJointPosition(skel.Joints, JointType.FootLeft);
-				player.UpdateJointPosition(skel.Joints, JointType.FootRight);
+				if (m_mode == 0) // 바구니
+				{ 
+					player.UpdateJointPosition2(skel.Joints, JointType.Head);
+				}
+				else
+				{
+					player.UpdateJointPosition(skel.Joints, JointType.Head);
+					player.UpdateJointPosition(skel.Joints, JointType.HandLeft);
+					player.UpdateJointPosition(skel.Joints, JointType.HandRight);
+					player.UpdateJointPosition(skel.Joints, JointType.FootLeft);
+					player.UpdateJointPosition(skel.Joints, JointType.FootRight);
 
-				// Hands and arms
-				player.UpdateBonePosition(skel.Joints, JointType.HandRight, JointType.WristRight);
-				player.UpdateBonePosition(skel.Joints, JointType.WristRight, JointType.ElbowRight);
-				player.UpdateBonePosition(skel.Joints, JointType.ElbowRight, JointType.ShoulderRight);
+					// Hands and arms
+					player.UpdateBonePosition(skel.Joints, JointType.HandRight, JointType.WristRight);
+					player.UpdateBonePosition(skel.Joints, JointType.WristRight, JointType.ElbowRight);
+					player.UpdateBonePosition(skel.Joints, JointType.ElbowRight, JointType.ShoulderRight);
 
-				player.UpdateBonePosition(skel.Joints, JointType.HandLeft, JointType.WristLeft);
-				player.UpdateBonePosition(skel.Joints, JointType.WristLeft, JointType.ElbowLeft);
-				player.UpdateBonePosition(skel.Joints, JointType.ElbowLeft, JointType.ShoulderLeft);
+					player.UpdateBonePosition(skel.Joints, JointType.HandLeft, JointType.WristLeft);
+					player.UpdateBonePosition(skel.Joints, JointType.WristLeft, JointType.ElbowLeft);
+					player.UpdateBonePosition(skel.Joints, JointType.ElbowLeft, JointType.ShoulderLeft);
 
-				// Head and Shoulders
-				player.UpdateBonePosition(skel.Joints, JointType.ShoulderCenter, JointType.Head);
-				player.UpdateBonePosition(skel.Joints, JointType.ShoulderLeft, JointType.ShoulderCenter);
-				player.UpdateBonePosition(skel.Joints, JointType.ShoulderCenter, JointType.ShoulderRight);
+					// Head and Shoulders
+					player.UpdateBonePosition(skel.Joints, JointType.ShoulderCenter, JointType.Head);
+					player.UpdateBonePosition(skel.Joints, JointType.ShoulderLeft, JointType.ShoulderCenter);
+					player.UpdateBonePosition(skel.Joints, JointType.ShoulderCenter, JointType.ShoulderRight);
 
-				// Legs
-				player.UpdateBonePosition(skel.Joints, JointType.HipLeft, JointType.KneeLeft);
-				player.UpdateBonePosition(skel.Joints, JointType.KneeLeft, JointType.AnkleLeft);
-				player.UpdateBonePosition(skel.Joints, JointType.AnkleLeft, JointType.FootLeft);
+					// Legs
+					player.UpdateBonePosition(skel.Joints, JointType.HipLeft, JointType.KneeLeft);
+					player.UpdateBonePosition(skel.Joints, JointType.KneeLeft, JointType.AnkleLeft);
+					player.UpdateBonePosition(skel.Joints, JointType.AnkleLeft, JointType.FootLeft);
 
-				player.UpdateBonePosition(skel.Joints, JointType.HipRight, JointType.KneeRight);
-				player.UpdateBonePosition(skel.Joints, JointType.KneeRight, JointType.AnkleRight);
-				player.UpdateBonePosition(skel.Joints, JointType.AnkleRight, JointType.FootRight);
+					player.UpdateBonePosition(skel.Joints, JointType.HipRight, JointType.KneeRight);
+					player.UpdateBonePosition(skel.Joints, JointType.KneeRight, JointType.AnkleRight);
+					player.UpdateBonePosition(skel.Joints, JointType.AnkleRight, JointType.FootRight);
 
-				player.UpdateBonePosition(skel.Joints, JointType.HipLeft, JointType.HipCenter);
-				player.UpdateBonePosition(skel.Joints, JointType.HipCenter, JointType.HipRight);
+					player.UpdateBonePosition(skel.Joints, JointType.HipLeft, JointType.HipCenter);
+					player.UpdateBonePosition(skel.Joints, JointType.HipCenter, JointType.HipRight);
 
-				// Spine
-				player.UpdateBonePosition(skel.Joints, JointType.HipCenter, JointType.ShoulderCenter);
+					// Spine
+					player.UpdateBonePosition(skel.Joints, JointType.HipCenter, JointType.ShoulderCenter);
+				}
 			}
 		}
 
@@ -268,7 +275,17 @@ namespace MainProgram2
 				foreach (var pair in players)
 				{
 					m_lastID = pair.Value.GetId();
-					HitType hit = myFallingThings.LookForHits(pair.Value.Segments, pair.Value.GetId(), m_mode);
+
+					HitType hit;
+					if (m_mode==0)
+					{
+						hit = myFallingThings.LookForHits(pair.Value.Segments, pair.Value.GetId(), m_mode);
+					}
+					else
+					{
+						hit = myFallingThings.LookForHits(pair.Value.Segments, pair.Value.GetId(), m_mode);
+					}
+
 					if ((hit & HitType.Squeezed) != 0)
 					{
 						//squeezeSound.Play();

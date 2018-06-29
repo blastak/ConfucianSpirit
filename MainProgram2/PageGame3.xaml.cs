@@ -31,6 +31,7 @@ namespace MainProgram2
 
 		public DispatcherTimer m_timerPageFinish = new DispatcherTimer();
 
+		private MediaPlayer m_soundIntroBackground = new MediaPlayer();
 		private MediaPlayer m_soundBackground = new MediaPlayer();
 
 		public int m_nScore;
@@ -41,17 +42,14 @@ namespace MainProgram2
 		{
 			InitializeComponent();
 
+			m_soundIntroBackground.Open(new Uri("Media/" + "PageGame공통_인트로_배경음악.mp3", UriKind.Relative));
+			m_soundIntroBackground.Volume = 1;
+
 			m_soundBackground.Open(new Uri("Media/" + "PageGame3_배경음악.mp3", UriKind.Relative));
 			m_soundBackground.Volume = 1;
-			m_soundBackground.MediaEnded += new EventHandler(BackgroundMusicEnd);
 
 			m_timerPageFinish.Interval = TimeSpan.FromSeconds(1);
 			m_timerPageFinish.Tick += new EventHandler(TimerPageFinish);
-		}
-
-		private void BackgroundMusicEnd(object sender, EventArgs e)
-		{
-			m_soundBackground.Position = TimeSpan.Zero;
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -68,9 +66,9 @@ namespace MainProgram2
 			m_videoIntro.Position = TimeSpan.Zero;
 			m_videoIntro.Play();
 
-			// 배경음악 시작
-			m_soundBackground.Position = TimeSpan.Zero;
-			m_soundBackground.Play();
+			// 인트로 배경음악 시작
+			m_soundIntroBackground.Position = TimeSpan.Zero;
+			m_soundIntroBackground.Play();
 
 			// kinect control on
 			m_evtBindHand(null, null);
@@ -99,6 +97,13 @@ namespace MainProgram2
 			m_video2.Position = TimeSpan.Zero;
 			m_video1.Play();
 			m_video2.Play();
+
+			// 인트로 배경음악 종료
+			m_soundIntroBackground.Stop();
+
+			// 배경음악 시작
+			m_soundBackground.Position = TimeSpan.Zero;
+			m_soundBackground.Play();
 
 			// kinect skeleton image on
 			m_imgSkeleton.Visibility = Visibility.Visible;

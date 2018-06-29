@@ -116,12 +116,12 @@ namespace MainProgram2
 
             // Draw all bones first, then circles (head and hands).
             DateTime cur = DateTime.Now;
-            foreach (var segment in this.segments)
-            {
-                Segment seg = segment.Value.GetEstimatedSegment(cur);
-                if (!seg.IsCircle())
-                {
-					if (mode == 0 || mode == 2) // 바구니
+			if(mode == 0) // 바구니
+			{
+				foreach (var segment in this.segments)
+				{
+					Segment seg = segment.Value.GetEstimatedSegment(cur);
+					if(segment.Key.Joint1 == JointType.Head)
 					{
 						var rect = new Rectangle { Width = seg.Radius * 30, Height = seg.Radius * 30 };
 						rect.SetValue(Canvas.LeftProperty, seg.X1 - seg.Radius * 15);
@@ -133,8 +133,14 @@ namespace MainProgram2
 						rect.Fill = abrush;//填充
 						children.Add(rect);
 					}
-
-					if (mode == 1 || mode == 2) // 스켈레톤
+				}
+			}
+			else
+			{
+				foreach (var segment in this.segments)
+				{
+					Segment seg = segment.Value.GetEstimatedSegment(cur);
+					if (!seg.IsCircle())
 					{
 						var line = new Line
 						{
@@ -149,23 +155,49 @@ namespace MainProgram2
 						};
 						children.Add(line);
 					}
+					if (seg.IsCircle())
+					{
+						if(mode == 2 && segment.Key.Joint1 == JointType.Head)
+						{
+							// 임시 테스트 (여기에 바구니만 와야함, 바구니 캐릭터 말고)
+							var rect = new Rectangle { Width = seg.Radius * 30, Height = seg.Radius * 30 };
+							rect.SetValue(Canvas.LeftProperty, seg.X1 - seg.Radius * 15);
+							rect.SetValue(Canvas.TopProperty, seg.Y1 - seg.Radius * 5);
+							rect.Stretch = Stretch.Fill;
+							var abrush = new ImageBrush(); //定义图片画刷
+							string uri1 = @"pack://application:,,/" + "Images/" + "바구니.png";
+							abrush.ImageSource = new BitmapImage(new Uri(uri1));
+							rect.Fill = abrush;//填充
+							children.Add(rect);
+						}
+						else
+						{
+							var circle = new Ellipse { Width = seg.Radius * 2, Height = seg.Radius * 2 };
+							circle.SetValue(Canvas.LeftProperty, seg.X1 - seg.Radius);
+							circle.SetValue(Canvas.TopProperty, seg.Y1 - seg.Radius);
+							circle.Stroke = this.jointsBrush;
+							circle.StrokeThickness = 1;
+							circle.Fill = this.bonesBrush;
+							children.Add(circle);
+						}
+					}
 				}
-            }
+			}
 
-            foreach (var segment in this.segments)
-            {
-                Segment seg = segment.Value.GetEstimatedSegment(cur);
-                if (seg.IsCircle())
-                {
-                    var circle = new Ellipse { Width = seg.Radius * 2, Height = seg.Radius * 2 };
-                    circle.SetValue(Canvas.LeftProperty, seg.X1 - seg.Radius);
-                    circle.SetValue(Canvas.TopProperty, seg.Y1 - seg.Radius);
-                    circle.Stroke = this.jointsBrush;
-                    circle.StrokeThickness = 1;
-                    circle.Fill = this.bonesBrush;
-                    children.Add(circle);
-                }
-            }
+            //foreach (var segment in this.segments)
+            //{
+            //    Segment seg = segment.Value.GetEstimatedSegment(cur);
+            //    if (seg.IsCircle())
+            //    {
+            //        var circle = new Ellipse { Width = seg.Radius * 2, Height = seg.Radius * 2 };
+            //        circle.SetValue(Canvas.LeftProperty, seg.X1 - seg.Radius);
+            //        circle.SetValue(Canvas.TopProperty, seg.Y1 - seg.Radius);
+            //        circle.Stroke = this.jointsBrush;
+            //        circle.StrokeThickness = 1;
+            //        circle.Fill = this.bonesBrush;
+            //        children.Add(circle);
+            //    }
+            //}
 
             // Remove unused players after 1/2 second.
             if (DateTime.Now.Subtract(this.LastUpdated).TotalMilliseconds > 500)

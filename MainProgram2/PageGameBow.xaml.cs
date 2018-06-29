@@ -32,6 +32,8 @@ namespace MainProgram2
 
 		public DispatcherTimer m_timerPageFinish = new DispatcherTimer();
 
+		private MediaPlayer m_soundBackground = new MediaPlayer();
+
 		public bool m_bMaleOrNot;
 		public bool m_bSkip;
 
@@ -40,6 +42,15 @@ namespace MainProgram2
 			InitializeComponent();
 			m_timerPageFinish.Interval = TimeSpan.FromSeconds(1); // 시간 고쳐야함
 			m_timerPageFinish.Tick += new EventHandler(TimerPageFinish);
+
+			m_soundBackground.Open(new Uri("Media/" + "PageGameBow_배경음악.mp3", UriKind.Relative));
+			m_soundBackground.Volume = 1;
+			m_soundBackground.MediaEnded += new EventHandler(BackgroundMusicEnd);
+		}
+
+		private void BackgroundMusicEnd(object sender, EventArgs e)
+		{
+			m_soundBackground.Position = TimeSpan.Zero;
 		}
 
 
@@ -62,6 +73,10 @@ namespace MainProgram2
 			m_imgTop.Visibility = Visibility.Visible;
 			m_btnMale.Visibility = Visibility.Visible;
 			m_btnFemale.Visibility = Visibility.Visible;
+
+			// 배경음악 시작
+			m_soundBackground.Position = TimeSpan.Zero;
+			m_soundBackground.Play();
 
 			m_evtBindHand(null, null);
 		}
@@ -190,6 +205,9 @@ namespace MainProgram2
 			else if ((idx == 3 && cntTimer > 5) || m_bSkip == true)
 			{
 				m_timerPageFinish.Stop();
+
+				// 배경음악 종료
+				m_soundBackground.Stop();
 
 				m_evtPageFinish(null, null);
 

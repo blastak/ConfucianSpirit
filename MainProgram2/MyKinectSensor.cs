@@ -279,7 +279,7 @@ namespace MainProgram2
 				{
 					// Draw a transparent background to set the render size
 					//dc.DrawRectangle(null, new Pen(Brushes.Blue, 1), new Rect(0.0, 0.0, 640, 480)); // 외각의 사각형
-					dc.DrawRectangle(null, null, new Rect(0.0, 0.0, 640, 480));
+					dc.DrawRectangle(null, new Pen(Brushes.Transparent, 1), new Rect(0.0, 0.0, 640, 480)); // 외각의 사각형이 없으면 넓게 strech됨
 
 					if (m_idPlayer != -1)
 					{

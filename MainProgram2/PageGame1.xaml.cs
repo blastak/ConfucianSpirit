@@ -29,7 +29,10 @@ namespace MainProgram2
 		public DispatcherTimer m_timerPageFinish = new DispatcherTimer();
 		public DispatcherTimer m_timerBigCircle = new DispatcherTimer();
 
-		private MediaPlayer m_soundBackground = new MediaPlayer();
+		private MediaPlayer m_soundIntroBackground = new MediaPlayer();
+		private MediaPlayer m_soundBackground1 = new MediaPlayer();
+		private MediaPlayer m_soundBackground2 = new MediaPlayer();
+		private MediaPlayer m_soundBackground3 = new MediaPlayer();
 
 		public MyGameGravity m_gameGravity = new MyGameGravity();
 
@@ -45,9 +48,15 @@ namespace MainProgram2
 		{
 			InitializeComponent();
 
-			m_soundBackground.Open(new Uri("Media/" + "PageGame1_배경음악.mp3", UriKind.Relative));
-			m_soundBackground.Volume = 1;
-			m_soundBackground.MediaEnded += new EventHandler(BackgroundMusicEnd);
+			m_soundIntroBackground.Open(new Uri("Media/" + "PageGame공통_인트로_배경음악.mp3", UriKind.Relative));
+			m_soundIntroBackground.Volume = 1;
+
+			m_soundBackground1.Open(new Uri("Media/" + "PageGame1_배경음악_1.mp3", UriKind.Relative));
+			m_soundBackground1.Volume = 1;
+			m_soundBackground2.Open(new Uri("Media/" + "PageGame1_배경음악_2.mp3", UriKind.Relative));
+			m_soundBackground2.Volume = 1;
+			m_soundBackground3.Open(new Uri("Media/" + "PageGame1_배경음악_3.wav", UriKind.Relative));
+			m_soundBackground3.Volume = 1;
 
 			m_timerPageFinish.Interval = TimeSpan.FromSeconds(1);
 			m_timerPageFinish.Tick += new EventHandler(TimerPageFinish);
@@ -65,11 +74,7 @@ namespace MainProgram2
 			//m_game5.m_myKinect = kinectSensor;
 			//m_game5.m_evtGameManager += new EventHandler(EventGameManager);
 		}
-
-		private void BackgroundMusicEnd(object sender, EventArgs e)
-		{
-			m_soundBackground.Position = TimeSpan.Zero;
-		}
+		
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
@@ -90,9 +95,9 @@ namespace MainProgram2
 			m_videoIntro.Position = TimeSpan.Zero;
 			m_videoIntro.Play();
 
-			// 배경음악 시작
-			m_soundBackground.Position = TimeSpan.Zero;
-			m_soundBackground.Play();
+			// 인트로 배경음악 시작
+			m_soundIntroBackground.Position = TimeSpan.Zero;
+			m_soundIntroBackground.Play();
 
 			// kinect control on
 			m_evtBindHand(null, null);
@@ -163,6 +168,9 @@ namespace MainProgram2
 				m_labelScore.Content = m_nScore;
 				m_labelScore.Visibility = Visibility.Visible;
 
+				// 인트로 배경음악 종료
+				m_soundIntroBackground.Stop();
+
 				GravityGameStart();
 			}
 			else
@@ -181,6 +189,10 @@ namespace MainProgram2
 
 			m_gameGravity.GameStart();
 
+			// 배경음악1 시작
+			m_soundBackground1.Position = TimeSpan.Zero;
+			m_soundBackground1.Play();
+
 			m_bSkip = false;
 			m_cntRemainSecond = 60;
 			m_labelRemainSecond.Content = m_cntRemainSecond;
@@ -194,10 +206,22 @@ namespace MainProgram2
 
 			if (m_nScore >= 20 && m_gameGravity.m_mode == 0)
 			{
+				// 배경음악1 종료
+				m_soundBackground1.Stop();
+				// 배경음악2 시작
+				m_soundBackground2.Position = TimeSpan.Zero;
+				m_soundBackground2.Play();
+
 				m_gameGravity.SetGameMode(1);
 			}
 			else if (m_nScore >= 40 && m_gameGravity.m_mode == 1)
 			{
+				// 배경음악2 종료
+				m_soundBackground2.Stop();
+				// 배경음악3 시작
+				m_soundBackground3.Position = TimeSpan.Zero;
+				m_soundBackground3.Play();
+
 				m_gameGravity.SetGameMode(2);
 			}
 
@@ -211,11 +235,11 @@ namespace MainProgram2
 				// 게임 종료
 				m_gameGravity.GameEnd();
 
-				// 배경음악 종료
-				m_soundBackground.Stop();
+				// 배경음악3 종료
+				m_soundBackground3.Stop();
 
 				// 페이지 종료
-				if(m_nScore >= 60)
+				if (m_nScore >= 60)
 				{
 					m_evtPageFinish(true, null);
 				}

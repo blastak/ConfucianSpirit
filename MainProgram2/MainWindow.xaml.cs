@@ -138,6 +138,7 @@ namespace MainProgram2
 			m_numRandom = RandomNumber(1, 6);
 #if DEBUG
 			m_numRandom = 1;
+			idxGame = 1;
 #endif
 		}
 
