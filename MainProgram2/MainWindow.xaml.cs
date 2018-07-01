@@ -74,6 +74,11 @@ namespace MainProgram2
 
 			m_pageFeedback.m_evtBindHand += new EventHandler(EventBindHand);
 			m_pageFeedback.m_evtUnBindHand += new EventHandler(EventUnBindHand);
+			m_pageFeedback.m_evtBindSkeletonImage += new EventHandler(EventBindSkeletonImage);
+			m_pageFeedback.m_evtUnBindSkeletonImage += new EventHandler(EventUnBindSkeletonImage);
+
+			m_pageEnd.m_evtBindSkeletonImage += new EventHandler(EventBindSkeletonImage);
+			m_pageEnd.m_evtUnBindSkeletonImage += new EventHandler(EventUnBindSkeletonImage);
 
 			m_timerLaunchKinect.Interval = TimeSpan.FromSeconds(0.1);
 			m_timerLaunchKinect.Tick += new EventHandler(TimerLaunchKinect);
@@ -129,6 +134,8 @@ namespace MainProgram2
 			m_pageGameBow.m_myKinect = m_myKinect;
 			m_pageGame1.m_myKinect = m_myKinect;
 			m_pageGame3.m_myKinect = m_myKinect;
+			m_pageFeedback.m_myKinect = m_myKinect;
+			m_pageEnd.m_myKinect = m_myKinect;
 
 			GoToBegin(null, null);
 		}
@@ -139,8 +146,8 @@ namespace MainProgram2
 
 			m_numRandom = RandomNumber(1, 6 + 1);
 #if DEBUG
-			m_numRandom = 1; // 1일때 예효, 3일때 신충, 5일때 경성 부터 시작
-			idxGame = 1; // 해제하면 인사하기 넘기기
+			//m_numRandom = 5; // 1일때 예효, 3일때 신충, 5일때 경성 부터 시작
+			//idxGame = 1; // 주석 없애면 인사하기 넘기기
 #endif
 		}
 

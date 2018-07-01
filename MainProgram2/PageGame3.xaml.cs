@@ -30,6 +30,7 @@ namespace MainProgram2
 		public event EventHandler m_evtUnBindSkeletonImage;
 
 		public DispatcherTimer m_timerPageFinish = new DispatcherTimer();
+		public DispatcherTimer m_timerPageFinish2 = new DispatcherTimer();
 
 		private MediaPlayer m_soundIntroBackground = new MediaPlayer();
 		private MediaPlayer m_soundBackground = new MediaPlayer();
@@ -52,13 +53,16 @@ namespace MainProgram2
 
 			m_timerPageFinish.Interval = TimeSpan.FromSeconds(1);
 			m_timerPageFinish.Tick += new EventHandler(TimerPageFinish);
+
+			m_timerPageFinish2.Interval = TimeSpan.FromSeconds(3); // 답 제출 후 3초 대기용
+			m_timerPageFinish2.Tick += new EventHandler(TimerPageFinish2);
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
 			m_labelRemainSecond.Visibility = Visibility.Hidden;
 			m_videoLeft.Visibility = Visibility.Hidden;
-			m_videoLeft.Visibility = Visibility.Hidden;
+			m_videoRight.Visibility = Visibility.Hidden;
 			m_btnVideoLeft.Visibility = Visibility.Hidden;
 			m_btnVideoRight.Visibility = Visibility.Hidden;
 
@@ -103,7 +107,7 @@ namespace MainProgram2
 			}
 
 			m_videoLeft.Visibility = Visibility.Visible;
-			m_videoLeft.Visibility = Visibility.Visible;
+			m_videoRight.Visibility = Visibility.Visible;
 			m_btnVideoLeft.Visibility = Visibility.Visible;
 			m_btnVideoRight.Visibility = Visibility.Visible;
 
@@ -156,30 +160,50 @@ namespace MainProgram2
 				{
 					m_myKinect.evtReadySingleSkel -= new EventHandler<AllFramesReadyEventArgs>(EventCheckHandOver);
 				}
-
-				// kinect skeleton image off
-				m_imgSkeleton.Visibility = Visibility.Hidden;
-				m_evtUnBindSkeletonImage(null, null);
-
-
-				// 배경음악 종료
-				m_soundBackground.Stop();
-
-				// 페이지 종료
-				if (m_nScore >= 10)
+				
+				// 얼굴 교체
+				if(m_nScore >= 10) // 맞았을때
 				{
-					m_evtPageFinish(true, null);
+					m_myKinect.m_skelFaceMode = 2;
 				}
-				else
+				else // 틀렸을때
 				{
-					m_evtPageFinish(false, null);
+					m_myKinect.m_skelFaceBrush = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + "PageGame3_03_틀렸을때.png")));
+					m_myKinect.m_skelFaceMode = 1;
 				}
+
+				m_timerPageFinish2.Start();
 			}
 			else
 			{
 				m_cntRemainSecond--;
 			}
 		}
+
+		private void TimerPageFinish2(object sender, EventArgs e)
+		{
+			m_timerPageFinish2.Stop();
+
+			// kinect skeleton image off
+			m_imgSkeleton.Visibility = Visibility.Hidden;
+			m_myKinect.m_skelFaceMode = 0;
+			m_evtUnBindSkeletonImage(null, null);
+
+			// 배경음악 종료
+			m_soundBackground.Stop();
+
+			// 페이지 종료
+			if (m_nScore >= 10)
+			{
+				m_evtPageFinish(true, null);
+			}
+			else
+			{
+				m_evtPageFinish(false, null);
+			}
+
+		}
+
 
 		private void m_btnVideoLeft_Click(object sender, RoutedEventArgs e)
 		{

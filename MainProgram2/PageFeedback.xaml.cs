@@ -25,12 +25,16 @@ namespace MainProgram2
 		public event EventHandler m_evtPageFinish;
 		public event EventHandler m_evtBindHand;
 		public event EventHandler m_evtUnBindHand;
+		public event EventHandler m_evtBindSkeletonImage;
+		public event EventHandler m_evtUnBindSkeletonImage;
 
 		public bool m_bGoodOrBad;
 
 		private MediaPlayer m_soundGoodBackground = new MediaPlayer();
 		private MediaPlayer m_soundBadBackground = new MediaPlayer();
 		private bool m_bOnce = true;
+
+		public MyKinectSensor m_myKinect = null;
 
 		public PageFeedback()
 		{
@@ -55,13 +59,26 @@ namespace MainProgram2
 				m_imgGoodOrBad.Source = new BitmapImage(new Uri(m_strbase + "Images/" + "PageFeedback_01_잘했을때.png"));
 				m_soundGoodBackground.Position = TimeSpan.Zero;
 				m_soundGoodBackground.Play();
+
+				double aw = m_imgGoodOrBad.ActualWidth;
+				double ah = m_imgGoodOrBad.ActualHeight;
+				m_myKinect.m_faceOnlyPoint = new Point(640.0 * (558.0 / 1920.0), 480.0 * (168.0 / 1080.0));
+				m_myKinect.m_faceOnlyScale = 3;
 			}
 			else
 			{
 				m_imgGoodOrBad.Source = new BitmapImage(new Uri(m_strbase + "Images/" + "PageFeedback_02_못했을때.png"));
 				m_soundBadBackground.Position = TimeSpan.Zero;
 				m_soundBadBackground.Play();
+
+				double aw = m_imgGoodOrBad.ActualWidth;
+				double ah = m_imgGoodOrBad.ActualHeight;
+				m_myKinect.m_faceOnlyPoint = new Point(640.0 * (452.0 / 1920.0), 480.0 * (493.0/ 1080.0));
+				m_myKinect.m_faceOnlyScale = 3;
 			}
+
+			m_myKinect.m_faceOnlyMode = true;
+			m_evtBindSkeletonImage(m_imgSkeleton, null);
 
 			m_imgGoodOrBad.Visibility = Visibility.Visible;
 
@@ -72,6 +89,9 @@ namespace MainProgram2
 		{
 			m_soundGoodBackground.Stop();
 			m_soundBadBackground.Stop();
+
+			m_myKinect.m_faceOnlyMode = false;
+			m_evtUnBindSkeletonImage(null, null);
 
 			m_evtUnBindHand(null, null);
 

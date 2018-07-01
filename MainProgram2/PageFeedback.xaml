@@ -22,6 +22,7 @@
 			<ColumnDefinition Width="521*"/>
 		</Grid.ColumnDefinitions>
 		<Image x:Name="m_imgGoodOrBad" Stretch="Fill" Source="Images/PageFeedback_01_잘했을때.png" Visibility="Visible" Grid.ColumnSpan="3" Grid.RowSpan="3"/>
+		<Image Name="m_imgSkeleton" Stretch="Fill" Visibility="Visible" Grid.ColumnSpan="3" Grid.RowSpan="3"/>
 		<k2:KinectTileButton Name="m_btnNext" Click="m_btnNext_Click" BorderThickness="0" Visibility="Visible" Grid.Row="1" Grid.Column="1" Width="Auto" Height="Auto">
 			<k2:KinectTileButton.Background>
 				<ImageBrush ImageSource="Images/PageFeedback_03_시작버튼.png" Stretch="Fill"/>

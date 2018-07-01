@@ -128,7 +128,7 @@ namespace MainProgram2
 				m_bSkip = false;
 			}
 
-			if (idx == 0 && cntTimer <= 3)
+			if (idx == 0 && cntTimer <= 5)
 			{
 				m_imgTop.Visibility = Visibility.Hidden;
 				m_btnMale.Visibility = Visibility.Hidden;
@@ -147,13 +147,13 @@ namespace MainProgram2
 				m_imgTop2.Visibility = Visibility.Visible; // 남자는 왼손이 위에 여자는 오른손이 위에
 				m_imgMaleFemale.Visibility = Visibility.Visible; // 남녀 둘다 나옴
 
-				if (cntTimer == 3)
+				if (cntTimer == 5)
 				{
 					idx++;
 					cntTimer = 0;
 				}
 			}
-			else if (idx == 1 && cntTimer <= 3)
+			else if (idx == 1 && cntTimer <= 5)
 			{
 				m_imgTop.Visibility = Visibility.Hidden;
 				m_btnMale.Visibility = Visibility.Hidden;
@@ -172,7 +172,7 @@ namespace MainProgram2
 				m_imgTop3.Visibility = Visibility.Visible; // 팔을 벌리시오
 				m_imgSelectedMF.Visibility = Visibility.Visible; // 내가 선택한 성별 그림
 
-				if (cntTimer == 3)
+				if (cntTimer == 5)
 				{
 					idx++;
 					cntTimer = 0;
@@ -199,6 +199,9 @@ namespace MainProgram2
 				m_imgUserSkel.Visibility = Visibility.Visible;
 
 				m_evtBindBGRemoval(m_imgUserBG, null);
+				m_myKinect.m_skelFaceMode = 0;
+				//m_myKinect.m_skelFaceBrush = new ImageBrush(new BitmapImage(new Uri(m_strbase + "Images/" + "PageGame3_03_틀렸을때.png")));
+				//m_myKinect.m_skelFaceMode = 1;
 				m_evtBindSkeletonImage(m_imgUserSkel, null);
 
 				idx++;

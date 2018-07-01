@@ -49,7 +49,7 @@
 		<Image Name="m_imgBlank3" Source="Images/PageGame2_03_빈칸.png" Stretch="Fill" Visibility="Visible" Grid.RowSpan="3" Grid.Row="6" Grid.Column="1"/>
 		<Image Name="m_imgBlank4" Source="Images/PageGame2_03_빈칸.png" Stretch="Fill" Visibility="Visible" Grid.RowSpan="3" Grid.Column="4" Grid.Row="6"/>
 		<Canvas Name="m_canvas" Grid.Row="0" Grid.Column="0" Grid.RowSpan="10" Grid.ColumnSpan="8" Visibility="Hidden"/>
-		<Viewbox Stretch="Uniform" Grid.Column="6" HorizontalAlignment="Right" Margin="0,0,12,0" Width="29">
+		<Viewbox Stretch="Uniform" Grid.Column="6" HorizontalAlignment="Right" Margin="0,0,12,0" Width="Auto">
 			<Label x:Name="m_labelRemainSecond" Visibility="Visible" Content="0"  FontSize="100"  VerticalContentAlignment="Center" FontWeight="Bold"/>
 		</Viewbox>
 	</Grid>

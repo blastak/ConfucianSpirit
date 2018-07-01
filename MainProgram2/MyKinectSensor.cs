@@ -14,6 +14,9 @@ namespace MainProgram2
 		private const DepthImageFormat DepthFormat = DepthImageFormat.Resolution640x480Fps30;
 		private const ColorImageFormat ColorFormat = ColorImageFormat.RgbResolution640x480Fps30;
 
+		private readonly Brush trackedJointBrush = new SolidColorBrush(Color.FromArgb(255, 68, 192, 68));
+		private readonly Brush inferredJointBrush = Brushes.Yellow;
+
 		public KinectSensorChooser sensorChooser;
 		public Skeleton[] skeletons;
 		public int currentlyTrackedSkeletonId;
@@ -30,6 +33,13 @@ namespace MainProgram2
 		//private DrawingImage m_imageSource = null;
 
 		private int m_idPlayer = -1;
+
+		public int m_skelFaceMode = 0;
+		public ImageBrush m_skelFaceBrush = null;
+
+		public bool m_faceOnlyMode = false;
+		public Point m_faceOnlyPoint;
+		public double m_faceOnlyScale = 0;
 
 		public MyKinectSensor()
 		{
@@ -304,55 +314,106 @@ namespace MainProgram2
 
 		private void DrawBonesAndJoints(Skeleton skeleton, DrawingContext drawingContext)
 		{
-			// Render Torso
-			this.DrawBone(skeleton, drawingContext, JointType.Head, JointType.ShoulderCenter);
-			this.DrawBone(skeleton, drawingContext, JointType.ShoulderCenter, JointType.ShoulderLeft);
-			this.DrawBone(skeleton, drawingContext, JointType.ShoulderCenter, JointType.ShoulderRight);
-			this.DrawBone(skeleton, drawingContext, JointType.ShoulderCenter, JointType.Spine);
-			this.DrawBone(skeleton, drawingContext, JointType.Spine, JointType.HipCenter);
-			this.DrawBone(skeleton, drawingContext, JointType.HipCenter, JointType.HipLeft);
-			this.DrawBone(skeleton, drawingContext, JointType.HipCenter, JointType.HipRight);
-
-			// Left Arm
-			this.DrawBone(skeleton, drawingContext, JointType.ShoulderLeft, JointType.ElbowLeft);
-			this.DrawBone(skeleton, drawingContext, JointType.ElbowLeft, JointType.WristLeft);
-			this.DrawBone(skeleton, drawingContext, JointType.WristLeft, JointType.HandLeft);
-
-			// Right Arm
-			this.DrawBone(skeleton, drawingContext, JointType.ShoulderRight, JointType.ElbowRight);
-			this.DrawBone(skeleton, drawingContext, JointType.ElbowRight, JointType.WristRight);
-			this.DrawBone(skeleton, drawingContext, JointType.WristRight, JointType.HandRight);
-
-			// Left Leg
-			this.DrawBone(skeleton, drawingContext, JointType.HipLeft, JointType.KneeLeft);
-			this.DrawBone(skeleton, drawingContext, JointType.KneeLeft, JointType.AnkleLeft);
-			this.DrawBone(skeleton, drawingContext, JointType.AnkleLeft, JointType.FootLeft);
-
-			// Right Leg
-			this.DrawBone(skeleton, drawingContext, JointType.HipRight, JointType.KneeRight);
-			this.DrawBone(skeleton, drawingContext, JointType.KneeRight, JointType.AnkleRight);
-			this.DrawBone(skeleton, drawingContext, JointType.AnkleRight, JointType.FootRight);
-
-			// Render Joints
-			foreach (Joint joint in skeleton.Joints)
+			if(m_faceOnlyMode == false)
 			{
-				Brush drawBrush = null;
+				// Render Torso
+				this.DrawBone(skeleton, drawingContext, JointType.Head, JointType.ShoulderCenter);
+				this.DrawBone(skeleton, drawingContext, JointType.ShoulderCenter, JointType.ShoulderLeft);
+				this.DrawBone(skeleton, drawingContext, JointType.ShoulderCenter, JointType.ShoulderRight);
+				this.DrawBone(skeleton, drawingContext, JointType.ShoulderCenter, JointType.Spine);
+				this.DrawBone(skeleton, drawingContext, JointType.Spine, JointType.HipCenter);
+				this.DrawBone(skeleton, drawingContext, JointType.HipCenter, JointType.HipLeft);
+				this.DrawBone(skeleton, drawingContext, JointType.HipCenter, JointType.HipRight);
 
-				if (joint.TrackingState == JointTrackingState.Tracked)
-				{
-					drawBrush = new SolidColorBrush(Color.FromArgb(255, 68, 192, 68));
-				}
-				else if (joint.TrackingState == JointTrackingState.Inferred)
-				{
-					drawBrush = Brushes.Yellow;
-				}
+				// Left Arm
+				this.DrawBone(skeleton, drawingContext, JointType.ShoulderLeft, JointType.ElbowLeft);
+				this.DrawBone(skeleton, drawingContext, JointType.ElbowLeft, JointType.WristLeft);
+				this.DrawBone(skeleton, drawingContext, JointType.WristLeft, JointType.HandLeft);
 
-				if (drawBrush != null)
+				// Right Arm
+				this.DrawBone(skeleton, drawingContext, JointType.ShoulderRight, JointType.ElbowRight);
+				this.DrawBone(skeleton, drawingContext, JointType.ElbowRight, JointType.WristRight);
+				this.DrawBone(skeleton, drawingContext, JointType.WristRight, JointType.HandRight);
+
+				// Left Leg
+				this.DrawBone(skeleton, drawingContext, JointType.HipLeft, JointType.KneeLeft);
+				this.DrawBone(skeleton, drawingContext, JointType.KneeLeft, JointType.AnkleLeft);
+				this.DrawBone(skeleton, drawingContext, JointType.AnkleLeft, JointType.FootLeft);
+
+				// Right Leg
+				this.DrawBone(skeleton, drawingContext, JointType.HipRight, JointType.KneeRight);
+				this.DrawBone(skeleton, drawingContext, JointType.KneeRight, JointType.AnkleRight);
+				this.DrawBone(skeleton, drawingContext, JointType.AnkleRight, JointType.FootRight);
+
+
+				// Render Joints
+				foreach (Joint joint in skeleton.Joints)
 				{
+					Brush drawBrush = null;
+
+					if (joint.TrackingState == JointTrackingState.Tracked)
+					{
+						//drawBrush = this.trackedJointBrush;
+						drawBrush = new SolidColorBrush(Color.FromArgb(255, 68, 192, 68));
+					}
+					else if (joint.TrackingState == JointTrackingState.Inferred)
+					{
+						//drawBrush = this.inferredJointBrush;
+						drawBrush = Brushes.Yellow;
+					}
+
+					if (drawBrush != null)
+					{
+						if (joint.JointType == JointType.Head)
+						{
+							double r = (2.0 / joint.Position.Z * 35.0); // 1미터에 70픽셀, 2미터에 35픽셀, 3미터에 17.5픽셀
+							if (m_skelFaceMode == 0)
+							{
+								//drawingContext.DrawEllipse(Brushes.WhiteSmoke, new Pen(drawBrush, 3), this.SkeletonPointToScreen(joint.Position), 35, 45);
+								//drawingContext.DrawEllipse(Brushes.Transparent, new Pen(drawBrush, 3), this.SkeletonPointToScreen(joint.Position), 35, 45);
+								drawingContext.DrawEllipse(Brushes.Transparent, new Pen(drawBrush, 3), this.SkeletonPointToScreen(joint.Position), r, r);
+							}
+							else if (m_skelFaceMode == 1) // 그림
+							{
+								if (m_skelFaceBrush != null)
+								{
+									drawingContext.DrawEllipse(m_skelFaceBrush, null, this.SkeletonPointToScreen(joint.Position), r * 3, r * 3);
+								}
+							}
+							else if (m_skelFaceMode == 2) // head image from background removal
+							{
+								if (m_skelFaceBrush == null)
+									m_skelFaceBrush = new ImageBrush();
+								//m_skelFaceBrush.ImageSource = CropImage(foregroundBitmap, 320 - 50, 240 - 50, 100, 100);
+								double headX = SkeletonPointToScreen(joint.Position).X;
+								double headY = SkeletonPointToScreen(joint.Position).Y + r / 2;
+								m_skelFaceBrush.ImageSource = CropImage(foregroundBitmap, (int)(headX - r), (int)(headY - r), (int)r * 2, (int)r * 2);
+								drawingContext.DrawEllipse(m_skelFaceBrush, null, this.SkeletonPointToScreen(joint.Position), r * 3, r * 3);
+							}
+						}
+						else
+						{
+							drawingContext.DrawEllipse(drawBrush, null, this.SkeletonPointToScreen(joint.Position), 3, 3);
+						}
+					}
+				}
+			}
+			else
+			{
+				foreach (Joint joint in skeleton.Joints)
+				{
+					double r = (2.0 / joint.Position.Z * 35.0); // 1미터에 70픽셀, 2미터에 35픽셀, 3미터에 17.5픽셀
 					if (joint.JointType == JointType.Head)
-						drawingContext.DrawEllipse(Brushes.WhiteSmoke, new Pen(drawBrush, 3), this.SkeletonPointToScreen(joint.Position), 35, 45);
-					else
-						drawingContext.DrawEllipse(drawBrush, null, this.SkeletonPointToScreen(joint.Position), 3, 3);
+					{
+						if (m_skelFaceBrush == null)
+							m_skelFaceBrush = new ImageBrush();
+
+						double headX = SkeletonPointToScreen(joint.Position).X;
+						double headY = SkeletonPointToScreen(joint.Position).Y + r / 2;
+						m_skelFaceBrush.ImageSource = CropImage(foregroundBitmap, (int)(headX - r), (int)(headY - r), (int)r * 2, (int)r * 2);
+						//drawingContext.DrawEllipse(m_skelFaceBrush, null, this.SkeletonPointToScreen(joint.Position), r * 3, r * 3);
+						drawingContext.DrawEllipse(m_skelFaceBrush, null, m_faceOnlyPoint, r * m_faceOnlyScale, r * m_faceOnlyScale);
+					}
 				}
 			}
 		}
@@ -377,9 +438,12 @@ namespace MainProgram2
 			}
 
 			// We assume all drawn bones are inferred unless BOTH joints are tracked
+
+			//Pen drawPen = this.inferredBonePen;
 			Pen drawPen;
 			if (joint0.TrackingState == JointTrackingState.Tracked && joint1.TrackingState == JointTrackingState.Tracked)
 			{
+				//drawPen = this.trackedBonePen;
 				drawPen = new Pen(Brushes.Green, 6); // bone color
 			}
 			else
@@ -388,6 +452,45 @@ namespace MainProgram2
 			}
 
 			drawingContext.DrawLine(drawPen, this.SkeletonPointToScreen(joint0.Position), this.SkeletonPointToScreen(joint1.Position));
+		}
+
+		private static WriteableBitmap CropImage(WriteableBitmap bmpsrc, int xOffset, int yOffset, int width, int height)
+		{
+			// Get the width of the source image
+			var sourceWidth = bmpsrc.PixelWidth;
+
+			// Get the resultant image as WriteableBitmap with specified size
+			var bmpdst = new WriteableBitmap(width, height, 96.0, 96.0, PixelFormats.Bgra32, null);
+
+			if (xOffset < 0 || xOffset + width >= bmpsrc.PixelWidth || yOffset < 0 || yOffset + height >= bmpsrc.PixelHeight)
+			{
+				return bmpdst;
+			}
+
+			int[] pixelDataSrc = new int[(int)bmpsrc.PixelWidth * (int)bmpsrc.PixelHeight];
+			bmpsrc.CopyPixels(pixelDataSrc, 4 * (int)bmpsrc.PixelWidth, 0);
+
+			int[] pixelDataDst = new int[width * height];
+
+			// Create the array of bytes
+			for (int i=0; i<height;i++)
+			{
+				for(int j=0; j<width; j++)
+				{
+					pixelDataDst[i * width + j] = pixelDataSrc[(yOffset + i) * sourceWidth + (xOffset + j)];
+				}
+			}
+
+			//for (var y = 0; y < height - 1; y++)
+			//{
+			//	var sourceIndex = xOffset + (yOffset + y) * sourceWidth;
+			//	var destinationIndex = y * width;
+			//	Array.Copy(source.Pixels, sourceIndex, result.Pixels, destinationIndex, width);
+			//}
+
+			bmpdst.WritePixels(new Int32Rect(0, 0, width, height), pixelDataDst, 4 * width, 0);
+
+			return bmpdst;
 		}
 	}
 }

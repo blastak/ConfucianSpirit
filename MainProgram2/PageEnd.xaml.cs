@@ -23,11 +23,16 @@ namespace MainProgram2
 	{
 		string m_strbase = @"pack://application:,,/";
 		public event EventHandler m_evtPageFinish;
+		public event EventHandler m_evtBindSkeletonImage;
+		public event EventHandler m_evtUnBindSkeletonImage;
+
 		public DispatcherTimer m_timerPageFinish = new DispatcherTimer();
 		private MediaPlayer m_startSound = new MediaPlayer();
 
 		public int m_seconds;
 		public int m_scores;
+
+		public MyKinectSensor m_myKinect = null;
 
 		public PageEnd()
 		{
@@ -43,8 +48,13 @@ namespace MainProgram2
 		{
 			textBlock_Score.Text = String.Format("{0}", m_scores);
 			textBlock_Time.Text = String.Format("{0:mm\\:ss}", TimeSpan.FromSeconds(m_seconds));
-
+			
 			m_startSound.Play();
+			
+			m_myKinect.m_faceOnlyPoint = new Point(640.0 * (952.0 / 1920.0), 480.0 * (603.0 / 1080.0));
+			m_myKinect.m_faceOnlyScale = 3;
+			m_myKinect.m_faceOnlyMode = true;
+			m_evtBindSkeletonImage(m_imgSkeleton, null);
 
 			m_timerPageFinish.Start();
 		}
@@ -54,6 +64,9 @@ namespace MainProgram2
 			m_startSound.Stop();
 
 			m_timerPageFinish.Stop();
+
+			m_myKinect.m_faceOnlyMode = false;
+			m_evtUnBindSkeletonImage(null, null);
 
 			m_evtPageFinish(null, null);
 		}

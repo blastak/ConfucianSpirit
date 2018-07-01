@@ -35,7 +35,7 @@
 		</k2:KinectTileButton>
 		<MediaElement Name="m_videoLeft" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"/>
 		<MediaElement Name="m_videoRight" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="4"/>
-		<Viewbox Stretch="Uniform" Grid.Column="3" HorizontalAlignment="Right" Margin="0,0,13,0">
+		<Viewbox Stretch="Uniform" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,0,13,0">
 			<Label x:Name="m_labelRemainSecond" Visibility="Visible" Content="0"  FontSize="100"  VerticalContentAlignment="Center" FontWeight="Bold"/>
 		</Viewbox>
 		<Image Name="m_imgSkeleton" Stretch="Fill" Visibility="Visible" Grid.ColumnSpan="5" Grid.RowSpan="5"/>

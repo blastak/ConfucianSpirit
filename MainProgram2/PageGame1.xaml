@@ -58,7 +58,7 @@
 		<Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="6" Grid.RowSpan="2">
 			<Label x:Name="m_labelScore" Visibility="Visible" Content="0" FontSize="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="Yellow" />
 		</Viewbox>
-		<Viewbox Stretch="Uniform" Grid.Column="8" HorizontalAlignment="Right" Margin="0,0,6,0" Width="29">
+		<Viewbox Stretch="Uniform" Grid.Column="7" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,0,6,0" Width="Auto">
 			<Label x:Name="m_labelRemainSecond" Visibility="Visible" Content="0"  FontSize="100"  VerticalContentAlignment="Center" FontWeight="Bold"/>
 		</Viewbox>
 		<Rectangle Name="m_imgRedMask" Stretch="Fill" Visibility="Visible" Grid.Row="0" Grid.Column="3" Grid.RowSpan="10" Grid.ColumnSpan="7">

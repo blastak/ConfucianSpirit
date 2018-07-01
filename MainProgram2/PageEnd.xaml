@@ -23,6 +23,7 @@
 			<ColumnDefinition Width="182*"/>
 		</Grid.ColumnDefinitions>
 		<Image Name="m_imgBackground" Source="Images/PageEnd_01_배경화면.png" Stretch="Fill" Visibility="Visible" Grid.ColumnSpan="5" Grid.RowSpan="3"/>
+		<Image Name="m_imgSkeleton" Stretch="Fill" Visibility="Visible" Grid.ColumnSpan="5" Grid.RowSpan="3"/>
 		<Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="1">
 			<TextBlock x:Name="textBlock_Time" FontSize="100" Foreground="Black" HorizontalAlignment="Center" Text="0:00" TextAlignment="Center" FontWeight="Bold" VerticalAlignment="Center" Height="Auto" Width="Auto"/>
 		</Viewbox>
