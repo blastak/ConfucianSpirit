@@ -41,7 +41,7 @@
       <HintPath>..\..\..\..\..\..\Program Files\Microsoft SDKs\Kinect\v1.8\Assemblies\Microsoft.Kinect.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Kinect.Toolkit.BackgroundRemoval">
-      <HintPath>..\..\..\..\..\..\Program Files\Microsoft SDKs\Kinect\Developer Toolkit v1.8.0\Assemblies\Microsoft.Kinect.Toolkit.BackgroundRemoval.dll</HintPath>
+      <HintPath>C:\Program Files\Microsoft SDKs\Kinect\Developer Toolkit v1.8.0\Assemblies\Microsoft.Kinect.Toolkit.BackgroundRemoval.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

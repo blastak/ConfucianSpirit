@@ -19,29 +19,31 @@
 			<RowDefinition Height="38*"/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="640*"/>
-			<ColumnDefinition Width="344*"/>
+			<ColumnDefinition Width="29*"/>
+			<ColumnDefinition Width="587*"/>
+			<ColumnDefinition Width="50*"/>
+			<ColumnDefinition Width="318*"/>
 			<ColumnDefinition Width="125*"/>
-			<ColumnDefinition Width="134*"/>
-			<ColumnDefinition Width="37*"/>
+			<ColumnDefinition Width="142*"/>
+			<ColumnDefinition Width="29*"/>
 		</Grid.ColumnDefinitions>
-		<Image Name="m_imgBackground" Source="Images/PageGame3_01_배경화면.png" Stretch="Fill" Visibility="Visible" Grid.ColumnSpan="5" Grid.RowSpan="5"/>
-		<Image Name="m_imgTop" Source="Images/PageGame3_03_보기.png" Stretch="Fill" Visibility="Visible" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2"/>
-		<MediaElement Name="m_videoIntro" Source="Media/PageGame3_게임설명.mp4" Visibility="Hidden" LoadedBehavior="Manual" MediaEnded="m_videoIntro_MediaEnded" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="5" />
-		<k2:KinectTileButton Name="m_btnNext" Click="m_btnNext_Click" BorderThickness="0" Visibility="Visible" Width="Auto" Height="Auto" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2">
+		<Image Name="m_imgBackground" Source="Images/PageGame3_01_배경화면.png" Stretch="Fill" Visibility="Visible" Grid.ColumnSpan="7" Grid.RowSpan="5"/>
+		<Image Name="m_imgTop" Source="Images/PageGame3_03_보기.png" Stretch="Fill" Visibility="Visible" Grid.ColumnSpan="5" Grid.Row="0" Grid.RowSpan="2"/>
+		<MediaElement Name="m_videoIntro" Source="Media/PageGame3_게임설명.mp4" Visibility="Hidden" LoadedBehavior="Manual" MediaEnded="m_videoIntro_MediaEnded" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" Grid.RowSpan="5" />
+		<k2:KinectTileButton Name="m_btnNext" Click="m_btnNext_Click" BorderThickness="0" Visibility="Visible" Width="Auto" Height="Auto" Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="2">
 			<k2:KinectTileButton.Background>
 				<ImageBrush ImageSource="Images/PageGame3_02_다음버튼.png" Stretch="Fill"/>
 			</k2:KinectTileButton.Background>
 		</k2:KinectTileButton>
-		<MediaElement Name="m_videoLeft" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"/>
-		<MediaElement Name="m_videoRight" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="4"/>
-		<Viewbox Stretch="Uniform" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,0,13,0">
+		<MediaElement Name="m_videoLeft" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="2" Grid.Column="1" />
+		<MediaElement Name="m_videoRight" Visibility="Visible" LoadedBehavior="Manual" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3" />
+		<Viewbox Stretch="Uniform" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,13,0" Width="29">
 			<Label x:Name="m_labelRemainSecond" Visibility="Visible" Content="0"  FontSize="100"  VerticalContentAlignment="Center" FontWeight="Bold"/>
 		</Viewbox>
-		<Image Name="m_imgSkeleton" Stretch="Fill" Visibility="Visible" Grid.ColumnSpan="5" Grid.RowSpan="5"/>
-		<k2:KinectTileButton Name="m_btnVideoLeft" Click="m_btnVideoLeft_Click" Background="Transparent" BorderThickness="0" Visibility="Visible" Width="Auto" Height="Auto" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3">
+		<Image Name="m_imgSkeleton" Stretch="Fill" Visibility="Visible" Grid.ColumnSpan="7" Grid.RowSpan="5"/>
+		<k2:KinectTileButton Name="m_btnVideoLeft" Click="m_btnVideoLeft_Click" Background="Transparent" BorderThickness="0" Visibility="Visible" Width="Auto" Height="Auto" Grid.Row="2" Grid.Column="1">
 		</k2:KinectTileButton>
-		<k2:KinectTileButton Name="m_btnVideoRight" Click="m_btnVideoRight_Click" Background="Transparent" BorderThickness="0" Visibility="Visible" Width="Auto" Height="Auto" Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="4">
+		<k2:KinectTileButton Name="m_btnVideoRight" Click="m_btnVideoRight_Click" Background="Transparent" BorderThickness="0" Visibility="Visible" Width="Auto" Height="Auto" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3">
 		</k2:KinectTileButton>
 	</Grid>
 </Page>
