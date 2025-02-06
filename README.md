@@ -1,6 +1,9 @@
 # ConfucianSpirit
 선비정신 체험 키넥트 게임
 
+![ICON-6](https://github.com/user-attachments/assets/8e00728f-acad-4e7e-8651-72aaf1d4e34d)
+
+
 ## Description
 This repository contains the project 'Confucian Spirit Game Using Kinect' that was carried out from 2017 to 2018.
 
